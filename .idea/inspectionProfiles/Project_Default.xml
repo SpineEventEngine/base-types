@@ -105,9 +105,12 @@
     <inspection_tool class="ClassIndependentOfModule" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ClassLoaderInstantiation" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ClassMayBeInterface" enabled="true" level="WARNING" enabled_by_default="true" />
+<<<<<<< HEAD
     <inspection_tool class="ClassName" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <scope name="Tests" level="WEAK WARNING" enabled="false" />
     </inspection_tool>
+=======
+>>>>>>> 4e922c830321ebec6586f7e846a97e8dd5765181
     <inspection_tool class="ClassNameDiffersFromFileName" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ClassNameSameAsAncestorName" enabled="true" level="INFO" enabled_by_default="true" />
     <inspection_tool class="ClassNamingConvention" enabled="true" level="INFO" enabled_by_default="true">
@@ -541,7 +544,11 @@
     <inspection_tool class="NullableProblems" enabled="true" level="WARNING" enabled_by_default="false">
       <scope name="Production" level="WARNING" enabled="true">
         <option name="REPORT_NULLABLE_METHOD_OVERRIDES_NOTNULL" value="true" />
+<<<<<<< HEAD
         <option name="REPORT_NOT_ANNOTATED_METHOD_OVERRIDES_NOTNULL" value="false" />
+=======
+        <option name="REPORT_NOT_ANNOTATED_METHOD_OVERRIDES_NOTNULL" value="true" />
+>>>>>>> 4e922c830321ebec6586f7e846a97e8dd5765181
         <option name="REPORT_NOTNULL_PARAMETER_OVERRIDES_NULLABLE" value="true" />
         <option name="REPORT_NOT_ANNOTATED_PARAMETER_OVERRIDES_NOTNULL" value="true" />
         <option name="REPORT_NOT_ANNOTATED_GETTER" value="true" />
@@ -738,9 +745,12 @@
     <inspection_tool class="ThrowCaughtLocally" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoreRethrownExceptions" value="false" />
     </inspection_tool>
+<<<<<<< HEAD
     <inspection_tool class="ThrowableNotThrown" enabled="true" level="WARNING" enabled_by_default="true">
       <scope name="Tests" level="WARNING" enabled="false" />
     </inspection_tool>
+=======
+>>>>>>> 4e922c830321ebec6586f7e846a97e8dd5765181
     <inspection_tool class="ThrowablePrintStackTrace" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ThrownExceptionsPerMethod" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="m_limit" value="3" />

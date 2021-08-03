@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright 2021, TeamDev. All rights reserved.
+=======
+ * Copyright 2020, TeamDev. All rights reserved.
+>>>>>>> 4e922c830321ebec6586f7e846a97e8dd5765181
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +28,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+<<<<<<< HEAD
 /**
  * This script uses three declarations of the constant [licenseReportVersion] because
  * currently there is no way to define a constant _before_ a build script of `buildSrc`.
@@ -49,10 +54,15 @@ plugins {
     pmd
     val licenseReportVersion = "1.16"
     id("com.github.jk1.dependency-license-report").version(licenseReportVersion)
+=======
+plugins {
+    `kotlin-dsl`
+>>>>>>> 4e922c830321ebec6586f7e846a97e8dd5765181
 }
 
 repositories {
     mavenLocal()
+<<<<<<< HEAD
     gradlePluginPortal()
     mavenCentral()
 }
@@ -63,4 +73,13 @@ val licenseReportVersion = "1.16"
 dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
     api("com.github.jk1:gradle-license-report:${licenseReportVersion}")
+=======
+    jcenter()
+}
+
+val jacksonVersion = "2.11.0"
+
+dependencies {
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
+>>>>>>> 4e922c830321ebec6586f7e846a97e8dd5765181
 }

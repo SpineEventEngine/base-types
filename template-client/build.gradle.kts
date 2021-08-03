@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright 2021, TeamDev. All rights reserved.
-=======
  * Copyright 2020, TeamDev. All rights reserved.
->>>>>>> 4e922c830321ebec6586f7e846a97e8dd5765181
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,38 +24,4 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-<<<<<<< HEAD
-/*
- * Dependency links established with the Gradle included build.
- *
- * See the `includeBuild(...)` block below for more info.
- */
-val links = mapOf(
-    "io.spine:spine-base" to ":base",
-    "io.spine.tools:spine-testlib" to ":testlib",
-    "io.spine.tools:spine-tool-base" to ":tool-base",
-    "io.spine.tools:spine-mc-java" to ":mc-java",
-    "io.spine.tools:spine-mc-java-checks" to ":mc-java-checks"
-)
-
-/*
- * Include the `base` build into the `base-types` project build.
- *
- * See the Gradle manual for more info:
- * https://docs.gradle.org/current/userguide/composite_builds.html
- */
-includeBuild("$rootDir/../") {
-    dependencySubstitution {
-        links.forEach { (id, projectPath) ->
-            substitute(module(id)).using(project(projectPath))
-        }
-    }
-}
-=======
-rootProject.name = "spine-template"
-
-include(
-        "template-client",
-        "template-server"
-)
->>>>>>> 4e922c830321ebec6586f7e846a97e8dd5765181
+spine.enableJava().client()
