@@ -1,10 +1,10 @@
-name: Build under Ubuntu
+name: Build under Windows
 
 on: pull_request
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v1

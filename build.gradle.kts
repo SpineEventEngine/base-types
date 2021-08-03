@@ -28,13 +28,8 @@ import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.remove
-import io.spine.internal.dependency.CheckerFramework
 import io.spine.internal.dependency.ErrorProne
-import io.spine.internal.dependency.Flogger
-import io.spine.internal.dependency.Guava
 import io.spine.internal.dependency.JUnit
-import io.spine.internal.dependency.JavaX
-import io.spine.internal.dependency.Protobuf
 import io.spine.internal.gradle.PublishingRepos
 import io.spine.internal.gradle.Scripts
 import io.spine.internal.gradle.applyStandard
@@ -48,42 +43,9 @@ buildscript {
     apply(from = "$projectDir/version.gradle.kts")
     val spineVersion: String by extra
 
-    repositories {
-        gradlePluginPortal()
-        mavenLocal()
-        mavenCentral()
-    }
+    io.spine.internal.gradle.doApplyStandard(repositories)
 
     dependencies {
-        io.spine.internal.dependency.Protobuf.libs.forEach {
-            classpath(it)
-        }
-
-        classpath(io.spine.internal.dependency.Guava.lib)
-        classpath(io.spine.internal.dependency.Flogger.lib)
-        classpath(io.spine.internal.dependency.CheckerFramework.annotations)
-
-        io.spine.internal.dependency.ErrorProne.annotations.forEach {
-            classpath(it)
-        }
-
-        classpath(io.spine.internal.dependency.JavaX.annotations)
-        classpath(io.spine.internal.dependency.Protobuf.GradlePlugin.lib)
-
-        classpath(io.spine.internal.dependency.JavaPoet.lib)
-        classpath(io.spine.internal.dependency.Flogger.Runtime.systemBackend)
-
-        // A library for parsing Java sources.
-        // Used for parsing Java sources generated from Protobuf files
-        // to make their annotation more convenient.
-        with(io.spine.internal.dependency.Roaster) {
-            classpath(api) {
-                exclude(group = "com.google.guava")
-            }
-            classpath(jdt) {
-                exclude(group = "com.google.guava")
-            }
-        }
         classpath("io.spine.tools:spine-mc-java:$spineVersion")
     }
 }
@@ -115,6 +77,8 @@ val versionToPublish: String by extra
 
 group = "io.spine"
 version = versionToPublish
+
+apply<io.spine.internal.gradle.IncrementGuard>()
 
 spinePublishing {
     targetRepositories.addAll(setOf(
@@ -150,13 +114,6 @@ dependencies {
     errorprone(ErrorProne.core)
     errorproneJavac(ErrorProne.javacPlugin)
 
-    Protobuf.libs.forEach { api(it) }
-    api(Flogger.lib)
-    api(Guava.lib)
-    api(CheckerFramework.annotations)
-    api(JavaX.annotations)
-    ErrorProne.annotations.forEach { api(it) }
-    api(kotlin("stdlib-jdk8"))
     api("io.spine:spine-base:$spineVersion")
 
     testImplementation(JUnit.runner)
