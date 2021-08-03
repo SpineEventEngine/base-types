@@ -118,8 +118,7 @@ version = versionToPublish
 
 spinePublishing {
     targetRepositories.addAll(setOf(
-        PublishingRepos.cloudRepo,
-        PublishingRepos.gitHub("base")
+        PublishingRepos.gitHub("base-types")
     ))
     publish(project)
 }
