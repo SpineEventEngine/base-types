@@ -24,43 +24,20 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * This script uses three declarations of the constant [licenseReportVersion] because
- * currently there is no way to define a constant _before_ a build script of `buildSrc`.
- * We cannot use imports or do something else before the `buildscript` or `plugin` clauses.
- *
- * Therefore, when a version of [io.spine.internal.dependency.LicenseReport] changes, it should be
- * changed in the Kotlin object _and_ in this file below thrice. 
- */
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    val licenseReportVersion = "1.16"
-    dependencies {
-        classpath("com.github.jk1:gradle-license-report:${licenseReportVersion}")
-    }
-}
+package io.spine.internal.dependency
 
-plugins {
-    java
-    groovy
-    `kotlin-dsl`
-    pmd
-    val licenseReportVersion = "1.16"
-    id("com.github.jk1.dependency-license-report").version(licenseReportVersion)
-}
+// https://github.com/forge/roaster
+object Roaster {
 
-repositories {
-    mavenLocal()
-    gradlePluginPortal()
-    mavenCentral()
-}
+    /**
+     * Do not advance this version further because it would break compatibility with Java 8
+     * projects. Starting from the following version Roaster has a shaded version of Eclipse JFace
+     * built with Java 11.
+     *
+     * Please see [this issue][https://github.com/SpineEventEngine/config/issues/220] for details.
+     */
+    private const val version = "2.22.2.Final"
 
-val jacksonVersion = "2.11.0"
-val licenseReportVersion = "1.16"
-
-dependencies {
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
-    api("com.github.jk1:gradle-license-report:${licenseReportVersion}")
+    const val api = "org.jboss.forge.roaster:roaster-api:${version}"
+    const val jdt = "org.jboss.forge.roaster:roaster-jdt:${version}"
 }
