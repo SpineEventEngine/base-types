@@ -24,9 +24,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/** The version of this library. */
+val thisVersion = "2.0.0-SNAPSHOT.40"
+val baseVersion = "2.0.0-SNAPSHOT.40"
+
 project.extra.apply {
-    this["versionToPublish"] = "0.0.1"
-    this["spineCoreVersion"] = "1.7.0"
-    this["spineBaseVersion"] = "1.7.0"
-    this["spineTimeVersion"] = "1.7.0"
+    this["spineVersion"] = baseVersion
+    this["spineBaseVersion"] = baseVersion // Used by `filter-internal-javadoc.gradle`.
+    this["versionToPublish"] = thisVersion
 }
