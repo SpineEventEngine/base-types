@@ -78,6 +78,8 @@ val versionToPublish: String by extra
 group = "io.spine"
 version = versionToPublish
 
+apply<io.spine.internal.gradle.IncrementGuard>()
+
 spinePublishing {
     targetRepositories.addAll(setOf(
         PublishingRepos.gitHub("base-types")
