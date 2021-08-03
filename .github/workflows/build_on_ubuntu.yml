@@ -19,4 +19,4 @@ jobs:
 
       - name: Build with Gradle
         shell: bash
-        run: gradlew build
+        run: ./gradlew build
