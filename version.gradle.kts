@@ -25,10 +25,10 @@
  */
 
 /** The version of this library. */
-val thisVersion = "2.0.0-SNAPSHOT.40"
+val thisVersion = "2.0.0-SNAPSHOT.44"
 
 /** The version of `base` this library depends on. */
-val baseVersion = "2.0.0-SNAPSHOT.40"
+val baseVersion = "2.0.0-SNAPSHOT.44"
 
 project.extra.apply {
     this["spineVersion"] = baseVersion
