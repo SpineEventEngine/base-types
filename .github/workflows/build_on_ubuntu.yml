@@ -20,7 +20,3 @@ jobs:
       - name: Build with Gradle
         shell: bash
         run: ./gradlew build
-
-        # https://github.com/codecov/codecov-action
-      - name: Update Codecov
-        uses: codecov/codecov-action@v2
