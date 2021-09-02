@@ -21,8 +21,9 @@ jobs:
         shell: bash
         run: ./gradlew build
 
-      - uses: codecov/codecov-action@v2
+      - name: Upload coverage info to Codecov
+        uses: codecov/codecov-action@v2
         with:
-          name: Upload coverage info to Codecov
+          directory: ./build/jacoco/
           fail_ci_if_error: true # optional (default = false)
           verbose: true # optional (default = false)
