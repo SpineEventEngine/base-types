@@ -21,8 +21,9 @@ jobs:
         shell: bash
         run: ./gradlew build
 
-      - name: Upload coverage info to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
+# Disable this step until we find out why Jacoco does not create its reports.
+#      - name: Upload coverage info to Codecov
+#        uses: codecov/codecov-action@v2
+#        with:
+#          fail_ci_if_error: true # optional (default = false)
+#          verbose: true # optional (default = false)
