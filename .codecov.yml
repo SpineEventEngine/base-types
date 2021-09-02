@@ -21,8 +21,7 @@ coverage:
         base: auto
         paths:
           - "src"
-        # advanced settings
-        if_ci_failed: ignore #success, failure, error, ignore
+        if_ci_failed: error
         informational: false
         only_pulls: true
 comment:
