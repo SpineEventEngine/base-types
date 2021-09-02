@@ -147,6 +147,7 @@ tasks.withType<JavaCompile> {
 
 apply {
     with(Scripts) {
+        from(jacoco(project))
         from(javadocOptions(project))
         from(javacArgs(project))
         from(updateGitHubPages(project))

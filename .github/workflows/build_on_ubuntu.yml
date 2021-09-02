@@ -20,3 +20,9 @@ jobs:
       - name: Build with Gradle
         shell: bash
         run: ./gradlew build
+
+      - name: Upload coverage info to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
