@@ -82,7 +82,8 @@ apply<io.spine.internal.gradle.IncrementGuard>()
 
 spinePublishing {
     targetRepositories.addAll(setOf(
-        PublishingRepos.gitHub("base-types")
+        PublishingRepos.gitHub("base-types"),
+        PublishingRepos.cloudArtifactRegistry
     ))
     publish(project)
 }
