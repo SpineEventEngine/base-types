@@ -25,7 +25,7 @@
  */
 
 /** The version of this library. */
-val thisVersion = "2.0.0-SNAPSHOT.57"
+val thisVersion = "2.0.0-SNAPSHOT.58"
 
 /** The version of `base` this library depends on. */
 val baseVersion = "2.0.0-SNAPSHOT.57"
