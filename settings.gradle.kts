@@ -24,4 +24,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-base-types"
+// Do not use `spine-` prefix for this single-module project.
+// It would be added automatically when publishing.
+rootProject.name = "base-types"
