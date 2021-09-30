@@ -25,9 +25,9 @@
  */
 
 /** The version of this library. */
-val versionToPublish by extra("2.0.0-SNAPSHOT.63")
+val versionToPublish by extra("2.0.0-SNAPSHOT.64")
 
 /** The version of `base` this library depends on. */
-val baseVersion = "2.0.0-SNAPSHOT.63"
+val baseVersion = "2.0.0-SNAPSHOT.64"
 val spineVersion by extra(baseVersion)
 val spineBaseVersion by extra(baseVersion) // Used by `filter-internal-javadoc.gradle`.

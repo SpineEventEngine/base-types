@@ -71,6 +71,10 @@ plugins {
     `pmd-settings`
 }
 
+repositories.applyStandard()
+configurations.forceVersions()
+configurations.excludeProtobufLite()
+
 apply(plugin = "io.spine.mc-java")
 
 apply(from = "$projectDir/version.gradle.kts")
@@ -108,9 +112,6 @@ tasks.withType<KotlinCompile>().configureEach {
     }
 }
 
-repositories.applyStandard()
-configurations.forceVersions()
-configurations.excludeProtobufLite()
 
 // The dependencies should be similar to those defined in the `../build.gradle.kts`.
 dependencies {
@@ -152,6 +153,9 @@ apply {
     with(Scripts) {
         from(jacoco(project))
         from(javacArgs(project))
+        from(projectLicenseReport(project))
+        from(repoLicenseReport(project))
+        from(generatePom(project))
     }
 }
 
@@ -167,3 +171,5 @@ tasks.test {
         includeEngines("junit-jupiter")
     }
 }
+
+fun task(name: String) = project.tasks.findByName(name)
