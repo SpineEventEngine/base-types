@@ -171,5 +171,3 @@ tasks.test {
         includeEngines("junit-jupiter")
     }
 }
-
-fun task(name: String) = project.tasks.findByName(name)
