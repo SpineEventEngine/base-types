@@ -30,11 +30,13 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.remove
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
-import io.spine.internal.gradle.PublishingRepos
+import io.spine.internal.gradle.JavadocConfig
+import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.Scripts
 import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.excludeProtobufLite
 import io.spine.internal.gradle.forceVersions
+import io.spine.internal.gradle.github.pages.updateGitHubPages
 import io.spine.internal.gradle.spinePublishing
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -68,6 +70,10 @@ plugins {
     `project-report`
     `pmd-settings`
 }
+
+repositories.applyStandard()
+configurations.forceVersions()
+configurations.excludeProtobufLite()
 
 apply(plugin = "io.spine.mc-java")
 
@@ -106,9 +112,6 @@ tasks.withType<KotlinCompile>().configureEach {
     }
 }
 
-repositories.applyStandard()
-configurations.forceVersions()
-configurations.excludeProtobufLite()
 
 // The dependencies should be similar to those defined in the `../build.gradle.kts`.
 dependencies {
@@ -149,10 +152,18 @@ tasks.withType<JavaCompile> {
 apply {
     with(Scripts) {
         from(jacoco(project))
-        from(javadocOptions(project))
         from(javacArgs(project))
-        from(updateGitHubPages(project))
+        from(projectLicenseReport(project))
+        from(repoLicenseReport(project))
+        from(generatePom(project))
     }
+}
+
+JavadocConfig.applyTo(project)
+
+updateGitHubPages {
+    allowInternalJavadoc.set(true)
+    rootFolder.set(rootDir)
 }
 
 tasks.test {
