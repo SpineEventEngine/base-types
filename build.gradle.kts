@@ -30,14 +30,15 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.remove
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
-import io.spine.internal.gradle.JavadocConfig
+import io.spine.internal.gradle.javadoc.JavadocConfig
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.Scripts
 import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.excludeProtobufLite
 import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.github.pages.updateGitHubPages
-import io.spine.internal.gradle.spinePublishing
+import io.spine.internal.gradle.report.coverage.JacocoConfig
+import io.spine.internal.gradle.publish.spinePublishing
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 @Suppress("RemoveRedundantQualifierName") // cannot use imports under `buildScript`
@@ -151,17 +152,16 @@ tasks.withType<JavaCompile> {
 
 apply {
     with(Scripts) {
-        from(jacoco(project))
         from(javacArgs(project))
         from(projectLicenseReport(project))
         from(repoLicenseReport(project))
-        from(generatePom(project))
     }
 }
 
 JavadocConfig.applyTo(project)
+JacocoConfig.applyTo(project)
 
-updateGitHubPages {
+updateGitHubPages(project.version.toString()) {
     allowInternalJavadoc.set(true)
     rootFolder.set(rootDir)
 }
