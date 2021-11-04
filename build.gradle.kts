@@ -30,13 +30,19 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.remove
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
+import io.spine.internal.gradle.IncrementGuard
 import io.spine.internal.gradle.JavadocConfig
-import io.spine.internal.gradle.publish.PublishingRepos
-import io.spine.internal.gradle.Scripts
 import io.spine.internal.gradle.applyStandard
+import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.excludeProtobufLite
 import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.github.pages.updateGitHubPages
+import io.spine.internal.gradle.javac.configureErrorProne
+import io.spine.internal.gradle.javac.configureJavac
+import io.spine.internal.gradle.publish.PublishingRepos
+import io.spine.internal.gradle.report.coverage.JacocoConfig
+import io.spine.internal.gradle.report.license.LicenseReporter
+import io.spine.internal.gradle.report.pom.PomGenerator
 import io.spine.internal.gradle.spinePublishing
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -62,7 +68,7 @@ plugins {
     }
     @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
     io.spine.internal.dependency.ErrorProne.GradlePlugin.apply {
-        id(id) version version
+        id(id)
     }
     pmd
     jacoco
@@ -84,7 +90,7 @@ val versionToPublish: String by extra
 group = "io.spine"
 version = versionToPublish
 
-apply<io.spine.internal.gradle.IncrementGuard>()
+apply<IncrementGuard>()
 
 spinePublishing {
     targetRepositories.addAll(setOf(
@@ -93,25 +99,6 @@ spinePublishing {
     ))
     publish(project)
 }
-
-val javaVersion = JavaVersion.VERSION_1_8
-
-the<JavaPluginExtension>().apply {
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-}
-
-kotlin {
-    explicitApi()
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = javaVersion.toString()
-        freeCompilerArgs = listOf("-Xskip-prerelease-check")
-    }
-}
-
 
 // The dependencies should be similar to those defined in the `../build.gradle.kts`.
 dependencies {
@@ -125,6 +112,33 @@ dependencies {
     testImplementation("io.spine.tools:spine-testlib:$spineVersion")
 }
 
+val javaVersion = JavaVersion.VERSION_1_8
+
+the<JavaPluginExtension>().apply {
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+}
+
+tasks.withType<JavaCompile> {
+    configureJavac()
+    configureErrorProne()
+}
+
+CheckStyleConfig.applyTo(project)
+LicenseReporter.generateReportIn(project)
+JavadocConfig.applyTo(project)
+
+kotlin {
+    explicitApi()
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = javaVersion.toString()
+        freeCompilerArgs = listOf("-Xskip-prerelease-check")
+    }
+}
+
 protobuf {
     generateProtoTasks {
         all().forEach { task ->
@@ -134,32 +148,6 @@ protobuf {
         }
     }
 }
-
-tasks.withType<JavaCompile> {
-    val currentJavaVersion = JavaVersion.current()
-    if (currentJavaVersion != JavaVersion.VERSION_1_8) {
-        throw GradleException(
-            "Base types must be built using Java 8 (as the main project)." +
-                    " The version of Java in this project: $currentJavaVersion."
-        )
-    }
-
-    // Explicitly sets the encoding of the source and test source files, ensuring
-    // correct execution of the `javac` task.
-    options.encoding = "UTF-8"
-}
-
-apply {
-    with(Scripts) {
-        from(jacoco(project))
-        from(javacArgs(project))
-        from(projectLicenseReport(project))
-        from(repoLicenseReport(project))
-        from(generatePom(project))
-    }
-}
-
-JavadocConfig.applyTo(project)
 
 updateGitHubPages {
     allowInternalJavadoc.set(true)
@@ -171,3 +159,7 @@ tasks.test {
         includeEngines("junit-jupiter")
     }
 }
+
+JacocoConfig.applyTo(project)
+PomGenerator.applyTo(project)
+LicenseReporter.mergeAllReports(project)
