@@ -30,25 +30,36 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.remove
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
+import io.spine.internal.gradle.IncrementGuard
 import io.spine.internal.gradle.JavadocConfig
-import io.spine.internal.gradle.publish.PublishingRepos
-import io.spine.internal.gradle.Scripts
+import io.spine.internal.gradle.VersionWriter
 import io.spine.internal.gradle.applyStandard
+import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.excludeProtobufLite
 import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.github.pages.updateGitHubPages
+import io.spine.internal.gradle.javac.configureErrorProne
+import io.spine.internal.gradle.javac.configureJavac
+import io.spine.internal.gradle.publish.Publish.Companion.publishProtoArtifact
+import io.spine.internal.gradle.publish.PublishingRepos
+import io.spine.internal.gradle.publish.PublishingRepos.gitHub
+import io.spine.internal.gradle.report.license.LicenseReporter
+import io.spine.internal.gradle.report.pom.PomGenerator
 import io.spine.internal.gradle.spinePublishing
+import io.spine.internal.gradle.test.configureLogging
+import io.spine.internal.gradle.test.registerTestTasks
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 @Suppress("RemoveRedundantQualifierName") // cannot use imports under `buildScript`
 buildscript {
     apply(from = "$projectDir/version.gradle.kts")
-    val spineVersion: String by extra
-
     io.spine.internal.gradle.doApplyStandard(repositories)
-
+    repositories {
+        io.spine.internal.gradle.publish.PublishingRepos.gitHub("mc-java")
+    }
+    val mcJavaVersion: String by extra
     dependencies {
-        classpath("io.spine.tools:spine-mc-java:$spineVersion")
+        classpath("io.spine.tools:spine-mc-java:$mcJavaVersion")
     }
 }
 
@@ -62,7 +73,7 @@ plugins {
     }
     @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
     io.spine.internal.dependency.ErrorProne.GradlePlugin.apply {
-        id(id) version version
+        id(id)
     }
     pmd
     jacoco
@@ -78,19 +89,22 @@ configurations.excludeProtobufLite()
 apply(plugin = "io.spine.mc-java")
 
 apply(from = "$projectDir/version.gradle.kts")
-val spineVersion: String by extra
 val versionToPublish: String by extra
 
 group = "io.spine"
 version = versionToPublish
 
-apply<io.spine.internal.gradle.IncrementGuard>()
+apply<IncrementGuard>()
+apply<VersionWriter>()
 
 spinePublishing {
-    targetRepositories.addAll(setOf(
-        PublishingRepos.gitHub("base-types"),
-        PublishingRepos.cloudArtifactRegistry
-    ))
+    targetRepositories.addAll(
+        setOf(
+            gitHub("base-types"),
+            PublishingRepos.cloudRepo,
+            PublishingRepos.cloudArtifactRegistry
+        )
+    )
     publish(project)
 }
 
@@ -99,6 +113,11 @@ val javaVersion = JavaVersion.VERSION_1_8
 the<JavaPluginExtension>().apply {
     sourceCompatibility = javaVersion
     targetCompatibility = javaVersion
+}
+
+tasks.withType<JavaCompile> {
+    configureJavac()
+    configureErrorProne()
 }
 
 kotlin {
@@ -112,20 +131,24 @@ tasks.withType<KotlinCompile>().configureEach {
     }
 }
 
+val spineBaseVersion: String by extra
 
 // The dependencies should be similar to those defined in the `../build.gradle.kts`.
 dependencies {
     errorprone(ErrorProne.core)
     errorproneJavac(ErrorProne.javacPlugin)
 
-    api("io.spine:spine-base:$spineVersion")
+    api("io.spine:spine-base:$spineBaseVersion")
 
     testImplementation(JUnit.runner)
     testImplementation(JUnit.pioneer)
-    testImplementation("io.spine.tools:spine-testlib:$spineVersion")
+    testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
 }
 
+val generatedDir = "$projectDir/generated"
+
 protobuf {
+    generatedFilesBaseDir = generatedDir
     generateProtoTasks {
         all().forEach { task ->
             task.plugins {
@@ -136,38 +159,28 @@ protobuf {
 }
 
 tasks.withType<JavaCompile> {
-    val currentJavaVersion = JavaVersion.current()
-    if (currentJavaVersion != JavaVersion.VERSION_1_8) {
-        throw GradleException(
-            "Base types must be built using Java 8 (as the main project)." +
-                    " The version of Java in this project: $currentJavaVersion."
-        )
-    }
-
-    // Explicitly sets the encoding of the source and test source files, ensuring
-    // correct execution of the `javac` task.
-    options.encoding = "UTF-8"
+    configureJavac()
+    configureErrorProne()
 }
 
-apply {
-    with(Scripts) {
-        from(jacoco(project))
-        from(javacArgs(project))
-        from(projectLicenseReport(project))
-        from(repoLicenseReport(project))
-        from(generatePom(project))
-    }
-}
-
-JavadocConfig.applyTo(project)
-
-updateGitHubPages {
+val javadocToolsVersion: String by extra
+updateGitHubPages(javadocToolsVersion) {
     allowInternalJavadoc.set(true)
     rootFolder.set(rootDir)
 }
 
-tasks.test {
-    useJUnitPlatform {
-        includeEngines("junit-jupiter")
+tasks {
+    registerTestTasks()
+    test {
+        useJUnitPlatform {
+            includeEngines("junit-jupiter")
+        }
+        configureLogging()
     }
 }
+CheckStyleConfig.applyTo(project)
+publishProtoArtifact(project)
+JavadocConfig.applyTo(project)
+PomGenerator.applyTo(project)
+LicenseReporter.generateReportIn(project)
+LicenseReporter.mergeAllReports(project)
