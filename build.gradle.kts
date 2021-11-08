@@ -34,6 +34,7 @@ import io.spine.internal.gradle.IncrementGuard
 import io.spine.internal.gradle.JavadocConfig
 import io.spine.internal.gradle.VersionWriter
 import io.spine.internal.gradle.applyStandard
+import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.excludeProtobufLite
 import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.github.pages.updateGitHubPages
@@ -177,7 +178,7 @@ tasks {
         configureLogging()
     }
 }
-
+CheckStyleConfig.applyTo(project)
 publishProtoArtifact(project)
 JavadocConfig.applyTo(project)
 PomGenerator.applyTo(project)
