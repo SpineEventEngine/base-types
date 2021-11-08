@@ -78,6 +78,10 @@
      * **License:** [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 ## Compile, tests, and tooling
+1.  **Group** : antlr. **Name** : antlr. **Version** : 2.7.7.
+     * **Project URL:** [http://www.antlr.org/](http://www.antlr.org/)
+     * **License:** [BSD License](http://www.antlr.org/license.html)
+
 1.  **Group** : com.beust. **Name** : jcommander. **Version** : 1.48.
      * **Project URL:** [http://beust.com/jcommander](http://beust.com/jcommander)
      * **License:** [The Apache Software License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
@@ -191,9 +195,21 @@
 1.  **Group** : com.google.truth.extensions. **Name** : truth-proto-extension. **Version** : 1.1.3.
      * **License:** [The Apache Software License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
+1.  **Group** : com.puppycrawl.tools. **Name** : checkstyle. **Version** : 8.29.
+     * **Project URL:** [https://checkstyle.org/](https://checkstyle.org/)
+     * **License:** [LGPL-2.1+](http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt)
+
 1.  **Group** : com.squareup. **Name** : javapoet. **Version** : 1.13.0.
      * **Project URL:** [http://github.com/square/javapoet/](http://github.com/square/javapoet/)
      * **License:** [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : commons-beanutils. **Name** : commons-beanutils. **Version** : 1.9.4.
+     * **Project URL:** [https://commons.apache.org/proper/commons-beanutils/](https://commons.apache.org/proper/commons-beanutils/)
+     * **License:** [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : commons-collections. **Name** : commons-collections. **Version** : 3.2.2.
+     * **Project URL:** [http://commons.apache.org/collections/](http://commons.apache.org/collections/)
+     * **License:** [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 1.  **Group** : commons-io. **Name** : commons-io. **Version** : 2.6.
      * **Project URL:** [http://commons.apache.org/proper/commons-io/](http://commons.apache.org/proper/commons-io/)
@@ -202,6 +218,10 @@
 1.  **Group** : commons-lang. **Name** : commons-lang. **Version** : 2.6.
      * **Project URL:** [http://commons.apache.org/lang/](http://commons.apache.org/lang/)
      * **License:** [The Apache Software License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : info.picocli. **Name** : picocli. **Version** : 4.1.4.
+     * **Project URL:** [http://picocli.info](http://picocli.info)
+     * **License:** [The Apache Software License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 1.  **Group** : io.github.java-diff-utils. **Name** : java-diff-utils. **Version** : 4.0.
      * **Project URL:** [https://github.com/java-diff-utils/java-diff-utils](https://github.com/java-diff-utils/java-diff-utils)
@@ -224,6 +244,10 @@
      * **License:** [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 1.  **Group** : net.ltgt.gradle. **Name** : gradle-errorprone-plugin. **Version** : 2.0.2.**No license information found**
+1.  **Group** : net.sf.saxon. **Name** : Saxon-HE. **Version** : 9.9.1-6.
+     * **Project URL:** [http://www.saxonica.com/](http://www.saxonica.com/)
+     * **License:** [Mozilla Public License Version 2.0](http://www.mozilla.org/MPL/2.0/)
+
 1.  **Group** : net.sourceforge.pmd. **Name** : pmd-core. **Version** : 6.36.0.
      * **License:** [BSD-style](http://pmd.sourceforge.net/license.html)
 
@@ -235,6 +259,10 @@
      * **License:** [Mozilla Public License Version 1.0](http://www.mozilla.org/MPL/MPL-1.0.txt)
 
 1.  **Group** : org.antlr. **Name** : antlr4-runtime. **Version** : 4.7.2.
+     * **Project URL:** [http://www.antlr.org](http://www.antlr.org)
+     * **License:** [The BSD License](http://www.antlr.org/license.html)
+
+1.  **Group** : org.antlr. **Name** : antlr4-runtime. **Version** : 4.8-1.
      * **Project URL:** [http://www.antlr.org](http://www.antlr.org)
      * **License:** [The BSD License](http://www.antlr.org/license.html)
 
@@ -402,4 +430,4 @@
 
 The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
-This report was generated on **Mon Nov 08 14:39:31 EET 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Mon Nov 08 14:54:29 EET 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
