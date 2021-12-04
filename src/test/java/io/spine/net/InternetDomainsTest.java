@@ -36,7 +36,7 @@ import static io.spine.net.InternetDomains.isValid;
 import static io.spine.testing.Assertions.assertIllegalArgument;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("InternetDomains utility class should")
+@DisplayName("`InternetDomains` utility class should")
 class InternetDomainsTest extends UtilityClassTest<InternetDomains> {
 
     InternetDomainsTest() {
@@ -72,7 +72,7 @@ class InternetDomainsTest extends UtilityClassTest<InternetDomains> {
     @Test
     @DisplayName("create new instance")
     void create() {
-        String domainName = "example.org";
+        var domainName = "example.org";
 
         assertEquals(domainName, InternetDomains.valueOf(domainName).getValue());
     }

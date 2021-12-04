@@ -47,28 +47,28 @@ class UrlPrinterTest extends UtilityClassTest<UrlPrinter> {
 
     private static final Authorization AUTH =
             Authorization.newBuilder()
-                         .setUserName("admin")
-                         .setPassword("root")
-                         .build();
+                    .setUserName("admin")
+                    .setPassword("root")
+                    .build();
 
     private static final Uri FULL_RECORD =
             Uri.newBuilder()
-               .setHost(HOST)
-               .setPort("80")
-               .setProtocol(Protocol.newBuilder()
-                                          .setSchema(Uri.Schema.HTTP))
-               .setAuth(AUTH)
-               .setPath("index")
-               .addQuery(UrlQueryParameters.parse("key=value"))
-               .addQuery(UrlQueryParameters.parse("key2=value2"))
-               .setFragment("frag1")
-               .build();
+                    .setHost(HOST)
+                    .setPort("80")
+                    .setProtocol(Protocol.newBuilder()
+                                         .setSchema(Uri.Schema.HTTP))
+                    .setAuth(AUTH)
+                    .setPath("index")
+                    .addQuery(UrlQueryParameters.parse("key=value"))
+                    .addQuery(UrlQueryParameters.parse("key2=value2"))
+                    .setFragment("frag1")
+                    .build();
 
     UrlPrinterTest() {
         super(UrlPrinter.class);
     }
 
-    @SuppressWarnings("UnusedMethod") // used via annotation `@MethodSource`.
+    @SuppressWarnings({"UnusedMethod", "unused"}) /* It is a `@MethodSource`. */
     private static Stream<Arguments> recordAndResult() {
         return Stream.of(
                 Arguments.of(
@@ -116,7 +116,7 @@ class UrlPrinterTest extends UtilityClassTest<UrlPrinter> {
     @ParameterizedTest
     @MethodSource("recordAndResult")
     void verifyPrinting(Uri record, String expectedOutput) {
-        String str = printToString(record);
+        var str = printToString(record);
         assertThat(str).isEqualTo(expectedOutput);
     }
 }

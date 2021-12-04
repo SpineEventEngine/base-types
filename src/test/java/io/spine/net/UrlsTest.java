@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 
-@DisplayName("Urls utility class should")
+@DisplayName("`Urls` utility should")
 class UrlsTest extends UtilityClassTest<Urls> {
 
     UrlsTest() {
@@ -42,18 +42,18 @@ class UrlsTest extends UtilityClassTest<Urls> {
     @Test
     @DisplayName("create new instances")
     void create() {
-        String expected = "http://convert-proper-url.com";
-        Url url = Urls.create(expected);
+        var expected = "http://convert-proper-url.com";
+        var url = Urls.create(expected);
 
         assertThat(url.getSpec()).isEqualTo(expected);
     }
 
     @Test
-    @DisplayName("convert instances to String")
+    @DisplayName("convert instances to `String`")
     void stringify() {
-        String expected = "http://foo-bar.com/index";
+        var expected = "http://foo-bar.com/index";
 
-        Url url = Urls.create(expected);
+        var url = Urls.create(expected);
         assertThat(Urls.toString(url)).isEqualTo(expected);
     }
 }
