@@ -29,12 +29,12 @@ package io.spine.net;
 import io.spine.net.string.NetStringifiers;
 import io.spine.string.Stringifier;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.net.Patterns.EMAIL_ADDRESS;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Utility class for working with {@link EmailAddress}es.
@@ -56,8 +56,8 @@ public final class EmailAddresses {
      * Verifies if the passed sequence is a valid email address.
      */
     public static boolean isValid(String value) {
-        Matcher matcher = pattern().matcher(value);
-        boolean result = matcher.matches();
+        var matcher = pattern().matcher(value);
+        var result = matcher.matches();
         return result;
     }
 
@@ -66,8 +66,8 @@ public final class EmailAddresses {
      */
     public static String toString(EmailAddress address) {
         checkNotNull(address);
-        String result = stringifier().convert(address);
-        return result;
+        var result = stringifier().convert(address);
+        return requireNonNull(result);
     }
 
     /**
@@ -80,8 +80,8 @@ public final class EmailAddresses {
     public static EmailAddress valueOf(String value) {
         checkNotNull(value);
         checkArgument(isValid(value));
-        EmailAddress result = stringifier().reverse().convert(value);
-        return result;
+        var result = stringifier().reverse().convert(value);
+        return requireNonNull(result);
     }
 
     private static Stringifier<EmailAddress> stringifier() {

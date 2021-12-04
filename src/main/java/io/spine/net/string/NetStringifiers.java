@@ -39,7 +39,7 @@ import io.spine.string.Stringifier;
 public final class NetStringifiers {
 
     static {
-        Registrar registrar = new Registrar(ImmutableList.of(
+        var registrar = new Registrar(ImmutableList.of(
                 forUrl(),
                 forEmailAddress(),
                 forInternetDomain()

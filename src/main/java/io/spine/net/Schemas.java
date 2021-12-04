@@ -56,14 +56,14 @@ final class Schemas {
      */
     static Schema parse(String name) {
         checkNotNull(name);
-        SchemaKey key = new SchemaKey(name);
-        Schema result = map.getOrDefault(key, Schema.UNDEFINED);
+        var key = new SchemaKey(name);
+        var result = map.getOrDefault(key, Schema.UNDEFINED);
         return result;
     }
 
     private static Map<SchemaKey, Schema> buildSchemasMap() {
         ImmutableMap.Builder<SchemaKey, Schema> schemas = ImmutableMap.builder();
-        for (Schema schema : Schema.values()) {
+        for (var schema : Schema.values()) {
             if (schema == Schema.UNDEFINED) {
                 continue;
             }
@@ -102,7 +102,7 @@ final class Schemas {
             if (o == null || getClass() != o.getClass()) {
                 return false;
             }
-            SchemaKey schemaKey = (SchemaKey) o;
+            var schemaKey = (SchemaKey) o;
             return Objects.equals(value, schemaKey.value);
         }
 
