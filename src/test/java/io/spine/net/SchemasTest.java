@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
 import static io.spine.net.Schemas.parse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("Schemas utility class should")
+@DisplayName("`Schemas` utility should")
 class SchemasTest extends UtilityClassTest<Schemas> {
 
     SchemasTest() {
@@ -49,7 +49,7 @@ class SchemasTest extends UtilityClassTest<Schemas> {
     }
 
     @Test
-    @DisplayName("return UNDEFINED for unknown schema")
+    @DisplayName("return `UNDEFINED` for unknown schema")
     void unknownSchema() {
         assertEquals(Schema.UNDEFINED, parse("someunknownschema"));
     }

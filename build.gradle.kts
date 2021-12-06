@@ -65,7 +65,7 @@ buildscript {
 
 plugins {
     `java-library`
-    kotlin("jvm") version io.spine.internal.dependency.Kotlin.version
+    kotlin("jvm")
     idea
     @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
     io.spine.internal.dependency.Protobuf.GradlePlugin.apply {
@@ -108,7 +108,7 @@ spinePublishing {
     publish(project)
 }
 
-val javaVersion = JavaVersion.VERSION_1_8
+val javaVersion = JavaVersion.VERSION_11
 
 the<JavaPluginExtension>().apply {
     sourceCompatibility = javaVersion
@@ -136,7 +136,6 @@ val spineBaseVersion: String by extra
 // The dependencies should be similar to those defined in the `../build.gradle.kts`.
 dependencies {
     errorprone(ErrorProne.core)
-    errorproneJavac(ErrorProne.javacPlugin)
 
     api("io.spine:spine-base:$spineBaseVersion")
 

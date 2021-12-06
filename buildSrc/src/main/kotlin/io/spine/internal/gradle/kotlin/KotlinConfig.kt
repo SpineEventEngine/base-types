@@ -24,45 +24,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.net.string;
+package io.spine.internal.gradle.kotlin
 
-import com.google.common.collect.ImmutableList;
-import io.spine.net.EmailAddress;
-import io.spine.net.InternetDomain;
-import io.spine.net.Url;
-import io.spine.string.Registrar;
-import io.spine.string.Stringifier;
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JavaToolchainSpec
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
- * Provides stringifiers for network-related types.
+ * Sets [Java toolchain](https://kotlinlang.org/docs/gradle.html#gradle-java-toolchains-support)
+ * to the specified version (e.g. "11" or "8").
  */
-public final class NetStringifiers {
-
-    static {
-        var registrar = new Registrar(ImmutableList.of(
-                forUrl(),
-                forEmailAddress(),
-                forInternetDomain()
-        ));
-        registrar.register();
+fun KotlinJvmProjectExtension.applyJvmToolchain(version: Int) {
+    jvmToolchain {
+        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(version))
     }
+}
 
-    /** Prevents instantiation of this utility class. */
-    private NetStringifiers() {
-    }
-
-    /** Obtains default stringifier for {@code Url}. */
-    public static Stringifier<Url> forUrl() {
-        return UrlStringifier.getInstance();
-    }
-
-    /** Obtains default stringifier for {@code EmailAddress}. */
-    public static Stringifier<EmailAddress> forEmailAddress() {
-        return EmailAddressStringifier.getInstance();
-    }
-
-    /** Obtains default stringifier for {@code InternetDomain}. */
-    public static Stringifier<InternetDomain> forInternetDomain() {
-        return InternetDomainStringifier.getInstance();
+/**
+ * Opts-in to experimental features that we use in our codebase.
+ */
+fun KotlinCompile.setFreeCompilerArgs() {
+    kotlinOptions {
+        freeCompilerArgs = listOf(
+            "-Xskip-prerelease-check",
+            "-Xjvm-default=all",
+            "-Xopt-in=kotlin.contracts.ExperimentalContracts",
+            "-Xopt-in=kotlin.ExperimentalStdlibApi"
+        )
     }
 }

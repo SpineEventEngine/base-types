@@ -35,7 +35,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static io.spine.net.EmailAddresses.isValid;
 import static io.spine.testing.Assertions.assertIllegalArgument;
 
-@DisplayName("EmailAddresses utility class should")
+@DisplayName("`EmailAddresses` utility should")
 class EmailAddressesTest extends UtilityClassTest<EmailAddresses> {
 
     EmailAddressesTest() {
@@ -69,9 +69,9 @@ class EmailAddressesTest extends UtilityClassTest<EmailAddresses> {
     @Test
     @DisplayName("create new instance")
     void create() {
-        String email = "jdoe@spine.org";
+        var email = "jdoe@spine.org";
 
-        EmailAddress emailAddress = EmailAddresses.valueOf(email);
+        var emailAddress = EmailAddresses.valueOf(email);
 
         assertThat(emailAddress.getValue())
                 .isEqualTo(email);

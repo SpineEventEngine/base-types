@@ -26,7 +26,6 @@
 
 package io.spine.net.string;
 
-import com.google.common.base.Converter;
 import io.spine.net.EmailAddress;
 import io.spine.net.InternetDomain;
 import io.spine.net.Url;
@@ -45,6 +44,7 @@ import static io.spine.net.string.NetStringifiers.forEmailAddress;
 import static io.spine.net.string.NetStringifiers.forInternetDomain;
 import static io.spine.net.string.NetStringifiers.forUrl;
 
+@DisplayName("`NetStringifiers` utility should")
 class NetStringifiersTest extends UtilityClassTest<NetStringifiers> {
 
     NetStringifiersTest() {
@@ -65,23 +65,23 @@ class NetStringifiersTest extends UtilityClassTest<NetStringifiers> {
     }
 
     @Nested
-    @DisplayName("convert to string and back")
+    @DisplayName("convert to `String` and back")
     class Convert {
 
         @Test
-        @DisplayName("Url")
+        @DisplayName("`Url`")
         void url() {
             assertStringifier(Url.class, "https://spine.io/about");
         }
 
         @Test
-        @DisplayName("InternetDomain")
+        @DisplayName("`InternetDomain`")
         void internetDomain() {
             assertStringifier(InternetDomain.class, "spine.io");
         }
 
         @Test
-        @DisplayName("EmailAddress")
+        @DisplayName("`EmailAddress`")
         void emailAddress() {
             assertStringifier(EmailAddress.class, "info@spine.io");
         }
@@ -91,14 +91,14 @@ class NetStringifiersTest extends UtilityClassTest<NetStringifiers> {
             Optional<Stringifier<T>> optional = registry().find(cls);
             assertThat(optional).isPresent();
 
-            Stringifier<T> stringifier = optional.get();
+            var stringifier = optional.get();
 
             // Parse the object back from the passed string representation.
-            Converter<String, T> parser = stringifier.reverse();
-            T object = parser.convert(stringForm);
+            var parser = stringifier.reverse();
+            var object = parser.convert(stringForm);
 
             // Now check that object is stringified to the passed form.
-            String stringifierForm = stringifier.convert(object);
+            var stringifierForm = stringifier.convert(object);
 
             assertThat(stringifierForm).isEqualTo(stringForm);
         }

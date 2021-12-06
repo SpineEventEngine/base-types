@@ -29,14 +29,12 @@ package io.spine.net;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests {@link io.spine.net.UrlParser}.
  */
-@DisplayName("UrlParser should parse")
+@DisplayName("`UrlParser` should parse")
 class UrlParserTest {
 
     private static final String HOST = "ulr-parser-should.com";
@@ -49,7 +47,7 @@ class UrlParserTest {
     @Test
     @DisplayName("protocol and host")
     void protocolAndHost() {
-        Uri record = new UrlParser(PROTOCOL_HOST).parse();
+        var record = new UrlParser(PROTOCOL_HOST).parse();
         assertEquals(HOST, record.getHost());
         assertEquals(Uri.Schema.HTTP, record.getProtocol()
                                             .getSchema());
@@ -58,7 +56,7 @@ class UrlParserTest {
     @Test
     @DisplayName("host")
     void host() {
-        Uri record = new UrlParser(HOST).parse();
+        var record = new UrlParser(HOST).parse();
 
         assertEquals(HOST, record.getHost());
         assertEquals(Uri.Schema.UNDEFINED, record.getProtocol()
@@ -68,7 +66,7 @@ class UrlParserTest {
     @Test
     @DisplayName("unknown protocol")
     void unknownProtocol() {
-        Uri record = new UrlParser(UNKNOWN_PROTOCOL_HOST).parse();
+        var record = new UrlParser(UNKNOWN_PROTOCOL_HOST).parse();
         assertEquals(UNKNOWN_PROTOCOL, record.getProtocol()
                                              .getName());
     }
@@ -76,21 +74,19 @@ class UrlParserTest {
     @Test
     @DisplayName("credentials")
     void credentials() {
-        String userName = "admin";
-        String password = "root";
+        var userName = "admin";
+        var password = "root";
 
-        String userUrl = HTTP_PROTOCOL + "://" + userName + '@' + HOST;
-        String userPasswordUrl = HTTP_PROTOCOL + "://" + userName + ':' +
-                password + '@' + HOST;
+        var userUrl = HTTP_PROTOCOL + "://" + userName + '@' + HOST;
+        var userPasswordUrl = HTTP_PROTOCOL + "://" + userName + ':' + password + '@' + HOST;
 
-        Uri record1 = new UrlParser(userUrl).parse();
-        String user1 = record1.getAuth()
-                              .getUserName();
+        var record1 = new UrlParser(userUrl).parse();
+        var user1 = record1.getAuth().getUserName();
         assertEquals(userName, user1);
 
-        Uri record2 = new UrlParser(userPasswordUrl).parse();
-        Uri.Authorization auth2 = record2.getAuth();
-        String user2 = auth2.getUserName();
+        var record2 = new UrlParser(userPasswordUrl).parse();
+        var auth2 = record2.getAuth();
+        var user2 = auth2.getUserName();
         assertEquals(userName, user2);
         assertEquals(password, auth2.getPassword());
     }
@@ -98,9 +94,9 @@ class UrlParserTest {
     @Test
     @DisplayName("port")
     void port() {
-        String url = HOST + ':' + PORT;
+        var url = HOST + ':' + PORT;
 
-        Uri parsedUrl = new UrlParser(url).parse();
+        var parsedUrl = new UrlParser(url).parse();
 
         assertEquals(PORT, parsedUrl.getPort());
     }
@@ -108,10 +104,10 @@ class UrlParserTest {
     @Test
     @DisplayName("path")
     void path() {
-        String resource = "index/2";
-        String rawUrl = HOST + '/' + resource;
+        var resource = "index/2";
+        var rawUrl = HOST + '/' + resource;
 
-        Uri url = new UrlParser(rawUrl).parse();
+        var url = new UrlParser(rawUrl).parse();
 
         assertEquals(resource, url.getPath());
     }
@@ -119,10 +115,10 @@ class UrlParserTest {
     @Test
     @DisplayName("fragment")
     void fragment() {
-        String fragment = "reference";
-        String rawUrl = HOST + "/index/2#" + fragment;
+        var fragment = "reference";
+        var rawUrl = HOST + "/index/2#" + fragment;
 
-        Uri url = new UrlParser(rawUrl).parse();
+        var url = new UrlParser(rawUrl).parse();
 
         assertEquals(fragment, url.getFragment());
     }
@@ -130,25 +126,25 @@ class UrlParserTest {
     @Test
     @DisplayName("queries")
     void queries() {
-        String key1 = "key1";
-        String key2 = "key2";
+        var key1 = "key1";
+        var key2 = "key2";
 
-        String value1 = "value1";
-        String value2 = "value2";
+        var value1 = "value1";
+        var value2 = "value2";
 
-        String query1 = key1 + '=' + value1;
-        String query2 = key2 + '=' + value2;
+        var query1 = key1 + '=' + value1;
+        var query2 = key2 + '=' + value2;
 
-        String rawUrl = HOST + '?' + query1 + '&' + query2;
+        var rawUrl = HOST + '?' + query1 + '&' + query2;
 
-        Uri url = new UrlParser(rawUrl).parse();
+        var url = new UrlParser(rawUrl).parse();
 
-        List<Uri.QueryParameter> queries = url.getQueryList();
+        var queries = url.getQueryList();
 
         assertEquals(2, queries.size());
 
-        Uri.QueryParameter queryInstance1 = queries.get(0);
-        Uri.QueryParameter queryInstance2 = queries.get(1);
+        var queryInstance1 = queries.get(0);
+        var queryInstance2 = queries.get(1);
 
         assertEquals(key1, queryInstance1.getKey());
         assertEquals(value1, queryInstance1.getValue());
@@ -159,9 +155,9 @@ class UrlParserTest {
     @Test
     @DisplayName("URL with all sub-items")
     void urlWithAllSubItems() {
-        String rawUrl = "https://user:password@spine.io/index?auth=none&locale=us#fragment9";
+        var rawUrl = "https://user:password@spine.io/index?auth=none&locale=us#fragment9";
 
-        Uri record = new UrlParser(rawUrl).parse();
+        var record = new UrlParser(rawUrl).parse();
 
         assertEquals(Uri.Schema.HTTPS, record.getProtocol()
                                              .getSchema());

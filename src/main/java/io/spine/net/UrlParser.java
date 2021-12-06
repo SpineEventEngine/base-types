@@ -28,7 +28,6 @@ package io.spine.net;
 
 import com.google.common.base.Splitter;
 import io.spine.net.Uri.Protocol;
-import io.spine.net.Uri.QueryParameter;
 import io.spine.net.Uri.Schema;
 
 /**
@@ -98,18 +97,18 @@ final class UrlParser {
      * </ul>
      */
     private void parseProtocol() {
-        Protocol.Builder protocolBuilder = Protocol.newBuilder();
-        int protocolEndingIndex = unProcessedInput.indexOf(PROTOCOL_ENDING);
+        var protocolBuilder = Protocol.newBuilder();
+        var protocolEndingIndex = unProcessedInput.indexOf(PROTOCOL_ENDING);
         if (protocolEndingIndex == -1) {
             protocolBuilder.setSchema(Schema.UNDEFINED);
             record.setProtocol(protocolBuilder);
             return;
         }
-        String protocol = unProcessedInput.substring(0, protocolEndingIndex);
+        var protocol = unProcessedInput.substring(0, protocolEndingIndex);
         unProcessedInput = unProcessedInput.substring(protocolEndingIndex +
                                                       PROTOCOL_ENDING.length());
 
-        Schema schema = Schemas.parse(protocol);
+        var schema = Schemas.parse(protocol);
 
         if (schema == Schema.UNDEFINED) {
             protocolBuilder.setName(protocol);
@@ -122,20 +121,20 @@ final class UrlParser {
 
     /** Parses credentials from remembered URL String and saves them to the state. */
     private void parseCredentials() {
-        int credentialsEndingIndex = unProcessedInput.indexOf(CREDENTIALS_ENDING);
+        var credentialsEndingIndex = unProcessedInput.indexOf(CREDENTIALS_ENDING);
         if (credentialsEndingIndex == -1) {
             return;
         }
 
-        String credential = unProcessedInput.substring(0, credentialsEndingIndex);
+        var credential = unProcessedInput.substring(0, credentialsEndingIndex);
         unProcessedInput = unProcessedInput.substring(credentialsEndingIndex + 1);
 
-        Uri.Authorization.Builder auth = Uri.Authorization.newBuilder();
+        var auth = Uri.Authorization.newBuilder();
 
-        int credentialsSeparatorIndex = credential.indexOf(CREDENTIALS_SEPARATOR);
+        var credentialsSeparatorIndex = credential.indexOf(CREDENTIALS_SEPARATOR);
         if (credentialsSeparatorIndex != -1) {
-            String userName = credential.substring(0, credentialsSeparatorIndex);
-            String password = credential.substring(credentialsSeparatorIndex + 1);
+            var userName = credential.substring(0, credentialsSeparatorIndex);
+            var password = credential.substring(credentialsSeparatorIndex + 1);
             auth.setPassword(password);
             auth.setUserName(userName);
         } else {
@@ -147,7 +146,7 @@ final class UrlParser {
 
     /** Parses host and port and saves them to the state. */
     private void parseHost() {
-        int hostEndingIndex = unProcessedInput.indexOf(HOST_ENDING);
+        var hostEndingIndex = unProcessedInput.indexOf(HOST_ENDING);
         String host;
 
         if (hostEndingIndex == -1) {
@@ -158,11 +157,11 @@ final class UrlParser {
             unProcessedInput = unProcessedInput.substring(hostEndingIndex + 1);
         }
 
-        int portIndex = host.indexOf(HOST_PORT_SEPARATOR);
+        var portIndex = host.indexOf(HOST_PORT_SEPARATOR);
         if (portIndex != -1) {
-            String port = host.substring(portIndex + 1);
+            var port = host.substring(portIndex + 1);
             record.setPort(port);
-            String hostAddress = host.substring(0, portIndex);
+            var hostAddress = host.substring(0, portIndex);
             record.setHost(hostAddress);
         } else {
             record.setHost(host);
@@ -171,12 +170,12 @@ final class UrlParser {
 
     /** Parses fragment and saves it to the state. */
     private void parseFragment() {
-        int fragmentIndex = unProcessedInput.lastIndexOf(FRAGMENT_START);
+        var fragmentIndex = unProcessedInput.lastIndexOf(FRAGMENT_START);
         if (fragmentIndex == -1) {
             return;
         }
 
-        String fragment = unProcessedInput.substring(fragmentIndex + 1);
+        var fragment = unProcessedInput.substring(fragmentIndex + 1);
         unProcessedInput = unProcessedInput.substring(0, fragmentIndex);
 
         record.setFragment(fragment);
@@ -188,17 +187,17 @@ final class UrlParser {
      * @throws IllegalArgumentException in case of bad-formed parameter
      */
     private void parseQueries() {
-        int queriesStartIndex = unProcessedInput.indexOf(QUERIES_START);
+        var queriesStartIndex = unProcessedInput.indexOf(QUERIES_START);
         if (queriesStartIndex == -1) {
             return;
         }
 
-        String queriesString = unProcessedInput.substring(queriesStartIndex + 1);
+        var queriesString = unProcessedInput.substring(queriesStartIndex + 1);
         unProcessedInput = unProcessedInput.substring(0, queriesStartIndex);
 
         Iterable<String> queries = querySplitter.split(queriesString);
-        for (String query : queries) {
-            QueryParameter param = UrlQueryParameters.parse(query);
+        for (var query : queries) {
+            var param = UrlQueryParameters.parse(query);
             record.addQuery(param);
         }
     }

@@ -46,22 +46,23 @@ final class UrlQueryParameters {
     /**
      * Performs parsing of {@link QueryParameter} from String.
      *
-     * @param queryParameter String representation of {@link QueryParameter}
+     * @param queryParameter
+     *         String representation of {@link QueryParameter}
      * @return parsed instance
-     * @throws IllegalArgumentException in case of not well formed argument value
+     * @throws IllegalArgumentException
+     *         in case of non-well-formed argument value
      */
     public static QueryParameter parse(String queryParameter) {
-        int separatorIndex = queryParameter.indexOf(SEPARATOR);
+        var separatorIndex = queryParameter.indexOf(SEPARATOR);
 
         if (separatorIndex == -1) {
             throw newIllegalArgumentException("Query Parameter is invalid: %s", queryParameter);
         }
 
-        String key = queryParameter.substring(0, separatorIndex);
-        String value = queryParameter.substring(separatorIndex + 1);
+        var key = queryParameter.substring(0, separatorIndex);
+        var value = queryParameter.substring(separatorIndex + 1);
 
-        QueryParameter result = QueryParameter
-                .newBuilder()
+        var result = QueryParameter.newBuilder()
                 .setKey(key)
                 .setValue(value)
                 .build();
@@ -73,8 +74,10 @@ final class UrlQueryParameters {
      *
      * <p>Performs simple validation
      *
-     * @param key   {@link QueryParameter} key
-     * @param value {@link QueryParameter} value
+     * @param key
+     *         {@link QueryParameter} key
+     * @param value
+     *         {@link QueryParameter} value
      * @return {@link QueryParameter} instance
      */
     public static QueryParameter from(String key, String value) {
@@ -83,8 +86,7 @@ final class UrlQueryParameters {
         checkArgument(!key.isEmpty(), "Query parameter key cannot be empty.");
         checkArgument(!value.isEmpty(), "Query parameter value cannot be empty.");
 
-        QueryParameter result = QueryParameter
-                .newBuilder()
+        var result = QueryParameter.newBuilder()
                 .setKey(key)
                 .setValue(value)
                 .build();
@@ -94,11 +96,12 @@ final class UrlQueryParameters {
     /**
      * Performs String conversion of {@link QueryParameter}.
      *
-     * @param param {@link QueryParameter} instance
-     * @return key=value String
+     * @param param
+     *         {@link QueryParameter} instance
+     * @return {@code key=value} String
      */
     public static String toString(QueryParameter param) {
-        String result = param.getKey() + SEPARATOR + param.getValue();
+        var result = param.getKey() + SEPARATOR + param.getValue();
         return result;
     }
 }

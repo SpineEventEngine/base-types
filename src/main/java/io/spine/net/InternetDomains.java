@@ -28,12 +28,12 @@ package io.spine.net;
 
 import io.spine.net.string.NetStringifiers;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.net.Patterns.HOST_NAME_PATTERN;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Utility class for working with {@link InternetDomain}s.
@@ -57,8 +57,8 @@ public final class InternetDomains {
      * Verifies if the passed sequence is a valid internet domain name.
      */
     public static boolean isValid(String name) {
-        Matcher matcher = pattern().matcher(name);
-        boolean result = matcher.matches();
+        var matcher = pattern().matcher(name);
+        var result = matcher.matches();
         return result;
     }
 
@@ -67,24 +67,24 @@ public final class InternetDomains {
      */
     public static String toString(InternetDomain domain) {
         checkNotNull(domain);
-        String result = NetStringifiers.forInternetDomain()
-                                       .convert(domain);
-        return result;
+        var result = NetStringifiers.forInternetDomain().convert(domain);
+        return requireNonNull(result);
     }
 
     /**
      * Creates a new {@code InternetDomain} instance for the passed name.
      *
-     * @param name a valid Internet domain name
+     * @param name
+     *         a valid Internet domain name
      * @return new {@code InternetDomain} instance
-     * @throws IllegalArgumentException if the passed domain name is not valid
+     * @throws IllegalArgumentException
+     *         if the passed domain name is not valid
      */
     public static InternetDomain valueOf(String name) {
         checkNotNull(name);
         checkArgument(isValid(name));
-        InternetDomain result = NetStringifiers.forInternetDomain()
-                                               .reverse()
-                                               .convert(name);
-        return result;
+        var converter = NetStringifiers.forInternetDomain().reverse();
+        var result = converter.convert(name);
+        return requireNonNull(result);
     }
 }

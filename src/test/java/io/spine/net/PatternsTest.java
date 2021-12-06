@@ -27,7 +27,9 @@
 package io.spine.net;
 
 import io.spine.testing.UtilityClassTest;
+import org.junit.jupiter.api.DisplayName;
 
+@DisplayName("`Patterns` utility should")
 class PatternsTest extends UtilityClassTest<Patterns> {
 
     PatternsTest() {

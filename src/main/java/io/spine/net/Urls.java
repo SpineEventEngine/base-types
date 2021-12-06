@@ -30,6 +30,7 @@ import io.spine.net.string.NetStringifiers;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Utility class for working with {@link Url}.
@@ -47,16 +48,16 @@ public final class Urls {
      *
      * <p>It is assumed that the passed value is a valid URL. No special checking is performed.
      *
-     * @param spec a valid, non-null and not-empty URL spec.
+     * @param spec
+     *         a valid, non-null and not-empty URL spec.
      * @return new instance
      */
     public static Url create(String spec) {
         checkNotNull(spec);
         checkArgument(spec.length() > 0);
-        Url result = NetStringifiers.forUrl()
-                                    .reverse()
-                                    .convert(spec);
-        return result;
+        var converter = NetStringifiers.forUrl().reverse();
+        var result = converter.convert(spec);
+        return requireNonNull(result);
     }
 
     /**
@@ -67,8 +68,7 @@ public final class Urls {
      */
     public static String toString(Url url) {
         checkNotNull(url);
-        String result = NetStringifiers.forUrl()
-                                       .convert(url);
-        return result;
+        var result = NetStringifiers.forUrl().convert(url);
+        return requireNonNull(result);
     }
 }

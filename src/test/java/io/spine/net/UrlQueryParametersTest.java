@@ -26,7 +26,6 @@
 
 package io.spine.net;
 
-import io.spine.net.Uri.QueryParameter;
 import io.spine.testing.UtilityClassTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -35,7 +34,7 @@ import org.junit.jupiter.api.Test;
 import static io.spine.testing.Assertions.assertIllegalArgument;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("`UrlQueryParameters` utility class should")
+@DisplayName("`UrlQueryParameters` utility should")
 class UrlQueryParametersTest extends UtilityClassTest<UrlQueryParameters> {
 
     UrlQueryParametersTest() {
@@ -68,13 +67,13 @@ class UrlQueryParametersTest extends UtilityClassTest<UrlQueryParameters> {
     @Test
     @DisplayName("convert parameters")
     void convertParams() {
-        String key = "keyOne";
-        String value = "valueTwo";
+        var key = "keyOne";
+        var value = "valueTwo";
 
-        String query = key + '=' + value;
+        var query = key + '=' + value;
 
-        QueryParameter parameter1 = UrlQueryParameters.parse(query);
-        QueryParameter parameter2 = UrlQueryParameters.from(key, value);
+        var parameter1 = UrlQueryParameters.parse(query);
+        var parameter2 = UrlQueryParameters.from(key, value);
 
         assertEquals(key, parameter1.getKey());
         assertEquals(value, parameter1.getValue());
