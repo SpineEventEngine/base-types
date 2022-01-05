@@ -1,5 +1,5 @@
 /*
- * Copyright 2021, TeamDev. All rights reserved.
+ * Copyright 2022, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,8 @@
  *
  * <p>This script doesn't configure Protobuf plugin and Spine's Protobuf JS plugin.
  */
+
+println("`build-tasks.gradle` script is deprecated. Please use `javascript` extension instead.")
 
 ext {
     JAVA_SCRIPT_TASK_GROUP = 'JavaScript'
