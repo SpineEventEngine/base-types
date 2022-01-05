@@ -24,6 +24,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@file:Suppress("RemoveRedundantQualifierName")
+
 import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
@@ -50,7 +52,6 @@ import io.spine.internal.gradle.test.configureLogging
 import io.spine.internal.gradle.test.registerTestTasks
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-@Suppress("RemoveRedundantQualifierName") // cannot use imports under `buildScript`
 buildscript {
     apply(from = "$projectDir/version.gradle.kts")
     io.spine.internal.gradle.doApplyStandard(repositories)
@@ -67,14 +68,8 @@ plugins {
     `java-library`
     kotlin("jvm")
     idea
-    @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
-    io.spine.internal.dependency.Protobuf.GradlePlugin.apply {
-        id(id) version version
-    }
-    @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
-    io.spine.internal.dependency.ErrorProne.GradlePlugin.apply {
-        id(id)
-    }
+    id(io.spine.internal.dependency.Protobuf.GradlePlugin.id)
+    id(io.spine.internal.dependency.ErrorProne.GradlePlugin.id)
     pmd
     jacoco
     `force-jacoco`
@@ -140,7 +135,6 @@ dependencies {
     api("io.spine:spine-base:$spineBaseVersion")
 
     testImplementation(JUnit.runner)
-    testImplementation(JUnit.pioneer)
     testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
 }
 
