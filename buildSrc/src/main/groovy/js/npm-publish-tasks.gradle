@@ -1,5 +1,5 @@
 /*
- * Copyright 2021, TeamDev. All rights reserved.
+ * Copyright 2022, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,9 @@
  * variable is set to a valid NPM auth token. If the token is not set, a dummy value is added to
  * the NPM execution process, which is sufficient for the local development.
  */
+
+println("`npm-publish-tasks.gradle` script is deprecated. " +
+        "Please use `javascript` extension instead.")
 
 apply from: "$rootDir" + io.spine.internal.gradle.Scripts.commonPath + "js/build-tasks.gradle"
 
