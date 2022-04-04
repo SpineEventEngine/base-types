@@ -24,9 +24,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-val mcJavaVersion by extra("2.0.0-SNAPSHOT.74")
-val javadocToolsVersion by extra("2.0.0-SNAPSHOT.74")
-val spineBaseVersion by extra("2.0.0-SNAPSHOT.74")
+val mcJavaVersion by extra("2.0.0-SNAPSHOT.90")
+val javadocToolsVersion by extra("2.0.0-SNAPSHOT.75")
+val spineBaseVersion by extra("2.0.0-SNAPSHOT.88")
 
 /** The version of this library. */
-val versionToPublish by extra("2.0.0-SNAPSHOT.76")
+val versionToPublish by extra("2.0.0-SNAPSHOT.88")

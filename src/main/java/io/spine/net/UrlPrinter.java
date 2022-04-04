@@ -82,9 +82,6 @@ final class UrlPrinter {
         var userName = auth.getUserName();
         var password = auth.getPassword();
 
-        if (userName.isEmpty()) {
-            return;
-        }
         sb.append(userName);
 
         if (!password.isEmpty()) {
