@@ -91,6 +91,17 @@ version = versionToPublish
 apply<IncrementGuard>()
 apply<VersionWriter>()
 
+val spineBaseVersion: String by extra
+
+dependencies {
+    errorprone(ErrorProne.core)
+
+    api("io.spine:spine-base:$spineBaseVersion")
+
+    testImplementation(JUnit.runner)
+    testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
+}
+
 spinePublishing {
     destinations = setOf(
         gitHub("base-types"),
@@ -101,43 +112,33 @@ spinePublishing {
 
 val javaVersion = JavaVersion.VERSION_11
 
-the<JavaPluginExtension>().apply {
+java {
     sourceCompatibility = javaVersion
     targetCompatibility = javaVersion
-}
 
-tasks.withType<JavaCompile> {
-    configureJavac()
-    configureErrorProne()
+    tasks {
+        withType<JavaCompile>().configureEach {
+            configureJavac()
+            configureErrorProne()
+        }
+    }
 }
 
 kotlin {
     explicitApi()
-}
 
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = javaVersion.toString()
-        freeCompilerArgs = listOf("-Xskip-prerelease-check")
+    tasks {
+        withType<KotlinCompile>().configureEach {
+            kotlinOptions {
+                jvmTarget = javaVersion.toString()
+                freeCompilerArgs = listOf("-Xskip-prerelease-check")
+            }
+        }
     }
 }
 
-val spineBaseVersion: String by extra
-
-// The dependencies should be similar to those defined in the `../build.gradle.kts`.
-dependencies {
-    errorprone(ErrorProne.core)
-
-    api("io.spine:spine-base:$spineBaseVersion")
-
-    testImplementation(JUnit.runner)
-    testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
-}
-
-val generatedDir = "$projectDir/generated"
-
 protobuf {
-    generatedFilesBaseDir = generatedDir
+    generatedFilesBaseDir = "$projectDir/generated"
     generateProtoTasks {
         all().forEach { task ->
             task.plugins {
@@ -145,11 +146,6 @@ protobuf {
             }
         }
     }
-}
-
-tasks.withType<JavaCompile> {
-    configureJavac()
-    configureErrorProne()
 }
 
 val javadocToolsVersion: String by extra
