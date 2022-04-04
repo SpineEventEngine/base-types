@@ -76,22 +76,30 @@ plugins {
     `pmd-settings`
 }
 
-repositories.applyStandard()
-configurations.forceVersions()
-configurations.excludeProtobufLite()
-
-apply(plugin = "io.spine.mc-java")
-
 apply(from = "$projectDir/version.gradle.kts")
+val spineBaseVersion: String by extra
 val versionToPublish: String by extra
+
+repositories.applyStandard()
+configurations.apply {
+    forceVersions()
+    excludeProtobufLite()
+    all {
+        resolutionStrategy {
+            force(
+                "io.spine:spine-base:$spineBaseVersion",
+            )
+        }
+    }
+}
 
 group = "io.spine"
 version = versionToPublish
 
+apply(plugin = "io.spine.mc-java")
 apply<IncrementGuard>()
 apply<VersionWriter>()
 
-val spineBaseVersion: String by extra
 
 dependencies {
     errorprone(ErrorProne.core)
@@ -161,14 +169,6 @@ tasks {
             includeEngines("junit-jupiter")
         }
         configureLogging()
-    }
-}
-
-configurations.all {
-    resolutionStrategy {
-        force(
-            "io.spine:spine-base:$spineBaseVersion",
-        )
     }
 }
 
