@@ -80,10 +80,17 @@ apply(from = "$projectDir/version.gradle.kts")
 val spineBaseVersion: String by extra
 val versionToPublish: String by extra
 
-repositories.applyStandard()
-configurations.apply {
+group = "io.spine"
+version = versionToPublish
+
+repositories {
+    applyStandard()
+}
+
+configurations {
     forceVersions()
     excludeProtobufLite()
+
     all {
         resolutionStrategy {
             force(
@@ -93,13 +100,9 @@ configurations.apply {
     }
 }
 
-group = "io.spine"
-version = versionToPublish
-
 apply(plugin = "io.spine.mc-java")
 apply<IncrementGuard>()
 apply<VersionWriter>()
-
 
 dependencies {
     errorprone(ErrorProne.core)
