@@ -32,8 +32,8 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.remove
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
-import io.spine.internal.gradle.IncrementGuard
-import io.spine.internal.gradle.JavadocConfig
+import io.spine.internal.gradle.publish.IncrementGuard
+import io.spine.internal.gradle.javadoc.JavadocConfig
 import io.spine.internal.gradle.VersionWriter
 import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
@@ -42,12 +42,11 @@ import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.github.pages.updateGitHubPages
 import io.spine.internal.gradle.javac.configureErrorProne
 import io.spine.internal.gradle.javac.configureJavac
-import io.spine.internal.gradle.publish.Publish.Companion.publishProtoArtifact
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.publish.PublishingRepos.gitHub
 import io.spine.internal.gradle.report.license.LicenseReporter
 import io.spine.internal.gradle.report.pom.PomGenerator
-import io.spine.internal.gradle.spinePublishing
+import io.spine.internal.gradle.publish.spinePublishing
 import io.spine.internal.gradle.test.configureLogging
 import io.spine.internal.gradle.test.registerTestTasks
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -93,14 +92,11 @@ apply<IncrementGuard>()
 apply<VersionWriter>()
 
 spinePublishing {
-    targetRepositories.addAll(
-        setOf(
-            gitHub("base-types"),
-            PublishingRepos.cloudRepo,
-            PublishingRepos.cloudArtifactRegistry
-        )
+    destinations = setOf(
+        gitHub("base-types"),
+        PublishingRepos.cloudRepo,
+        PublishingRepos.cloudArtifactRegistry
     )
-    publish(project)
 }
 
 val javaVersion = JavaVersion.VERSION_11
@@ -171,8 +167,16 @@ tasks {
         configureLogging()
     }
 }
+
+configurations.all {
+    resolutionStrategy {
+        force(
+            "io.spine:spine-base:$spineBaseVersion",
+        )
+    }
+}
+
 CheckStyleConfig.applyTo(project)
-publishProtoArtifact(project)
 JavadocConfig.applyTo(project)
 PomGenerator.applyTo(project)
 LicenseReporter.generateReportIn(project)
