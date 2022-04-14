@@ -74,6 +74,7 @@ plugins {
     `force-jacoco`
     `project-report`
     `pmd-settings`
+    `dokka-for-java`
 }
 
 apply(from = "$projectDir/version.gradle.kts")
@@ -119,6 +120,10 @@ spinePublishing {
         PublishingRepos.cloudRepo,
         PublishingRepos.cloudArtifactRegistry
     )
+
+    dokkaJar {
+        enabled = true
+    }
 }
 
 val javaVersion = JavaVersion.VERSION_11
