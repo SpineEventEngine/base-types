@@ -32,8 +32,8 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.remove
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
-import io.spine.internal.gradle.IncrementGuard
-import io.spine.internal.gradle.JavadocConfig
+import io.spine.internal.gradle.publish.IncrementGuard
+import io.spine.internal.gradle.javadoc.JavadocConfig
 import io.spine.internal.gradle.VersionWriter
 import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
@@ -42,12 +42,11 @@ import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.github.pages.updateGitHubPages
 import io.spine.internal.gradle.javac.configureErrorProne
 import io.spine.internal.gradle.javac.configureJavac
-import io.spine.internal.gradle.publish.Publish.Companion.publishProtoArtifact
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.publish.PublishingRepos.gitHub
 import io.spine.internal.gradle.report.license.LicenseReporter
 import io.spine.internal.gradle.report.pom.PomGenerator
-import io.spine.internal.gradle.spinePublishing
+import io.spine.internal.gradle.publish.spinePublishing
 import io.spine.internal.gradle.test.configureLogging
 import io.spine.internal.gradle.test.registerTestTasks
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -58,22 +57,9 @@ buildscript {
     repositories {
         io.spine.internal.gradle.publish.PublishingRepos.gitHub("mc-java")
     }
-
     val mcJavaVersion: String by extra
-    val spineBaseVersion: String by extra
-    val spineTimeVersion: String by extra
     dependencies {
         classpath("io.spine.tools:spine-mc-java:$mcJavaVersion")
-    }
-    configurations {
-        all {
-            resolutionStrategy {
-                force(
-                    "io.spine:spine-base:$spineBaseVersion",
-                    "io.spine:spine-time:$spineTimeVersion",
-                )
-            }
-        }
     }
 }
 
@@ -88,71 +74,37 @@ plugins {
     `force-jacoco`
     `project-report`
     `pmd-settings`
+    `dokka-for-java`
 }
 
+apply(from = "$projectDir/version.gradle.kts")
 val spineBaseVersion: String by extra
-val spineTimeVersion: String by extra
+val versionToPublish: String by extra
 
-repositories.applyStandard()
-configurations.forceVersions()
-configurations.excludeProtobufLite()
+group = "io.spine"
+version = versionToPublish
+
+repositories {
+    applyStandard()
+}
+
 configurations {
+    forceVersions()
+    excludeProtobufLite()
+
     all {
         resolutionStrategy {
             force(
                 "io.spine:spine-base:$spineBaseVersion",
-                "io.spine:spine-time:$spineTimeVersion",
             )
         }
     }
 }
 
 apply(plugin = "io.spine.mc-java")
-
-apply(from = "$projectDir/version.gradle.kts")
-val versionToPublish: String by extra
-
-group = "io.spine"
-version = versionToPublish
-
 apply<IncrementGuard>()
 apply<VersionWriter>()
 
-spinePublishing {
-    targetRepositories.addAll(
-        setOf(
-            gitHub("base-types"),
-            PublishingRepos.cloudRepo,
-            PublishingRepos.cloudArtifactRegistry
-        )
-    )
-    publish(project)
-}
-
-val javaVersion = JavaVersion.VERSION_11
-
-the<JavaPluginExtension>().apply {
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-}
-
-tasks.withType<JavaCompile> {
-    configureJavac()
-    configureErrorProne()
-}
-
-kotlin {
-    explicitApi()
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = javaVersion.toString()
-        freeCompilerArgs = listOf("-Xskip-prerelease-check")
-    }
-}
-
-// The dependencies should be similar to those defined in the `../build.gradle.kts`.
 dependencies {
     errorprone(ErrorProne.core)
 
@@ -162,10 +114,47 @@ dependencies {
     testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
 }
 
-val generatedDir = "$projectDir/generated"
+spinePublishing {
+    destinations = setOf(
+        gitHub("base-types"),
+        PublishingRepos.cloudRepo,
+        PublishingRepos.cloudArtifactRegistry
+    )
+
+    dokkaJar {
+        enabled = true
+    }
+}
+
+val javaVersion = JavaVersion.VERSION_11
+
+java {
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+
+    tasks {
+        withType<JavaCompile>().configureEach {
+            configureJavac()
+            configureErrorProne()
+        }
+    }
+}
+
+kotlin {
+    explicitApi()
+
+    tasks {
+        withType<KotlinCompile>().configureEach {
+            kotlinOptions {
+                jvmTarget = javaVersion.toString()
+                freeCompilerArgs = listOf("-Xskip-prerelease-check")
+            }
+        }
+    }
+}
 
 protobuf {
-    generatedFilesBaseDir = generatedDir
+    generatedFilesBaseDir = "$projectDir/generated"
     generateProtoTasks {
         all().forEach { task ->
             task.plugins {
@@ -173,11 +162,6 @@ protobuf {
             }
         }
     }
-}
-
-tasks.withType<JavaCompile> {
-    configureJavac()
-    configureErrorProne()
 }
 
 val javadocToolsVersion: String by extra
@@ -195,8 +179,8 @@ tasks {
         configureLogging()
     }
 }
+
 CheckStyleConfig.applyTo(project)
-publishProtoArtifact(project)
 JavadocConfig.applyTo(project)
 PomGenerator.applyTo(project)
 LicenseReporter.generateReportIn(project)
