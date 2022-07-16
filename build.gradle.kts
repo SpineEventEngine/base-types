@@ -58,9 +58,22 @@ buildscript {
     repositories {
         io.spine.internal.gradle.publish.PublishingRepos.gitHub("mc-java")
     }
+    
     val mcJavaVersion: String by extra
+    val spineBaseVersion: String by extra
+    val spineTimeVersion: String by extra
     dependencies {
         classpath("io.spine.tools:spine-mc-java:$mcJavaVersion")
+    }
+    configurations {
+        all {
+            resolutionStrategy {
+                force(
+                    "io.spine:spine-base:$spineBaseVersion",
+                    "io.spine:spine-time:$spineTimeVersion",
+                )
+            }
+        }
     }
 }
 
@@ -77,9 +90,22 @@ plugins {
     `pmd-settings`
 }
 
+val spineBaseVersion: String by extra
+val spineTimeVersion: String by extra
+
 repositories.applyStandard()
 configurations.forceVersions()
 configurations.excludeProtobufLite()
+configurations {
+    all {
+        resolutionStrategy {
+            force(
+                "io.spine:spine-base:$spineBaseVersion",
+                "io.spine:spine-time:$spineTimeVersion",
+            )
+        }
+    }
+}
 
 apply(plugin = "io.spine.mc-java")
 
@@ -125,8 +151,6 @@ tasks.withType<KotlinCompile>().configureEach {
         freeCompilerArgs = listOf("-Xskip-prerelease-check")
     }
 }
-
-val spineBaseVersion: String by extra
 
 // The dependencies should be similar to those defined in the `../build.gradle.kts`.
 dependencies {

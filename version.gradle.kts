@@ -24,9 +24,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-val mcJavaVersion by extra("2.0.0-SNAPSHOT.74")
+val mcJavaVersion by extra("2.0.0-SNAPSHOT.95")
 val javadocToolsVersion by extra("2.0.0-SNAPSHOT.74")
-val spineBaseVersion by extra("2.0.0-SNAPSHOT.74")
+val spineBaseVersion by extra("2.0.0-SNAPSHOT.91")
+
+/**
+ * The version of `spine-time` required during the development pre-2.0.0 release
+ * in order to address version conflicts in Gradle plugins.
+ *
+ * `base-types` codebase does not have compile-time dependencies onto `spine-time`.
+ */
+val spineTimeVersion by extra("2.0.0-SNAPSHOT.92")
 
 /** The version of this library. */
-val versionToPublish by extra("2.0.0-SNAPSHOT.76")
+val versionToPublish by extra("2.0.0-SNAPSHOT.91")
