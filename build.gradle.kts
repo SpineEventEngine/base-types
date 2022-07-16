@@ -58,7 +58,7 @@ buildscript {
     repositories {
         io.spine.internal.gradle.publish.PublishingRepos.gitHub("mc-java")
     }
-    
+
     val mcJavaVersion: String by extra
     val spineBaseVersion: String by extra
     val spineTimeVersion: String by extra
