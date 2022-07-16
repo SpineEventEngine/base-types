@@ -91,17 +91,6 @@ class UrlPrinterTest extends UtilityClassTest<UrlPrinter> {
                 ),
 
                 Arguments.of(
-                        Uri.newBuilder(FULL_RECORD)
-                           .setAuth(Authorization.newBuilder(AUTH)
-                                                       .setUserName("")
-                                                       .build())
-                           .build(),
-                        // As UrlPrinter assumes that we have already validated url,
-                        // it just ignores password if user is not set.
-                        "http://spine.io:80/index?key=value&key2=value2#frag1"
-                ),
-
-                Arguments.of(
                         Uri.newBuilder()
                            .setHost(HOST)
                            .setProtocol(Protocol.newBuilder()
