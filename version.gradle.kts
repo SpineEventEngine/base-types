@@ -24,7 +24,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-val mcJavaVersion by extra("2.0.0-SNAPSHOT.95")
+val mcJavaVersion by extra("2.0.0-SNAPSHOT.96")
+val validationVersion by extra("2.0.0-SNAPSHOT.20")
 val javadocToolsVersion by extra("2.0.0-SNAPSHOT.74")
 val spineBaseVersion by extra("2.0.0-SNAPSHOT.91")
 
