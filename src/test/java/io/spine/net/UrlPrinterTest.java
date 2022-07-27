@@ -77,31 +77,26 @@ class UrlPrinterTest extends UtilityClassTest<UrlPrinter> {
                 ),
                 Arguments.of(
                         Uri.newBuilder()
-                                .setHost(HOST)
-                                .build(),
+                           .setHost(HOST)
+                           .build(),
                         HOST
                 ),
                 Arguments.of(
                         Uri.newBuilder(FULL_RECORD)
-                                .setAuth(Authorization.newBuilder(AUTH)
-                                                 .setPassword("")
-                                                 .build())
-                                .build(),
+                           .setAuth(Authorization.newBuilder(AUTH)
+                                                       .setPassword("")
+                                                       .build())
+                           .build(),
                         "http://admin@spine.io:80/index?key=value&key2=value2#frag1"
                 ),
-                Arguments.of(
-                        Uri.newBuilder(FULL_RECORD)
-                                .setAuth(Authorization.getDefaultInstance())
-                                .build(),
-                        "http://spine.io:80/index?key=value&key2=value2#frag1"
-                ),
+
                 Arguments.of(
                         Uri.newBuilder()
-                                .setHost(HOST)
-                                .setProtocol(Protocol.newBuilder()
-                                                     .setName("custom")
-                                                     .build())
-                                .build(),
+                           .setHost(HOST)
+                           .setProtocol(Protocol.newBuilder()
+                                                      .setName("custom")
+                                                      .build())
+                           .build(),
                         "custom://" + HOST
                 )
         );

@@ -57,9 +57,23 @@ buildscript {
     repositories {
         io.spine.internal.gradle.publish.PublishingRepos.gitHub("mc-java")
     }
+
     val mcJavaVersion: String by extra
+    val spineBaseVersion: String by extra
+    val spineTimeVersion: String by extra
     dependencies {
         classpath("io.spine.tools:spine-mc-java:$mcJavaVersion")
+    }
+
+    configurations {
+        all {
+            resolutionStrategy {
+                force(
+                    "io.spine:spine-base:$spineBaseVersion",
+                    "io.spine:spine-time:$spineTimeVersion",
+                )
+            }
+        }
     }
 }
 
@@ -79,6 +93,7 @@ plugins {
 
 apply(from = "$projectDir/version.gradle.kts")
 val spineBaseVersion: String by extra
+val spineTimeVersion: String by extra
 val versionToPublish: String by extra
 
 group = "io.spine"
@@ -96,6 +111,7 @@ configurations {
         resolutionStrategy {
             force(
                 "io.spine:spine-base:$spineBaseVersion",
+                "io.spine:spine-time:$spineTimeVersion",
             )
         }
     }
