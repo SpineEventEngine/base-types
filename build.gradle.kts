@@ -94,7 +94,6 @@ plugins {
 apply(from = "$projectDir/version.gradle.kts")
 val spineBaseVersion: String by extra
 val spineTimeVersion: String by extra
-val validationVersion: String by extra
 val versionToPublish: String by extra
 
 group = "io.spine"
@@ -113,7 +112,6 @@ configurations {
             force(
                 "io.spine:spine-base:$spineBaseVersion",
                 "io.spine:spine-time:$spineTimeVersion",
-                "io.spine.validation:spine-validation-runtime:$validationVersion"
             )
         }
     }
