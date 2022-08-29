@@ -195,6 +195,9 @@ tasks {
     registerTestTasks()
     jacocoTestReport {
         dependsOn(test)
+        reports {
+            xml.required.set(true)
+        }
     }
     test {
         useJUnitPlatform {
