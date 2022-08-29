@@ -62,7 +62,7 @@ buildscript {
     val spineBaseVersion: String by extra
     val spineTimeVersion: String by extra
     dependencies {
-        classpath("io.spine.tools:spine-mc-java:$mcJavaVersion")
+        classpath("io.spine.tools:spine-mc-java-plugins:${mcJavaVersion}:all")
     }
 
     configurations {
