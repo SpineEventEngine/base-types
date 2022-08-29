@@ -116,8 +116,10 @@ configurations {
         }
     }
 }
-
-apply(plugin = "io.spine.mc-java")
+apply {
+    plugin("jacoco")
+    plugin("io.spine.mc-java")
+}
 apply<IncrementGuard>()
 apply<VersionWriter>()
 
