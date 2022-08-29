@@ -85,6 +85,7 @@ plugins {
     id(io.spine.internal.dependency.ErrorProne.GradlePlugin.id)
     pmd
     jacoco
+    java
     `force-jacoco`
     `project-report`
     `pmd-settings`
@@ -117,6 +118,7 @@ configurations {
     }
 }
 apply {
+    plugin("java")
     plugin("jacoco")
     plugin("io.spine.mc-java")
 }
@@ -188,13 +190,18 @@ updateGitHubPages(javadocToolsVersion) {
     rootFolder.set(rootDir)
 }
 
+
 tasks {
     registerTestTasks()
+    jacocoTestReport {
+        dependsOn(test)
+    }
     test {
         useJUnitPlatform {
             includeEngines("junit-jupiter")
         }
         configureLogging()
+        finalizedBy(jacocoTestReport)
     }
 }
 
