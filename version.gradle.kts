@@ -26,7 +26,7 @@
 
 val mcJavaVersion by extra("2.0.0-SNAPSHOT.96")
 val javadocToolsVersion by extra("2.0.0-SNAPSHOT.74")
-val spineBaseVersion by extra("2.0.0-SNAPSHOT.91")
+val spineBaseVersion by extra("2.0.0-SNAPSHOT.95")
 
 /**
  * The version of `spine-time` required during the development pre-2.0.0 release
@@ -37,4 +37,4 @@ val spineBaseVersion by extra("2.0.0-SNAPSHOT.91")
 val spineTimeVersion by extra("2.0.0-SNAPSHOT.92")
 
 /** The version of this library. */
-val versionToPublish by extra("2.0.0-SNAPSHOT.91")
+val versionToPublish by extra("2.0.0-SNAPSHOT.95")
