@@ -85,7 +85,6 @@ plugins {
     id(io.spine.internal.dependency.ErrorProne.GradlePlugin.id)
     pmd
     jacoco
-    java
     `force-jacoco`
     `project-report`
     `pmd-settings`
