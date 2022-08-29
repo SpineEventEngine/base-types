@@ -117,7 +117,6 @@ configurations {
     }
 }
 apply {
-    plugin("java")
     plugin("jacoco")
     plugin("io.spine.mc-java")
 }
