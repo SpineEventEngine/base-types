@@ -62,7 +62,7 @@ buildscript {
     val spineBaseVersion: String by extra
     val spineTimeVersion: String by extra
     dependencies {
-        classpath("io.spine.tools:spine-mc-java:$mcJavaVersion")
+        classpath("io.spine.tools:spine-mc-java-plugins:${mcJavaVersion}:all")
     }
 
     configurations {
@@ -116,8 +116,10 @@ configurations {
         }
     }
 }
-
-apply(plugin = "io.spine.mc-java")
+apply {
+    plugin("jacoco")
+    plugin("io.spine.mc-java")
+}
 apply<IncrementGuard>()
 apply<VersionWriter>()
 
@@ -186,13 +188,21 @@ updateGitHubPages(javadocToolsVersion) {
     rootFolder.set(rootDir)
 }
 
+
 tasks {
     registerTestTasks()
+    jacocoTestReport {
+        dependsOn(test)
+        reports {
+            xml.required.set(true)
+        }
+    }
     test {
         useJUnitPlatform {
             includeEngines("junit-jupiter")
         }
         configureLogging()
+        finalizedBy(jacocoTestReport)
     }
 }
 
