@@ -127,6 +127,7 @@ dependencies {
     errorprone(ErrorProne.core)
 
     api("io.spine:spine-base:$spineBaseVersion")
+    api("io.spine:spine-validate:$spineBaseVersion")
 
     testImplementation(JUnit.runner)
     testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
