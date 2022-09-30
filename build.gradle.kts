@@ -59,8 +59,8 @@ buildscript {
     }
 
     val mcJavaVersion: String by extra
-    val spineBaseVersion: String by extra
-    val spineTimeVersion: String by extra
+    val baseVersion: String by extra
+    val timeVersion: String by extra
     dependencies {
         classpath("io.spine.tools:spine-mc-java-plugins:${mcJavaVersion}:all")
     }
@@ -69,8 +69,8 @@ buildscript {
         all {
             resolutionStrategy {
                 force(
-                    "io.spine:spine-base:$spineBaseVersion",
-                    "io.spine:spine-time:$spineTimeVersion",
+                    "io.spine:spine-base:$baseVersion",
+                    "io.spine:spine-time:$timeVersion",
                 )
             }
         }
@@ -92,8 +92,8 @@ plugins {
 }
 
 apply(from = "$projectDir/version.gradle.kts")
-val spineBaseVersion: String by extra
-val spineTimeVersion: String by extra
+val baseVersion: String by extra
+val timeVersion: String by extra
 val versionToPublish: String by extra
 
 group = "io.spine"
@@ -110,8 +110,8 @@ configurations {
     all {
         resolutionStrategy {
             force(
-                "io.spine:spine-base:$spineBaseVersion",
-                "io.spine:spine-time:$spineTimeVersion",
+                "io.spine:spine-base:$baseVersion",
+                "io.spine:spine-time:$timeVersion",
             )
         }
     }
@@ -126,11 +126,11 @@ apply<VersionWriter>()
 dependencies {
     errorprone(ErrorProne.core)
 
-    api("io.spine:spine-base:$spineBaseVersion")
-    api("io.spine:spine-validate:$spineBaseVersion")
+    implementation("io.spine:spine-base:$baseVersion")
+    implementation("io.spine:spine-validate:$baseVersion")
 
     testImplementation(JUnit.runner)
-    testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
+    testImplementation("io.spine.tools:spine-testlib:$baseVersion")
 }
 
 spinePublishing {
