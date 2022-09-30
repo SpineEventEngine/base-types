@@ -26,7 +26,7 @@
 
 val mcJavaVersion by extra("2.0.0-SNAPSHOT.99")
 val javadocToolsVersion by extra("2.0.0-SNAPSHOT.74")
-val baseVersion by extra("2.0.0-SNAPSHOT.102")
+val baseVersion by extra("2.0.0-SNAPSHOT.103")
 
 /**
  * The version of `spine-time` required during the development pre-2.0.0 release
