@@ -30,6 +30,7 @@ import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.remove
+import io.spine.internal.dependency.Dokka
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.gradle.publish.IncrementGuard
@@ -59,18 +60,20 @@ buildscript {
     }
 
     val mcJavaVersion: String by extra
-    val spineBaseVersion: String by extra
-    val spineTimeVersion: String by extra
+    val baseVersion: String by extra
+    val timeVersion: String by extra
     dependencies {
         classpath("io.spine.tools:spine-mc-java-plugins:${mcJavaVersion}:all")
     }
 
+    val dokka = io.spine.internal.dependency.Dokka
     configurations {
         all {
             resolutionStrategy {
                 force(
-                    "io.spine:spine-base:$spineBaseVersion",
-                    "io.spine:spine-time:$spineTimeVersion",
+                    "org.jetbrains.dokka:dokka-base:${dokka.version}",
+                    "io.spine:spine-base:$baseVersion",
+                    "io.spine:spine-time:$timeVersion",
                 )
             }
         }
@@ -92,8 +95,8 @@ plugins {
 }
 
 apply(from = "$projectDir/version.gradle.kts")
-val spineBaseVersion: String by extra
-val spineTimeVersion: String by extra
+val baseVersion: String by extra
+val timeVersion: String by extra
 val versionToPublish: String by extra
 
 group = "io.spine"
@@ -110,12 +113,14 @@ configurations {
     all {
         resolutionStrategy {
             force(
-                "io.spine:spine-base:$spineBaseVersion",
-                "io.spine:spine-time:$spineTimeVersion",
+                "org.jetbrains.dokka:dokka-base:${Dokka.version}",
+                "io.spine:spine-base:$baseVersion",
+                "io.spine:spine-time:$timeVersion",
             )
         }
     }
 }
+
 apply {
     plugin("jacoco")
     plugin("io.spine.mc-java")
@@ -126,11 +131,11 @@ apply<VersionWriter>()
 dependencies {
     errorprone(ErrorProne.core)
 
-    api("io.spine:spine-base:$spineBaseVersion")
-    api("io.spine:spine-validate:$spineBaseVersion")
+    implementation("io.spine:spine-base:$baseVersion")
+    implementation("io.spine:spine-validate:$baseVersion")
 
     testImplementation(JUnit.runner)
-    testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
+    testImplementation("io.spine.tools:spine-testlib:$baseVersion")
 }
 
 spinePublishing {
