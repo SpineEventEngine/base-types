@@ -61,7 +61,6 @@ buildscript {
 
     val mcJavaVersion: String by extra
     val baseVersion: String by extra
-    val timeVersion: String by extra
     dependencies {
         classpath("io.spine.tools:spine-mc-java-plugins:${mcJavaVersion}:all")
     }
@@ -73,7 +72,6 @@ buildscript {
                 force(
                     "org.jetbrains.dokka:dokka-base:${dokka.version}",
                     "io.spine:spine-base:$baseVersion",
-                    "io.spine:spine-time:$timeVersion",
                 )
             }
         }
@@ -96,7 +94,6 @@ plugins {
 
 apply(from = "$projectDir/version.gradle.kts")
 val baseVersion: String by extra
-val timeVersion: String by extra
 val versionToPublish: String by extra
 
 group = "io.spine"
@@ -115,7 +112,6 @@ configurations {
             force(
                 "org.jetbrains.dokka:dokka-base:${Dokka.version}",
                 "io.spine:spine-base:$baseVersion",
-                "io.spine:spine-time:$timeVersion",
             )
         }
     }
