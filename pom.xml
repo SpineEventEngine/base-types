@@ -10,7 +10,7 @@ all modules and does not describe the project structure per-subproject.
  -->
 <groupId>io.spine</groupId>
 <artifactId>base-types</artifactId>
-<version>2.0.0-SNAPSHOT.97</version>
+<version>2.0.0-SNAPSHOT.108</version>
 
 <inceptionYear>2015</inceptionYear>
 
@@ -26,13 +26,19 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine</groupId>
     <artifactId>spine-base</artifactId>
-    <version>2.0.0-SNAPSHOT.107</version>
+    <version>2.0.0-SNAPSHOT.108</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
     <groupId>io.spine</groupId>
     <artifactId>spine-validate</artifactId>
-    <version>2.0.0-SNAPSHOT.107</version>
+    <version>2.0.0-SNAPSHOT.108</version>
+    <scope>compile</scope>
+  </dependency>
+  <dependency>
+    <groupId>io.spine.validation</groupId>
+    <artifactId>spine-validation-java-runtime</artifactId>
+    <version>2.0.0-SNAPSHOT.29</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
@@ -44,7 +50,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>spine-testlib</artifactId>
-    <version>2.0.0-SNAPSHOT.107</version>
+    <version>2.0.0-SNAPSHOT.108</version>
     <scope>test</scope>
   </dependency>
   <dependency>
@@ -61,7 +67,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>com.google.protobuf</groupId>
     <artifactId>protoc</artifactId>
-    <version>3.20.1</version>
+    <version>3.21.7</version>
   </dependency>
   <dependency>
     <groupId>com.puppycrawl.tools</groupId>
@@ -76,12 +82,12 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine.protodata</groupId>
     <artifactId>protodata-fat-cli</artifactId>
-    <version>0.2.12</version>
+    <version>0.2.16</version>
   </dependency>
   <dependency>
     <groupId>io.spine.protodata</groupId>
     <artifactId>protodata-protoc</artifactId>
-    <version>0.2.12</version>
+    <version>0.2.16</version>
   </dependency>
   <dependency>
     <groupId>io.spine.tools</groupId>
@@ -91,18 +97,18 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>spine-mc-java-checks</artifactId>
-    <version>2.0.0-SNAPSHOT.99</version>
+    <version>2.0.0-SNAPSHOT.101</version>
     <scope>provided</scope>
   </dependency>
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>spine-mc-java-plugins</artifactId>
-    <version>2.0.0-SNAPSHOT.99</version>
+    <version>2.0.0-SNAPSHOT.101</version>
   </dependency>
   <dependency>
     <groupId>io.spine.validation</groupId>
     <artifactId>spine-validation-java-extensions</artifactId>
-    <version>2.0.0-SNAPSHOT.27</version>
+    <version>2.0.0-SNAPSHOT.29</version>
   </dependency>
   <dependency>
     <groupId>net.sourceforge.pmd</groupId>
