@@ -208,6 +208,15 @@ tasks {
     }
 }
 
+project.afterEvaluate {
+    val sourcesJar: Task by tasks.getting
+    val dokkaHtml: Task by tasks.getting
+    val launchProtoDataMain: Task by tasks.getting
+
+    sourcesJar.dependsOn(launchProtoDataMain)
+    dokkaHtml.dependsOn(launchProtoDataMain)
+}
+
 CheckStyleConfig.applyTo(project)
 JavadocConfig.applyTo(project)
 PomGenerator.applyTo(project)
