@@ -33,6 +33,7 @@ import com.google.protobuf.gradle.remove
 import io.spine.internal.dependency.Dokka
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
+import io.spine.internal.dependency.Protobuf
 import io.spine.internal.gradle.publish.IncrementGuard
 import io.spine.internal.gradle.javadoc.JavadocConfig
 import io.spine.internal.gradle.VersionWriter
@@ -43,6 +44,7 @@ import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.github.pages.updateGitHubPages
 import io.spine.internal.gradle.javac.configureErrorProne
 import io.spine.internal.gradle.javac.configureJavac
+import io.spine.internal.gradle.kotlin.setFreeCompilerArgs
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.publish.PublishingRepos.gitHub
 import io.spine.internal.gradle.report.license.LicenseReporter
@@ -108,9 +110,11 @@ configurations {
     excludeProtobufLite()
 
     all {
+        exclude("io.spine", "spine-validate")
         resolutionStrategy {
             force(
                 "org.jetbrains.dokka:dokka-base:${Dokka.version}",
+                Protobuf.compiler,
                 "io.spine:spine-base:$baseVersion",
             )
         }
@@ -165,22 +169,33 @@ kotlin {
 
     tasks {
         withType<KotlinCompile>().configureEach {
-            kotlinOptions {
-                jvmTarget = javaVersion.toString()
-                freeCompilerArgs = listOf("-Xskip-prerelease-check")
+            kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
+            setFreeCompilerArgs()
+        }
+    }
+}
+
+val generatedDir by extra("$projectDir/generated")
+
+protobuf {
+    generatedFilesBaseDir = generatedDir
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins.maybeCreate("kotlin")
+            task.plugins {
+                remove("grpc")
             }
         }
     }
 }
 
-protobuf {
-    generatedFilesBaseDir = "$projectDir/generated"
-    generateProtoTasks {
-        all().forEach { task ->
-            task.plugins {
-                remove("grpc")
-            }
-        }
+val generatedKotlinDir by extra("$generatedDir/main/kotlin")
+val generatedTestKotlinDir by extra("$generatedDir/test/kotlin")
+
+idea {
+    module {
+        generatedSourceDirs.add(file(generatedKotlinDir))
+        testSources.from(file(generatedTestKotlinDir))
     }
 }
 
@@ -208,14 +223,7 @@ tasks {
     }
 }
 
-project.afterEvaluate {
-    val sourcesJar: Task by tasks.getting
-    val dokkaHtml: Task by tasks.getting
-    val launchProtoDataMain: Task by tasks.getting
-
-    sourcesJar.dependsOn(launchProtoDataMain)
-    dokkaHtml.dependsOn(launchProtoDataMain)
-}
+project.configureTaskDependencies()
 
 CheckStyleConfig.applyTo(project)
 JavadocConfig.applyTo(project)

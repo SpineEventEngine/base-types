@@ -26,7 +26,7 @@
 
 val mcJavaVersion by extra("2.0.0-SNAPSHOT.101")
 val javadocToolsVersion by extra("2.0.0-SNAPSHOT.74")
-val baseVersion by extra("2.0.0-SNAPSHOT.108")
+val baseVersion by extra("2.0.0-SNAPSHOT.113")
 
 /** The version of this library. */
-val versionToPublish by extra("2.0.0-SNAPSHOT.108")
+val versionToPublish by extra("2.0.0-SNAPSHOT.109")
