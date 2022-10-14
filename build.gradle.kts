@@ -61,19 +61,17 @@ buildscript {
         io.spine.internal.gradle.publish.PublishingRepos.gitHub("mc-java")
     }
 
-    val mcJavaVersion: String by extra
-    val baseVersion: String by extra
+    val spine = io.spine.internal.dependency.Spine(project)
     dependencies {
-        classpath("io.spine.tools:spine-mc-java-plugins:${mcJavaVersion}:all")
+        classpath(spine.mcJavaPlugin)
     }
 
-    val dokka = io.spine.internal.dependency.Dokka
     configurations {
         all {
             resolutionStrategy {
                 force(
-                    "org.jetbrains.dokka:dokka-base:${dokka.version}",
-                    "io.spine:spine-base:$baseVersion",
+                    io.spine.internal.dependency.Dokka.BasePlugin.lib,
+                    spine.base,
                 )
             }
         }
@@ -105,6 +103,8 @@ repositories {
     applyStandard()
 }
 
+val spine = io.spine.internal.dependency.Spine(project)
+
 configurations {
     forceVersions()
     excludeProtobufLite()
@@ -115,7 +115,8 @@ configurations {
             force(
                 "org.jetbrains.dokka:dokka-base:${Dokka.version}",
                 Protobuf.compiler,
-                "io.spine:spine-base:$baseVersion",
+                spine.base,
+                spine.validation.runtime,
             )
         }
     }
@@ -131,11 +132,11 @@ apply<VersionWriter>()
 dependencies {
     errorprone(ErrorProne.core)
 
-    implementation("io.spine:spine-base:$baseVersion")
-    implementation("io.spine:spine-validate:$baseVersion")
+    implementation(spine.base)
+    implementation(spine.validation.runtime)
 
     testImplementation(JUnit.runner)
-    testImplementation("io.spine.tools:spine-testlib:$baseVersion")
+    testImplementation(spine.testlib)
 }
 
 spinePublishing {
