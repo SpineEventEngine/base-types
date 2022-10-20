@@ -62,6 +62,7 @@ buildscript {
     }
 
     val spine = io.spine.internal.dependency.Spine(project)
+    val mcJavaVersion: String by extra
     dependencies {
         classpath(spine.mcJavaPlugin)
     }
@@ -78,6 +79,13 @@ buildscript {
     }
 }
 
+repositories {
+    applyStandard()
+    io.spine.internal.gradle.publish.PublishingRepos.gitHub("mc-java")
+}
+
+val mcJavaVersion: String by extra
+
 plugins {
     `java-library`
     kotlin("jvm")
@@ -90,9 +98,18 @@ plugins {
     `project-report`
     `pmd-settings`
     `dokka-for-java`
+    id("io.spine.protodata") version "0.2.20"
+    id("io.spine.mc-java") version "2.0.0-SNAPSHOT.103"
 }
 
+//apply {
+//    plugin("io.spine.mc-java")
+//}
+
 apply(from = "$projectDir/version.gradle.kts")
+apply<IncrementGuard>()
+apply<VersionWriter>()
+
 val baseVersion: String by extra
 val versionToPublish: String by extra
 
@@ -121,13 +138,6 @@ configurations {
         }
     }
 }
-
-apply {
-    plugin("jacoco")
-    plugin("io.spine.mc-java")
-}
-apply<IncrementGuard>()
-apply<VersionWriter>()
 
 dependencies {
     errorprone(ErrorProne.core)
@@ -177,17 +187,32 @@ kotlin {
 }
 
 val generatedDir by extra("$projectDir/generated")
+//
+//protobuf {
+//    generatedFilesBaseDir = generatedDir
+//}
 
-protobuf {
-    generatedFilesBaseDir = generatedDir
-    generateProtoTasks {
-        all().forEach { task ->
-            task.builtins.maybeCreate("kotlin")
-            task.plugins {
-                remove("grpc")
-            }
+// Skip validation code generation provided by `mc-java` because we generate our own.
+modelCompiler {
+    java {
+        codegen {
+            validation { skipValidation() }
         }
     }
+}
+
+protoData {
+    renderers(
+        "io.spine.validation.java.PrintValidationInsertionPoints",
+        "io.spine.validation.java.JavaValidationRenderer",
+
+        // Suppress warnings in the generated code.
+        "io.spine.protodata.codegen.java.file.PrintBeforePrimaryDeclaration",
+        "io.spine.protodata.codegen.java.suppress.SuppressRenderer"
+    )
+    plugins(
+        "io.spine.validation.ValidationPlugin"
+    )
 }
 
 val generatedKotlinDir by extra("$generatedDir/main/kotlin")
