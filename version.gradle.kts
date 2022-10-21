@@ -29,4 +29,4 @@ val javadocToolsVersion by extra("2.0.0-SNAPSHOT.74")
 val baseVersion by extra("2.0.0-SNAPSHOT.114")
 
 /** The version of this library. */
-val versionToPublish by extra("2.0.0-SNAPSHOT.110")
+val versionToPublish by extra("2.0.0-SNAPSHOT.111")
