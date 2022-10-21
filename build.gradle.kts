@@ -88,7 +88,9 @@ plugins {
     `project-report`
     `pmd-settings`
     `dokka-for-java`
-    id("io.spine.protodata") version "0.2.20"
+
+    val protoData = io.spine.internal.dependency.Spine.ProtoData
+    id(protoData.pluginId) version protoData.version
 }
 
 apply(from = "$projectDir/version.gradle.kts")
@@ -206,6 +208,9 @@ protoData {
     )
 }
 
+/**
+ * Configure IntelliJ IDEA paths so that generated code is visible to the IDE.
+ */
 idea {
     module {
         val generatedDir = "$projectDir/generated"
