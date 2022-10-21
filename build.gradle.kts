@@ -26,16 +26,10 @@
 
 @file:Suppress("RemoveRedundantQualifierName")
 
-import com.google.protobuf.gradle.generateProtoTasks
-import com.google.protobuf.gradle.plugins
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.remove
 import io.spine.internal.dependency.Dokka
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Protobuf
-import io.spine.internal.gradle.publish.IncrementGuard
-import io.spine.internal.gradle.javadoc.JavadocConfig
 import io.spine.internal.gradle.VersionWriter
 import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
@@ -44,14 +38,18 @@ import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.github.pages.updateGitHubPages
 import io.spine.internal.gradle.javac.configureErrorProne
 import io.spine.internal.gradle.javac.configureJavac
+import io.spine.internal.gradle.javadoc.JavadocConfig
 import io.spine.internal.gradle.kotlin.setFreeCompilerArgs
+import io.spine.internal.gradle.publish.IncrementGuard
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.publish.PublishingRepos.gitHub
+import io.spine.internal.gradle.publish.spinePublishing
 import io.spine.internal.gradle.report.license.LicenseReporter
 import io.spine.internal.gradle.report.pom.PomGenerator
-import io.spine.internal.gradle.publish.spinePublishing
 import io.spine.internal.gradle.test.configureLogging
 import io.spine.internal.gradle.test.registerTestTasks
+import io.spine.tools.mc.gradle.modelCompiler
+import io.spine.tools.mc.java.gradle.McJavaOptions
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
@@ -62,7 +60,6 @@ buildscript {
     }
 
     val spine = io.spine.internal.dependency.Spine(project)
-    val mcJavaVersion: String by extra
     dependencies {
         classpath(spine.mcJavaPlugin)
     }
@@ -79,13 +76,6 @@ buildscript {
     }
 }
 
-repositories {
-    applyStandard()
-    io.spine.internal.gradle.publish.PublishingRepos.gitHub("mc-java")
-}
-
-val mcJavaVersion: String by extra
-
 plugins {
     `java-library`
     kotlin("jvm")
@@ -98,18 +88,12 @@ plugins {
     `project-report`
     `pmd-settings`
     `dokka-for-java`
-    id("io.spine.protodata") version "0.2.20"
-    id("io.spine.mc-java") version "2.0.0-SNAPSHOT.103"
+
+    val protoData = io.spine.internal.dependency.Spine.ProtoData
+    id(protoData.pluginId) version protoData.version
 }
 
-//apply {
-//    plugin("io.spine.mc-java")
-//}
-
 apply(from = "$projectDir/version.gradle.kts")
-apply<IncrementGuard>()
-apply<VersionWriter>()
-
 val baseVersion: String by extra
 val versionToPublish: String by extra
 
@@ -139,8 +123,16 @@ configurations {
     }
 }
 
+apply {
+    plugin("jacoco")
+    plugin("io.spine.mc-java")
+}
+apply<IncrementGuard>()
+apply<VersionWriter>()
+
 dependencies {
     errorprone(ErrorProne.core)
+    protoData(spine.validation.java)
 
     implementation(spine.base)
     implementation(spine.validation.runtime)
@@ -186,18 +178,18 @@ kotlin {
     }
 }
 
-val generatedDir by extra("$projectDir/generated")
-//
-//protobuf {
-//    generatedFilesBaseDir = generatedDir
-//}
-
-// Skip validation code generation provided by `mc-java` because we generate our own.
+/**
+ * Suppress the "legacy" validation from McJava in favour of tha based on ProtoData.
+ */
 modelCompiler {
-    java {
-        codegen {
-            validation { skipValidation() }
-        }
+    // The below arrangement is "unusual" `java { }` because it conflicts with
+    // `java` of type `JavaPluginExtension` in the `Project`.
+
+    // Get nested `this` instead of `Project` instance.
+    val mcOptions = (this@modelCompiler as ExtensionAware)
+    val java = mcOptions.extensions.getByName("java") as McJavaOptions
+    java.codegen {
+        validation { skipValidation() }
     }
 }
 
@@ -209,19 +201,32 @@ protoData {
         // Suppress warnings in the generated code.
         "io.spine.protodata.codegen.java.file.PrintBeforePrimaryDeclaration",
         "io.spine.protodata.codegen.java.suppress.SuppressRenderer"
+
     )
     plugins(
-        "io.spine.validation.ValidationPlugin"
+        "io.spine.validation.ValidationPlugin",
     )
 }
 
-val generatedKotlinDir by extra("$generatedDir/main/kotlin")
-val generatedTestKotlinDir by extra("$generatedDir/test/kotlin")
-
+/**
+ * Configure IntelliJ IDEA paths so that generated code is visible to the IDE.
+ */
 idea {
     module {
-        generatedSourceDirs.add(file(generatedKotlinDir))
-        testSources.from(file(generatedTestKotlinDir))
+        val generatedDir = "$projectDir/generated"
+        val generatedJavaDir = "$generatedDir/main/java"
+        val generatedTestJavaDir = "$generatedDir/test/java"
+        val generatedKotlinDir = "$generatedDir/main/kotlin"
+        val generatedTestKotlinDir = "$generatedDir/test/kotlin"
+
+        generatedSourceDirs.addAll(listOf(
+            file(generatedJavaDir),
+            file(generatedKotlinDir)
+        ))
+        testSources.from(
+            file(generatedTestJavaDir),
+            file(generatedTestKotlinDir),
+        )
     }
 }
 
