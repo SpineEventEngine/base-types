@@ -30,6 +30,7 @@ import io.spine.internal.dependency.Dokka
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Protobuf
+import io.spine.internal.dependency.Spine
 import io.spine.internal.gradle.VersionWriter
 import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
@@ -104,7 +105,7 @@ repositories {
     applyStandard()
 }
 
-val spine = io.spine.internal.dependency.Spine(project)
+val spine = Spine(project)
 
 configurations {
     forceVersions()
@@ -230,8 +231,7 @@ idea {
     }
 }
 
-val javadocToolsVersion: String by extra
-updateGitHubPages(javadocToolsVersion) {
+updateGitHubPages(Spine.DefaultVersion.javadocTools) {
     allowInternalJavadoc.set(true)
     rootFolder.set(rootDir)
 }
