@@ -89,6 +89,7 @@ plugins {
     `pmd-settings`
     `dokka-for-java`
     protodata
+    `detekt-code-analysis`
 }
 
 apply(from = "$projectDir/version.gradle.kts")
