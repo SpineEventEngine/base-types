@@ -60,11 +60,11 @@ buildscript {
         io.spine.internal.gradle.publish.PublishingRepos.gitHub("mc-java")
     }
 
-    val spine = io.spine.internal.dependency.Spine(project)
     dependencies {
-        classpath(spine.mcJavaPlugin)
+        classpath(io.spine.internal.dependency.Spine.McJava.pluginLib)
     }
 
+    val spine = io.spine.internal.dependency.Spine(project)
     configurations {
         all {
             resolutionStrategy {
@@ -81,17 +81,14 @@ plugins {
     `java-library`
     kotlin("jvm")
     idea
-    id(io.spine.internal.dependency.Protobuf.GradlePlugin.id)
-    id(io.spine.internal.dependency.ErrorProne.GradlePlugin.id)
+    protobuf
+    errorprone
     pmd
     jacoco
-    `force-jacoco`
     `project-report`
     `pmd-settings`
     `dokka-for-java`
-
-    val protoData = io.spine.internal.dependency.Spine.ProtoData
-    id(protoData.pluginId) version protoData.version
+    protodata
 }
 
 apply(from = "$projectDir/version.gradle.kts")
