@@ -32,7 +32,6 @@ import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Protobuf
 import io.spine.internal.dependency.Spine
 import io.spine.internal.gradle.VersionWriter
-import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.excludeProtobufLite
 import io.spine.internal.gradle.forceVersions
@@ -212,6 +211,28 @@ protoData {
 }
 
 /**
+ * Forcibly remove the code by `protoc` under the `build` directory
+ * until ProtoData can handle it by itself.
+ *
+ * The generated code is transferred by ProtoData into `$projectDir/generated` while it
+ * processes it. But it does not handle the compilation task input yet.
+ *
+ * Therefore [compileJava] and [compileKotlin] tasks below depend on this removal task
+ * to avoid duplicated declarations error during the compilation.
+ */
+val removeGeneratedVanillaCode by tasks.registering(Delete::class) {
+    delete("$buildDir/generated/source/proto")
+}
+
+val compileJava: Task by tasks.getting {
+    dependsOn(removeGeneratedVanillaCode)
+}
+
+val compileKotlin: Task by tasks.getting {
+    dependsOn(removeGeneratedVanillaCode)
+}
+
+/**
  * Configure IntelliJ IDEA paths so that generated code is visible to the IDE.
  */
 idea {
@@ -237,7 +258,6 @@ updateGitHubPages(Spine.DefaultVersion.javadocTools) {
     allowInternalJavadoc.set(true)
     rootFolder.set(rootDir)
 }
-
 
 tasks {
     registerTestTasks()
