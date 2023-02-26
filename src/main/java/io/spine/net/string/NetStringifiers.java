@@ -26,12 +26,11 @@
 
 package io.spine.net.string;
 
-import com.google.common.collect.ImmutableList;
 import io.spine.net.EmailAddress;
 import io.spine.net.InternetDomain;
 import io.spine.net.Url;
-import io.spine.string.Registrar;
 import io.spine.string.Stringifier;
+import io.spine.string.StringifierRegistry;
 
 /**
  * Provides stringifiers for network-related types.
@@ -39,12 +38,11 @@ import io.spine.string.Stringifier;
 public final class NetStringifiers {
 
     static {
-        var registrar = new Registrar(ImmutableList.of(
+        StringifierRegistry.instance().register(
                 forUrl(),
                 forEmailAddress(),
                 forInternetDomain()
-        ));
-        registrar.register();
+        );
     }
 
     /** Prevents instantiation of this utility class. */
