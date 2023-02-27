@@ -18,4 +18,3 @@ This library is built with Java 11.
 [license]: http://www.apache.org/licenses/LICENSE-2.0
 [gh-actions]: https://github.com/SpineEventEngine/base-types/actions
 [ubuntu-build-badge]: https://github.com/SpineEventEngine/base-types/actions/workflows/build-on-ubuntu.yml/badge.svg
-

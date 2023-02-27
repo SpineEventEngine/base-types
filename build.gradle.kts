@@ -32,7 +32,6 @@ import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Protobuf
 import io.spine.internal.dependency.Spine
 import io.spine.internal.gradle.VersionWriter
-import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.excludeProtobufLite
 import io.spine.internal.gradle.forceVersions
@@ -47,15 +46,16 @@ import io.spine.internal.gradle.publish.PublishingRepos.gitHub
 import io.spine.internal.gradle.publish.spinePublishing
 import io.spine.internal.gradle.report.license.LicenseReporter
 import io.spine.internal.gradle.report.pom.PomGenerator
-import io.spine.internal.gradle.test.configureLogging
-import io.spine.internal.gradle.test.registerTestTasks
+import io.spine.internal.gradle.standardToSpineSdk
+import io.spine.internal.gradle.testing.configureLogging
+import io.spine.internal.gradle.testing.registerTestTasks
 import io.spine.tools.mc.gradle.modelCompiler
 import io.spine.tools.mc.java.gradle.McJavaOptions
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     apply(from = "$projectDir/version.gradle.kts")
-    io.spine.internal.gradle.doApplyStandard(repositories)
+    standardSpineSdkRepositories()
     repositories {
         io.spine.internal.gradle.publish.PublishingRepos.gitHub("mc-java")
     }
@@ -90,7 +90,15 @@ plugins {
     `dokka-for-java`
     protodata
     `detekt-code-analysis`
+    id("jacoco")
 }
+
+// Cannot use `id()` syntax for McJava because it's not yet published to the Plugin Portal
+// and is added to the build classpath via `buildScript` block above.
+apply(plugin = "io.spine.mc-java")
+
+apply<IncrementGuard>()
+apply<VersionWriter>()
 
 apply(from = "$projectDir/version.gradle.kts")
 val baseVersion: String by extra
@@ -100,7 +108,7 @@ group = "io.spine"
 version = versionToPublish
 
 repositories {
-    applyStandard()
+    standardToSpineSdk()
 }
 
 val spine = Spine(project)
@@ -116,18 +124,13 @@ configurations {
                 "org.jetbrains.dokka:dokka-base:${Dokka.version}",
                 Protobuf.compiler,
                 spine.base,
+                spine.toolBase,
                 spine.validation.runtime,
+                JUnit.runner,
             )
         }
     }
 }
-
-apply {
-    plugin("jacoco")
-    plugin("io.spine.mc-java")
-}
-apply<IncrementGuard>()
-apply<VersionWriter>()
 
 dependencies {
     errorprone(ErrorProne.core)
@@ -199,12 +202,34 @@ protoData {
 
         // Suppress warnings in the generated code.
         "io.spine.protodata.codegen.java.file.PrintBeforePrimaryDeclaration",
-        "io.spine.protodata.codegen.java.suppress.SuppressRenderer"
+        "io.spine.protodata.codegen.java.annotation.SuppressWarningsAnnotation"
 
     )
     plugins(
         "io.spine.validation.ValidationPlugin",
     )
+}
+
+/**
+ * Forcibly remove the code by `protoc` under the `build` directory
+ * until ProtoData can handle it by itself.
+ *
+ * The generated code is transferred by ProtoData into `$projectDir/generated` while it
+ * processes it. But it does not handle the compilation task input yet.
+ *
+ * Therefore [compileJava] and [compileKotlin] tasks below depend on this removal task
+ * to avoid duplicated declarations error during the compilation.
+ */
+val removeGeneratedVanillaCode by tasks.registering(Delete::class) {
+    delete("$buildDir/generated/source/proto")
+}
+
+val compileJava: Task by tasks.getting {
+    dependsOn(removeGeneratedVanillaCode)
+}
+
+val compileKotlin: Task by tasks.getting {
+    dependsOn(removeGeneratedVanillaCode)
 }
 
 /**
@@ -233,7 +258,6 @@ updateGitHubPages(Spine.DefaultVersion.javadocTools) {
     allowInternalJavadoc.set(true)
     rootFolder.set(rootDir)
 }
-
 
 tasks {
     registerTestTasks()
