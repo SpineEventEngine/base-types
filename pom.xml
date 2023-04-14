@@ -10,7 +10,7 @@ all modules and does not describe the project structure per-subproject.
  -->
 <groupId>io.spine</groupId>
 <artifactId>base-types</artifactId>
-<version>2.0.0-SNAPSHOT.120</version>
+<version>2.0.0-SNAPSHOT.121</version>
 
 <inceptionYear>2015</inceptionYear>
 
@@ -26,7 +26,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine</groupId>
     <artifactId>spine-base</artifactId>
-    <version>2.0.0-SNAPSHOT.160</version>
+    <version>2.0.0-SNAPSHOT.170</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
@@ -44,7 +44,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>spine-testlib</artifactId>
-    <version>2.0.0-SNAPSHOT.160</version>
+    <version>2.0.0-SNAPSHOT.170</version>
     <scope>test</scope>
   </dependency>
   <dependency>
@@ -86,12 +86,12 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine.protodata</groupId>
     <artifactId>protodata-fat-cli</artifactId>
-    <version>0.7.3</version>
+    <version>0.8.0</version>
   </dependency>
   <dependency>
     <groupId>io.spine.protodata</groupId>
     <artifactId>protodata-protoc</artifactId>
-    <version>0.7.3</version>
+    <version>0.8.0</version>
   </dependency>
   <dependency>
     <groupId>io.spine.tools</groupId>
@@ -101,7 +101,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>spine-mc-java-plugins</artifactId>
-    <version>2.0.0-SNAPSHOT.133</version>
+    <version>2.0.0-SNAPSHOT.132</version>
   </dependency>
   <dependency>
     <groupId>io.spine.validation</groupId>
@@ -111,7 +111,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>net.sourceforge.pmd</groupId>
     <artifactId>pmd-java</artifactId>
-    <version>6.51.0</version>
+    <version>6.55.0</version>
   </dependency>
   <dependency>
     <groupId>org.jacoco</groupId>
@@ -126,27 +126,27 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>org.jetbrains.dokka</groupId>
     <artifactId>dokka-analysis</artifactId>
-    <version>1.7.20</version>
+    <version>1.8.10</version>
   </dependency>
   <dependency>
     <groupId>org.jetbrains.dokka</groupId>
     <artifactId>dokka-base</artifactId>
-    <version>1.7.20</version>
+    <version>1.8.10</version>
   </dependency>
   <dependency>
     <groupId>org.jetbrains.dokka</groupId>
     <artifactId>dokka-core</artifactId>
-    <version>1.7.20</version>
+    <version>1.8.10</version>
   </dependency>
   <dependency>
     <groupId>org.jetbrains.dokka</groupId>
     <artifactId>javadoc-plugin</artifactId>
-    <version>1.7.20</version>
+    <version>1.8.10</version>
   </dependency>
   <dependency>
     <groupId>org.jetbrains.dokka</groupId>
     <artifactId>kotlin-as-java-plugin</artifactId>
-    <version>1.7.20</version>
+    <version>1.8.10</version>
   </dependency>
   <dependency>
     <groupId>org.jetbrains.kotlin</groupId>
