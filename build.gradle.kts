@@ -35,11 +35,7 @@ import io.spine.internal.gradle.VersionWriter
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.excludeProtobufLite
 import io.spine.internal.gradle.forceVersions
-import io.spine.internal.gradle.github.pages.updateGitHubPages
-import io.spine.internal.gradle.javac.configureErrorProne
-import io.spine.internal.gradle.javac.configureJavac
 import io.spine.internal.gradle.javadoc.JavadocConfig
-import io.spine.internal.gradle.kotlin.setFreeCompilerArgs
 import io.spine.internal.gradle.publish.IncrementGuard
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.publish.PublishingRepos.gitHub
@@ -47,11 +43,9 @@ import io.spine.internal.gradle.publish.spinePublishing
 import io.spine.internal.gradle.report.license.LicenseReporter
 import io.spine.internal.gradle.report.pom.PomGenerator
 import io.spine.internal.gradle.standardToSpineSdk
-import io.spine.internal.gradle.testing.configureLogging
-import io.spine.internal.gradle.testing.registerTestTasks
 import io.spine.tools.mc.gradle.modelCompiler
 import io.spine.tools.mc.java.gradle.McJavaOptions
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.jvm.tasks.Jar
 
 buildscript {
     apply(from = "$projectDir/version.gradle.kts")
@@ -78,19 +72,10 @@ buildscript {
 }
 
 plugins {
-    `java-library`
-    kotlin("jvm")
-    idea
+    `java-module`
+    `kotlin-jvm-module`
     protobuf
-    errorprone
-    pmd
-    jacoco
-    `project-report`
-    `pmd-settings`
-    `dokka-for-java`
     protodata
-    `detekt-code-analysis`
-    id("jacoco")
 }
 
 // Cannot use `id()` syntax for McJava because it's not yet published to the Plugin Portal
@@ -151,32 +136,8 @@ spinePublishing {
     )
 
     dokkaJar {
-        enabled = true
-    }
-}
-
-val javaVersion = JavaVersion.VERSION_11
-
-java {
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-
-    tasks {
-        withType<JavaCompile>().configureEach {
-            configureJavac()
-            configureErrorProne()
-        }
-    }
-}
-
-kotlin {
-    explicitApi()
-
-    tasks {
-        withType<KotlinCompile>().configureEach {
-            kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
-            setFreeCompilerArgs()
-        }
+        kotlin = true
+        java = true
     }
 }
 
@@ -232,35 +193,7 @@ val compileKotlin: Task by tasks.getting {
     dependsOn(removeGeneratedVanillaCode)
 }
 
-/**
- * Configure IntelliJ IDEA paths so that generated code is visible to the IDE.
- */
-idea {
-    module {
-        val generatedDir = "$projectDir/generated"
-        val generatedJavaDir = "$generatedDir/main/java"
-        val generatedTestJavaDir = "$generatedDir/test/java"
-        val generatedKotlinDir = "$generatedDir/main/kotlin"
-        val generatedTestKotlinDir = "$generatedDir/test/kotlin"
-
-        generatedSourceDirs.addAll(listOf(
-            file(generatedJavaDir),
-            file(generatedKotlinDir)
-        ))
-        testSources.from(
-            file(generatedTestJavaDir),
-            file(generatedTestKotlinDir),
-        )
-    }
-}
-
-updateGitHubPages(Spine.DefaultVersion.javadocTools) {
-    allowInternalJavadoc.set(true)
-    rootFolder.set(rootDir)
-}
-
 tasks {
-    registerTestTasks()
     jacocoTestReport {
         dependsOn(test)
         reports {
@@ -268,11 +201,16 @@ tasks {
         }
     }
     test {
-        useJUnitPlatform {
-            includeEngines("junit-jupiter")
-        }
-        configureLogging()
         finalizedBy(jacocoTestReport)
+    }
+}
+
+/**
+ * Handle potential duplication of source code files in `sourcesJar` tasks.
+ */
+tasks {
+    withType<Jar>().configureEach {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
     }
 }
 
