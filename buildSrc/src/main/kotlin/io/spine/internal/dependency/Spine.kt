@@ -67,7 +67,7 @@ object Spine {
         const val mc = "2.0.0-SNAPSHOT.132"
 
         /** The version of [McJava]. */
-        const val mcJava = "2.0.0-SNAPSHOT.147"
+        const val mcJava = "2.0.0-SNAPSHOT.161"
 
         /** The version of [Spine.baseTypes]. */
         const val baseTypes = "2.0.0-SNAPSHOT.121"
@@ -113,6 +113,11 @@ object Spine {
     const val pluginTestlib = "$toolsGroup:spine-plugin-testlib:${ArtifactVersion.toolBase}"
     const val modelCompiler = "$toolsGroup:spine-model-compiler:${ArtifactVersion.mc}"
 
+    /**
+     * Dependencies on Spine Model Compiler for Java.
+     *
+     * See [mc-java](https://github.com/SpineEventEngine/mc-java).
+     */
     object McJava {
         const val version = ArtifactVersion.mcJava
         const val pluginId = "io.spine.mc-java"
