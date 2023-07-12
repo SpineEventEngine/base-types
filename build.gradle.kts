@@ -1,5 +1,5 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2023, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Protobuf
 import io.spine.internal.dependency.Spine
+import io.spine.internal.dependency.Validation
 import io.spine.internal.gradle.VersionWriter
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.excludeProtobufLite
@@ -58,13 +59,12 @@ buildscript {
         classpath(io.spine.internal.dependency.Spine.McJava.pluginLib)
     }
 
-    val spine = io.spine.internal.dependency.Spine(project)
     configurations {
         all {
             resolutionStrategy {
                 force(
                     io.spine.internal.dependency.Dokka.BasePlugin.lib,
-                    spine.base,
+                    io.spine.internal.dependency.Spine.base,
                 )
             }
         }
@@ -72,8 +72,7 @@ buildscript {
 }
 
 plugins {
-    `java-module`
-    `kotlin-jvm-module`
+    `jvm-module`
     protobuf
     protodata
 }
@@ -96,8 +95,6 @@ repositories {
     standardToSpineSdk()
 }
 
-val spine = Spine(project)
-
 configurations {
     forceVersions()
     excludeProtobufLite()
@@ -108,9 +105,9 @@ configurations {
             force(
                 "org.jetbrains.dokka:dokka-base:${Dokka.version}",
                 Protobuf.compiler,
-                spine.base,
-                spine.toolBase,
-                spine.validation.runtime,
+                Spine.base,
+                Spine.toolBase,
+                Validation.runtime,
                 JUnit.runner,
             )
         }
@@ -119,13 +116,13 @@ configurations {
 
 dependencies {
     errorprone(ErrorProne.core)
-    protoData(spine.validation.java)
+    protoData(Validation.java)
 
-    implementation(spine.base)
-    implementation(spine.validation.runtime)
+    implementation(Spine.base)
+    implementation(Validation.runtime)
 
     testImplementation(JUnit.runner)
-    testImplementation(spine.testlib)
+    testImplementation(Spine.testlib)
 }
 
 spinePublishing {
@@ -193,17 +190,17 @@ val compileKotlin: Task by tasks.getting {
     dependsOn(removeGeneratedVanillaCode)
 }
 
-tasks {
-    jacocoTestReport {
-        dependsOn(test)
-        reports {
-            xml.required.set(true)
-        }
-    }
-    test {
-        finalizedBy(jacocoTestReport)
-    }
-}
+//tasks {
+//    jacocoTestReport {
+//        dependsOn(test)
+//        reports {
+//            xml.required.set(true)
+//        }
+//    }
+//    test {
+//        finalizedBy(jacocoTestReport)
+//    }
+//}
 
 /**
  * Handle potential duplication of source code files in `sourcesJar` tasks.

@@ -24,46 +24,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import java.io.File
-import org.gradle.kotlin.dsl.getValue
-import org.gradle.kotlin.dsl.getting
-import org.gradle.kotlin.dsl.jacoco
-import org.gradle.testing.jacoco.tasks.JacocoReport
+package io.spine.internal.dependency
 
-plugins {
-    jacoco
-}
-
-/**
- * Configures [JacocoReport] task to run in a Kotlin KMM project for `commonMain` and `jvmMain`
- * source sets.
- *
- * This script plugin must be applied using the following construct at the end of
- * a `build.gradle.kts` file of a module:
- *
- * ```kotlin
- * apply(plugin="jacoco-kmm-jvm")
- * ```
- * Please do not apply this script plugin in the `plugins {}` block because `jacocoTestReport`
- * task is not yet available at this stage.
- */
-private val about = ""
-
-/**
- * Configure Jacoco task with custom input from this KMM project.
- */
-val jacocoTestReport: JacocoReport by tasks.getting(JacocoReport::class) {
-
-    val classFiles = File("${buildDir}/classes/kotlin/jvm/")
-        .walkBottomUp()
-        .toSet()
-    classDirectories.setFrom(classFiles)
-
-    val coverageSourceDirs = arrayOf(
-        "src/commonMain",
-        "src/jvmMain"
-    )
-    sourceDirectories.setFrom(files(coverageSourceDirs))
-
-    executionData.setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
+// https://github.com/Kotlin/kotlinx-kover
+@Suppress("unused")
+object Kover {
+    const val version = "0.7.2"
+    const val id = "org.jetbrains.kotlinx.kover"
+    const val classpath = "org.jetbrains.kotlinx:kover-gradle-plugin:$version"
 }
