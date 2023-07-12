@@ -74,7 +74,6 @@ buildscript {
 plugins {
     `jvm-module`
     protobuf
-    protodata
 }
 
 // Cannot use `id()` syntax for McJava because it's not yet published to the Plugin Portal
@@ -100,10 +99,9 @@ configurations {
     excludeProtobufLite()
 
     all {
-        exclude("io.spine", "spine-validate")
         resolutionStrategy {
             force(
-                "org.jetbrains.dokka:dokka-base:${Dokka.version}",
+                Dokka.BasePlugin.lib,
                 Protobuf.compiler,
                 Spine.base,
                 Spine.toolBase,
@@ -115,9 +113,6 @@ configurations {
 }
 
 dependencies {
-    errorprone(ErrorProne.core)
-    protoData(Validation.java)
-
     implementation(Spine.base)
     implementation(Validation.runtime)
 
@@ -152,55 +147,6 @@ modelCompiler {
         validation { skipValidation() }
     }
 }
-
-protoData {
-    renderers(
-        "io.spine.validation.java.PrintValidationInsertionPoints",
-        "io.spine.validation.java.JavaValidationRenderer",
-
-        // Suppress warnings in the generated code.
-        "io.spine.protodata.codegen.java.file.PrintBeforePrimaryDeclaration",
-        "io.spine.protodata.codegen.java.annotation.SuppressWarningsAnnotation"
-
-    )
-    plugins(
-        "io.spine.validation.ValidationPlugin",
-    )
-}
-
-/**
- * Forcibly remove the code by `protoc` under the `build` directory
- * until ProtoData can handle it by itself.
- *
- * The generated code is transferred by ProtoData into `$projectDir/generated` while it
- * processes it. But it does not handle the compilation task input yet.
- *
- * Therefore [compileJava] and [compileKotlin] tasks below depend on this removal task
- * to avoid duplicated declarations error during the compilation.
- */
-val removeGeneratedVanillaCode by tasks.registering(Delete::class) {
-    delete("$buildDir/generated/source/proto")
-}
-
-val compileJava: Task by tasks.getting {
-    dependsOn(removeGeneratedVanillaCode)
-}
-
-val compileKotlin: Task by tasks.getting {
-    dependsOn(removeGeneratedVanillaCode)
-}
-
-//tasks {
-//    jacocoTestReport {
-//        dependsOn(test)
-//        reports {
-//            xml.required.set(true)
-//        }
-//    }
-//    test {
-//        finalizedBy(jacocoTestReport)
-//    }
-//}
 
 /**
  * Handle potential duplication of source code files in `sourcesJar` tasks.
