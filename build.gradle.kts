@@ -1,5 +1,5 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2023, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,10 +27,10 @@
 @file:Suppress("RemoveRedundantQualifierName")
 
 import io.spine.internal.dependency.Dokka
-import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Protobuf
 import io.spine.internal.dependency.Spine
+import io.spine.internal.dependency.Validation
 import io.spine.internal.gradle.VersionWriter
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.excludeProtobufLite
@@ -58,13 +58,12 @@ buildscript {
         classpath(io.spine.internal.dependency.Spine.McJava.pluginLib)
     }
 
-    val spine = io.spine.internal.dependency.Spine(project)
     configurations {
         all {
             resolutionStrategy {
                 force(
                     io.spine.internal.dependency.Dokka.BasePlugin.lib,
-                    spine.base,
+                    io.spine.internal.dependency.Spine.base,
                 )
             }
         }
@@ -72,10 +71,8 @@ buildscript {
 }
 
 plugins {
-    `java-module`
-    `kotlin-jvm-module`
+    `jvm-module`
     protobuf
-    protodata
 }
 
 // Cannot use `id()` syntax for McJava because it's not yet published to the Plugin Portal
@@ -96,21 +93,18 @@ repositories {
     standardToSpineSdk()
 }
 
-val spine = Spine(project)
-
 configurations {
     forceVersions()
     excludeProtobufLite()
 
     all {
-        exclude("io.spine", "spine-validate")
         resolutionStrategy {
             force(
-                "org.jetbrains.dokka:dokka-base:${Dokka.version}",
+                Dokka.BasePlugin.lib,
                 Protobuf.compiler,
-                spine.base,
-                spine.toolBase,
-                spine.validation.runtime,
+                Spine.base,
+                Spine.toolBase,
+                Validation.runtime,
                 JUnit.runner,
             )
         }
@@ -118,14 +112,11 @@ configurations {
 }
 
 dependencies {
-    errorprone(ErrorProne.core)
-    protoData(spine.validation.java)
-
-    implementation(spine.base)
-    implementation(spine.validation.runtime)
+    implementation(Spine.base)
+    implementation(Validation.runtime)
 
     testImplementation(JUnit.runner)
-    testImplementation(spine.testlib)
+    testImplementation(Spine.testlib)
 }
 
 spinePublishing {
@@ -153,55 +144,6 @@ modelCompiler {
     val java = mcOptions.extensions.getByName("java") as McJavaOptions
     java.codegen {
         validation { skipValidation() }
-    }
-}
-
-protoData {
-    renderers(
-        "io.spine.validation.java.PrintValidationInsertionPoints",
-        "io.spine.validation.java.JavaValidationRenderer",
-
-        // Suppress warnings in the generated code.
-        "io.spine.protodata.codegen.java.file.PrintBeforePrimaryDeclaration",
-        "io.spine.protodata.codegen.java.annotation.SuppressWarningsAnnotation"
-
-    )
-    plugins(
-        "io.spine.validation.ValidationPlugin",
-    )
-}
-
-/**
- * Forcibly remove the code by `protoc` under the `build` directory
- * until ProtoData can handle it by itself.
- *
- * The generated code is transferred by ProtoData into `$projectDir/generated` while it
- * processes it. But it does not handle the compilation task input yet.
- *
- * Therefore [compileJava] and [compileKotlin] tasks below depend on this removal task
- * to avoid duplicated declarations error during the compilation.
- */
-val removeGeneratedVanillaCode by tasks.registering(Delete::class) {
-    delete("$buildDir/generated/source/proto")
-}
-
-val compileJava: Task by tasks.getting {
-    dependsOn(removeGeneratedVanillaCode)
-}
-
-val compileKotlin: Task by tasks.getting {
-    dependsOn(removeGeneratedVanillaCode)
-}
-
-tasks {
-    jacocoTestReport {
-        dependsOn(test)
-        reports {
-            xml.required.set(true)
-        }
-    }
-    test {
-        finalizedBy(jacocoTestReport)
     }
 }
 

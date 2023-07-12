@@ -24,25 +24,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.gradle.kotlin.applyJvmToolchain
-import io.spine.internal.gradle.kotlin.setFreeCompilerArgs
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+package io.spine.internal.dependency
 
-plugins {
-    id("java-module")
-    kotlin("jvm")
-    id("detekt-code-analysis")
-    id("dokka-for-kotlin")
-}
-
-kotlin {
-    applyJvmToolchain(BuildSettings.javaVersion.asInt())
-    explicitApi()
-}
-
-tasks {
-    withType<KotlinCompile>().configureEach {
-        kotlinOptions.jvmTarget = BuildSettings.javaVersion.toString()
-        setFreeCompilerArgs()
-    }
+/**
+ * Dependencies on Spine Validation SDK.
+ *
+ * See [`SpineEventEngine/validation`](https://github.com/SpineEventEngine/validation/).
+ */
+object Validation {
+    const val version = "2.0.0-SNAPSHOT.81"
+    const val group = "io.spine.validation"
+    const val runtime = "$group:spine-validation-java-runtime:$version"
+    const val java = "$group:spine-validation-java:$version"
+    const val model = "$group:spine-validation-model:$version"
+    const val config = "$group:spine-validation-configuration:$version"
 }

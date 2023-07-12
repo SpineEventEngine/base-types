@@ -1,5 +1,5 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2023, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- *  The version of this library.
- *
- *  For dependencies on Spine modules please see [io.spine.internal.dependency.Spine].
- */
-val versionToPublish by extra("2.0.0-SNAPSHOT.123")
+package io.spine.internal.dependency
+
+// https://github.com/Kotlin/kotlinx-kover
+@Suppress("unused")
+object Kover {
+    const val version = "0.7.2"
+    const val id = "org.jetbrains.kotlinx.kover"
+    const val classpath = "org.jetbrains.kotlinx:kover-gradle-plugin:$version"
+}
