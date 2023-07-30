@@ -111,9 +111,6 @@ val PluginDependenciesSpec.protoData: ProtoData
  */
 private const val ABOUT_PLUGIN_ACCESSORS = ""
 
-val PluginDependenciesSpec.protodata: PluginDependencySpec
-    get() = id(ProtoData.pluginId).version(ProtoData.version)
-
 val PluginDependenciesSpec.errorprone: PluginDependencySpec
     get() = id(ErrorProne.GradlePlugin.id)
 

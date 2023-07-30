@@ -33,8 +33,6 @@ import io.spine.internal.dependency.Spine
 import io.spine.internal.dependency.Validation
 import io.spine.internal.gradle.VersionWriter
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
-import io.spine.internal.gradle.excludeProtobufLite
-import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.javadoc.JavadocConfig
 import io.spine.internal.gradle.publish.IncrementGuard
 import io.spine.internal.gradle.publish.PublishingRepos
@@ -103,6 +101,7 @@ configurations {
                 Dokka.BasePlugin.lib,
                 Protobuf.compiler,
                 Spine.base,
+                Spine.Logging.lib,
                 Spine.toolBase,
                 Validation.runtime,
                 JUnit.runner,
@@ -129,30 +128,6 @@ spinePublishing {
     dokkaJar {
         kotlin = true
         java = true
-    }
-}
-
-/**
- * Suppress the "legacy" validation from McJava in favour of tha based on ProtoData.
- */
-modelCompiler {
-    // The below arrangement is "unusual" `java { }` because it conflicts with
-    // `java` of type `JavaPluginExtension` in the `Project`.
-
-    // Get nested `this` instead of `Project` instance.
-    val mcOptions = (this@modelCompiler as ExtensionAware)
-    val java = mcOptions.extensions.getByName("java") as McJavaOptions
-    java.codegen {
-        validation { skipValidation() }
-    }
-}
-
-/**
- * Handle potential duplication of source code files in `sourcesJar` tasks.
- */
-tasks {
-    withType<Jar>().configureEach {
-        duplicatesStrategy = DuplicatesStrategy.INCLUDE
     }
 }
 
