@@ -41,9 +41,6 @@ import io.spine.internal.gradle.publish.spinePublishing
 import io.spine.internal.gradle.report.license.LicenseReporter
 import io.spine.internal.gradle.report.pom.PomGenerator
 import io.spine.internal.gradle.standardToSpineSdk
-import io.spine.tools.mc.gradle.modelCompiler
-import io.spine.tools.mc.java.gradle.McJavaOptions
-import org.gradle.jvm.tasks.Jar
 
 buildscript {
     apply(from = "$projectDir/version.gradle.kts")
