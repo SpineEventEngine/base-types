@@ -28,7 +28,6 @@ import BuildSettings.javaVersion
 import io.spine.internal.dependency.CheckerFramework
 import io.spine.internal.dependency.Dokka
 import io.spine.internal.dependency.ErrorProne
-import io.spine.internal.dependency.Flogger
 import io.spine.internal.dependency.Guava
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.JavaX
@@ -45,6 +44,8 @@ import io.spine.internal.gradle.kotlin.setFreeCompilerArgs
 import io.spine.internal.gradle.report.license.LicenseReporter
 import io.spine.internal.gradle.testing.configureLogging
 import io.spine.internal.gradle.testing.registerTestTasks
+import org.gradle.kotlin.dsl.invoke
+import org.gradle.kotlin.dsl.kotlin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -136,6 +137,9 @@ fun Module.addDependencies() = dependencies {
     compileOnlyApi(JavaX.annotations)
     ErrorProne.annotations.forEach { compileOnlyApi(it) }
 
+    implementation(Spine.Logging.lib)
+    runtimeOnly(Spine.Logging.backend)
+
     testImplementation(Guava.testLib)
     testImplementation(JUnit.runner)
     testImplementation(JUnit.pioneer)
@@ -146,8 +150,6 @@ fun Module.addDependencies() = dependencies {
     testImplementation(Kotest.datatest)
     testImplementation(Kotest.runnerJUnit5Jvm)
     testImplementation(JUnit.runner)
-
-    runtimeOnly(Flogger.Runtime.systemBackend)
 }
 
 fun Module.forceConfigurations() {

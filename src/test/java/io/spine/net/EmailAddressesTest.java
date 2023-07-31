@@ -32,6 +32,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static io.spine.net.EmailAddresses.isValid;
 import static io.spine.testing.Assertions.assertIllegalArgument;
 
@@ -75,6 +76,8 @@ class EmailAddressesTest extends UtilityClassTest<EmailAddresses> {
 
         assertThat(emailAddress.getValue())
                 .isEqualTo(email);
+
+        assertThat(emailAddress.validate()).isEmpty();
     }
 
     @Test
