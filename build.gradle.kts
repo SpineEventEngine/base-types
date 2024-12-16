@@ -26,39 +26,42 @@
 
 @file:Suppress("RemoveRedundantQualifierName")
 
-import io.spine.internal.dependency.Dokka
-import io.spine.internal.dependency.JUnit
-import io.spine.internal.dependency.Protobuf
-import io.spine.internal.dependency.Spine
-import io.spine.internal.dependency.Validation
-import io.spine.internal.gradle.VersionWriter
-import io.spine.internal.gradle.checkstyle.CheckStyleConfig
-import io.spine.internal.gradle.javadoc.JavadocConfig
-import io.spine.internal.gradle.publish.IncrementGuard
-import io.spine.internal.gradle.publish.PublishingRepos
-import io.spine.internal.gradle.publish.PublishingRepos.gitHub
-import io.spine.internal.gradle.publish.spinePublishing
-import io.spine.internal.gradle.report.license.LicenseReporter
-import io.spine.internal.gradle.report.pom.PomGenerator
-import io.spine.internal.gradle.standardToSpineSdk
+import io.spine.dependency.build.Dokka
+import io.spine.dependency.test.JUnit
+import io.spine.dependency.lib.Protobuf
+import io.spine.dependency.local.Base
+import io.spine.dependency.local.Logging
+import io.spine.dependency.local.TestLib
+import io.spine.dependency.local.ToolBase
+import io.spine.dependency.local.Validation
+import io.spine.gradle.VersionWriter
+import io.spine.gradle.checkstyle.CheckStyleConfig
+import io.spine.gradle.javadoc.JavadocConfig
+import io.spine.gradle.publish.IncrementGuard
+import io.spine.gradle.publish.PublishingRepos
+import io.spine.gradle.publish.PublishingRepos.gitHub
+import io.spine.gradle.publish.spinePublishing
+import io.spine.gradle.report.license.LicenseReporter
+import io.spine.gradle.report.pom.PomGenerator
+import io.spine.gradle.standardToSpineSdk
 
 buildscript {
     apply(from = "$projectDir/version.gradle.kts")
     standardSpineSdkRepositories()
     repositories {
-        io.spine.internal.gradle.publish.PublishingRepos.gitHub("mc-java")
+        io.spine.gradle.publish.PublishingRepos.gitHub("mc-java")
     }
 
     dependencies {
-        classpath(io.spine.internal.dependency.Spine.McJava.pluginLib)
+        classpath(io.spine.dependency.local.McJava.pluginLib)
     }
 
     configurations {
         all {
             resolutionStrategy {
                 force(
-                    io.spine.internal.dependency.Dokka.BasePlugin.lib,
-                    io.spine.internal.dependency.Spine.base,
+                    io.spine.dependency.build.Dokka.BasePlugin.lib,
+                    io.spine.dependency.local.Base.lib,
                 )
             }
         }
@@ -97,9 +100,9 @@ configurations {
             force(
                 Dokka.BasePlugin.lib,
                 Protobuf.compiler,
-                Spine.base,
-                Spine.Logging.lib,
-                Spine.toolBase,
+                Base.lib,
+                Logging.lib,
+                ToolBase.lib,
                 Validation.runtime,
                 JUnit.runner,
             )
@@ -108,17 +111,16 @@ configurations {
 }
 
 dependencies {
-    implementation(Spine.base)
+    implementation(Base.lib)
     implementation(Validation.runtime)
 
     testImplementation(JUnit.runner)
-    testImplementation(Spine.testlib)
+    testImplementation(TestLib.lib)
 }
 
 spinePublishing {
     destinations = setOf(
         gitHub("base-types"),
-        PublishingRepos.cloudRepo,
         PublishingRepos.cloudArtifactRegistry
     )
 
