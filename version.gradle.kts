@@ -29,4 +29,4 @@
  *
  *  For dependencies on Spine modules please see [io.spine.internal.dependency.Spine].
  */
-val versionToPublish by extra("2.0.0-SNAPSHOT.126")
+val versionToPublish by extra("2.0.0-SNAPSHOT.130")
