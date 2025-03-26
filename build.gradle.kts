@@ -1,11 +1,11 @@
 /*
- * Copyright 2023, TeamDev. All rights reserved.
+ * Copyright 2025, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -26,39 +26,46 @@
 
 @file:Suppress("RemoveRedundantQualifierName")
 
-import io.spine.internal.dependency.Dokka
-import io.spine.internal.dependency.JUnit
-import io.spine.internal.dependency.Protobuf
-import io.spine.internal.dependency.Spine
-import io.spine.internal.dependency.Validation
-import io.spine.internal.gradle.VersionWriter
-import io.spine.internal.gradle.checkstyle.CheckStyleConfig
-import io.spine.internal.gradle.javadoc.JavadocConfig
-import io.spine.internal.gradle.publish.IncrementGuard
-import io.spine.internal.gradle.publish.PublishingRepos
-import io.spine.internal.gradle.publish.PublishingRepos.gitHub
-import io.spine.internal.gradle.publish.spinePublishing
-import io.spine.internal.gradle.report.license.LicenseReporter
-import io.spine.internal.gradle.report.pom.PomGenerator
-import io.spine.internal.gradle.standardToSpineSdk
+import io.spine.dependency.build.Dokka
+import io.spine.dependency.lib.KotlinPoet
+import io.spine.dependency.lib.KotlinX
+import io.spine.dependency.test.JUnit
+import io.spine.dependency.lib.Protobuf
+import io.spine.dependency.local.Spine
+import io.spine.dependency.local.Base
+import io.spine.dependency.local.Logging
+import io.spine.dependency.local.ProtoData
+import io.spine.dependency.local.TestLib
+import io.spine.dependency.local.ToolBase
+import io.spine.dependency.local.Validation
+import io.spine.gradle.VersionWriter
+import io.spine.gradle.checkstyle.CheckStyleConfig
+import io.spine.gradle.javadoc.JavadocConfig
+import io.spine.gradle.publish.IncrementGuard
+import io.spine.gradle.publish.PublishingRepos
+import io.spine.gradle.publish.PublishingRepos.gitHub
+import io.spine.gradle.publish.spinePublishing
+import io.spine.gradle.report.license.LicenseReporter
+import io.spine.gradle.report.pom.PomGenerator
+import io.spine.gradle.standardToSpineSdk
 
 buildscript {
     apply(from = "$projectDir/version.gradle.kts")
     standardSpineSdkRepositories()
     repositories {
-        io.spine.internal.gradle.publish.PublishingRepos.gitHub("mc-java")
+        io.spine.gradle.publish.PublishingRepos.gitHub("mc-java")
     }
 
     dependencies {
-        classpath(io.spine.internal.dependency.Spine.McJava.pluginLib)
+        classpath(io.spine.dependency.local.McJava.pluginLib)
     }
 
     configurations {
         all {
             resolutionStrategy {
                 force(
-                    io.spine.internal.dependency.Dokka.BasePlugin.lib,
-                    io.spine.internal.dependency.Spine.base,
+                    io.spine.dependency.build.Dokka.BasePlugin.lib,
+                    io.spine.dependency.local.Base.lib,
                 )
             }
         }
@@ -95,11 +102,20 @@ configurations {
     all {
         resolutionStrategy {
             force(
+                KotlinX.Coroutines.bom,
+                KotlinX.Coroutines.core,
+                KotlinX.Coroutines.coreJvm,
+                KotlinX.Coroutines.debug,
+                KotlinX.Coroutines.jdk8,
+                KotlinX.Coroutines.test,
+                KotlinX.Coroutines.testJvm,
+                KotlinPoet.lib,
                 Dokka.BasePlugin.lib,
                 Protobuf.compiler,
-                Spine.base,
-                Spine.Logging.lib,
-                Spine.toolBase,
+                Base.lib,
+                Logging.lib,
+                ToolBase.lib,
+                ProtoData.api,
                 Validation.runtime,
                 JUnit.runner,
             )
@@ -108,17 +124,16 @@ configurations {
 }
 
 dependencies {
-    implementation(Spine.base)
+    implementation(Base.lib)
     implementation(Validation.runtime)
 
     testImplementation(JUnit.runner)
-    testImplementation(Spine.testlib)
+    testImplementation(TestLib.lib)
 }
 
 spinePublishing {
     destinations = setOf(
         gitHub("base-types"),
-        PublishingRepos.cloudRepo,
         PublishingRepos.cloudArtifactRegistry
     )
 
