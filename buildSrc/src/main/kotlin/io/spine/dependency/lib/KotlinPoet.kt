@@ -26,26 +26,10 @@
 
 package io.spine.dependency.lib
 
-// https://github.com/grpc/grpc-java
+// https://github.com/square/kotlinpoet
 @Suppress("unused", "ConstPropertyName")
-object Grpc {
-    @Suppress("MemberVisibilityCanBePrivate")
-    const val version        = "1.59.0"
-    const val group          = "io.grpc"
-    const val api            = "$group:grpc-api:$version"
-    const val auth           = "$group:grpc-auth:$version"
-    const val core           = "$group:grpc-core:$version"
-    const val context        = "$group:grpc-context:$version"
-    const val inProcess      = "$group:grpc-inprocess:$version"
-    const val stub           = "$group:grpc-stub:$version"
-    const val okHttp         = "$group:grpc-okhttp:$version"
-    const val protobuf       = "$group:grpc-protobuf:$version"
-    const val protobufLite   = "$group:grpc-protobuf-lite:$version"
-    const val netty          = "$group:grpc-netty:$version"
-    const val nettyShaded    = "$group:grpc-netty-shaded:$version"
-
-    object ProtocPlugin {
-        const val id = "grpc"
-        const val artifact = "$group:protoc-gen-grpc-java:$version"
-    }
+object KotlinPoet {
+    private const val version = "2.0.0"
+    const val lib = "com.squareup:kotlinpoet:$version"
+    const val ksp = "com.squareup:kotlinpoet-ksp:$version"
 }

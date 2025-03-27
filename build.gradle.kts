@@ -1,11 +1,11 @@
 /*
- * Copyright 2023, TeamDev. All rights reserved.
+ * Copyright 2025, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -27,10 +27,14 @@
 @file:Suppress("RemoveRedundantQualifierName")
 
 import io.spine.dependency.build.Dokka
+import io.spine.dependency.lib.KotlinPoet
+import io.spine.dependency.lib.KotlinX
 import io.spine.dependency.test.JUnit
 import io.spine.dependency.lib.Protobuf
+import io.spine.dependency.local.Spine
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.Logging
+import io.spine.dependency.local.ProtoData
 import io.spine.dependency.local.TestLib
 import io.spine.dependency.local.ToolBase
 import io.spine.dependency.local.Validation
@@ -98,11 +102,20 @@ configurations {
     all {
         resolutionStrategy {
             force(
+                KotlinX.Coroutines.bom,
+                KotlinX.Coroutines.core,
+                KotlinX.Coroutines.coreJvm,
+                KotlinX.Coroutines.debug,
+                KotlinX.Coroutines.jdk8,
+                KotlinX.Coroutines.test,
+                KotlinX.Coroutines.testJvm,
+                KotlinPoet.lib,
                 Dokka.BasePlugin.lib,
                 Protobuf.compiler,
                 Base.lib,
                 Logging.lib,
                 ToolBase.lib,
+                ProtoData.api,
                 Validation.runtime,
                 JUnit.runner,
             )

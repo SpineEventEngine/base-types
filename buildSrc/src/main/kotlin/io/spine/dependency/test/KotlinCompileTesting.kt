@@ -24,28 +24,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.dependency.lib
+package io.spine.dependency.test
 
-// https://github.com/grpc/grpc-java
+/**
+ * A library for in-process compilation of Kotlin and Java code compilation.
+ *
+ * @see <a href="https://github.com/zacsweers/kotlin-compile-testing">GitHub repo</a>
+ */
 @Suppress("unused", "ConstPropertyName")
-object Grpc {
-    @Suppress("MemberVisibilityCanBePrivate")
-    const val version        = "1.59.0"
-    const val group          = "io.grpc"
-    const val api            = "$group:grpc-api:$version"
-    const val auth           = "$group:grpc-auth:$version"
-    const val core           = "$group:grpc-core:$version"
-    const val context        = "$group:grpc-context:$version"
-    const val inProcess      = "$group:grpc-inprocess:$version"
-    const val stub           = "$group:grpc-stub:$version"
-    const val okHttp         = "$group:grpc-okhttp:$version"
-    const val protobuf       = "$group:grpc-protobuf:$version"
-    const val protobufLite   = "$group:grpc-protobuf-lite:$version"
-    const val netty          = "$group:grpc-netty:$version"
-    const val nettyShaded    = "$group:grpc-netty-shaded:$version"
-
-    object ProtocPlugin {
-        const val id = "grpc"
-        const val artifact = "$group:protoc-gen-grpc-java:$version"
-    }
+object KotlinCompileTesting {
+    private const val version = "0.7.0"
+    private const val group = "dev.zacsweers.kctfork"
+    const val libCore = "$group:core:$version"
+    const val libKsp = "$group:ksp:$version"
 }

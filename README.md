@@ -10,7 +10,7 @@ utilities.
 
 ## Java Support
 
-This library is built with Java 11.
+This library is built with Java 17.
 
 [codecov]: https://codecov.io/gh/SpineEventEngine/base-types
 [codecov-badge]: https://codecov.io/gh/SpineEventEngine/base-types/branch/master/graph/badge.svg
