@@ -69,6 +69,9 @@ class BomsPlugin : Plugin<Project>  {
         }
 
         configurations.run {
+            matching { isCompilationConfig(it.name) }.all {
+                applyBoms(Boms.core)
+            }
             matching { isKspConfig(it.name) }.all {
                 applyBoms(Boms.core)
             }
@@ -81,6 +84,7 @@ class BomsPlugin : Plugin<Project>  {
         }
     }
 
+    private fun isCompilationConfig(name: String) = name.contains("compile", ignoreCase = true)
     private fun isKspConfig(name: String) = name.startsWith("ksp", ignoreCase = true)
     private fun isTestConfig(name: String) = name.startsWith("test", ignoreCase = true)
 }
