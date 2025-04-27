@@ -29,18 +29,14 @@
 import io.spine.dependency.boms.BomsPlugin
 import io.spine.dependency.build.Dokka
 import io.spine.dependency.build.JSpecify
-import io.spine.dependency.kotlinx.Coroutines
-import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.lib.KotlinPoet
 import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.CoreJava
 import io.spine.dependency.local.Logging
 import io.spine.dependency.local.ProtoData
-import io.spine.dependency.local.TestLib
 import io.spine.dependency.local.ToolBase
 import io.spine.dependency.local.Validation
-import io.spine.dependency.test.JUnit
 import io.spine.gradle.VersionWriter
 import io.spine.gradle.checkstyle.CheckStyleConfig
 import io.spine.gradle.javadoc.JavadocConfig
@@ -147,3 +143,7 @@ JavadocConfig.applyTo(project)
 PomGenerator.applyTo(project)
 LicenseReporter.generateReportIn(project)
 LicenseReporter.mergeAllReports(project)
+
+afterEvaluate {
+    protoDataRemoteDebug(enabled = false)
+}
