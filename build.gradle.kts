@@ -26,6 +26,7 @@
 
 @file:Suppress("RemoveRedundantQualifierName")
 
+import io.spine.dependency.boms.BomsPlugin
 import io.spine.dependency.build.Dokka
 import io.spine.dependency.build.JSpecify
 import io.spine.dependency.kotlinx.Coroutines
@@ -66,7 +67,6 @@ buildscript {
         all {
             resolutionStrategy {
                 force(
-                    io.spine.dependency.lib.Kotlin.bom,
                     io.spine.dependency.build.Dokka.BasePlugin.lib,
                     io.spine.dependency.local.Base.lib,
                 )
@@ -79,6 +79,7 @@ plugins {
     `jvm-module`
     protobuf
     ksp
+    `module-testing`
 }
 
 // Cannot use `id()` syntax for McJava because it's not yet published to the Plugin Portal
@@ -87,6 +88,8 @@ apply(plugin = "io.spine.mc-java")
 
 apply<IncrementGuard>()
 apply<VersionWriter>()
+
+apply<BomsPlugin>()
 
 apply(from = "$projectDir/version.gradle.kts")
 val versionToPublish: String by extra
@@ -123,17 +126,6 @@ configurations {
 dependencies {
     implementation(Base.lib)
     implementation(Validation.runtime)
-
-    val enforcedKotlin = enforcedPlatform(Kotlin.bom)
-    val enforcedCoroutines = enforcedPlatform(Coroutines.bom)
-
-    ksp(enforcedKotlin)
-    ksp(enforcedCoroutines)
-    implementation(enforcedKotlin)
-    implementation(enforcedCoroutines)
-
-    testImplementation(platform(JUnit.bom))
-    testImplementation(TestLib.lib)
 }
 
 spinePublishing {

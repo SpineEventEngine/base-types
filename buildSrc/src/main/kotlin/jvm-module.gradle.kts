@@ -29,7 +29,6 @@ import io.spine.dependency.build.CheckerFramework
 import io.spine.dependency.build.Dokka
 import io.spine.dependency.build.ErrorProne
 import io.spine.dependency.build.JSpecify
-import io.spine.dependency.kotlinx.Coroutines
 import io.spine.dependency.lib.Guava
 import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.lib.Protobuf
@@ -45,8 +44,6 @@ import io.spine.gradle.javadoc.JavadocConfig
 import io.spine.gradle.kotlin.applyJvmToolchain
 import io.spine.gradle.kotlin.setFreeCompilerArgs
 import io.spine.gradle.report.license.LicenseReporter
-import io.spine.gradle.testing.configureLogging
-import io.spine.gradle.testing.registerTestTasks
 
 plugins {
     `java-library`
@@ -73,7 +70,6 @@ project.run {
 
     val generatedDir = "$projectDir/generated"
     setTaskDependencies(generatedDir)
-    setupTests()
 
     configureGitHubPages()
 }
@@ -139,9 +135,6 @@ fun Module.addDependencies() = dependencies {
     api(JSpecify.annotations)
     ErrorProne.annotations.forEach { compileOnlyApi(it) }
 
-    implementation(enforcedPlatform(Kotlin.bom))
-    implementation(enforcedPlatform(Coroutines.bom))
-
     implementation(Logging.lib)
 
     testImplementation(TestLib.lib)
@@ -159,18 +152,6 @@ fun Module.forceConfigurations() {
                     "${Kotlin.stdLib}:${Kotlin.runtimeVersion}"
                 )
             }
-        }
-    }
-}
-
-fun Module.setupTests() {
-    tasks {
-        registerTestTasks()
-        test.configure {
-            useJUnitPlatform {
-                includeEngines("junit-jupiter")
-            }
-            configureLogging()
         }
     }
 }
