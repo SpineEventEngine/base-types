@@ -57,6 +57,7 @@ project.run {
 dependencies {
     testImplementation(Jupiter.api)
     testImplementation(JUnit.pioneer)
+    testImplementation(Jupiter.params)
 
     testImplementation(Guava.testLib)
 
