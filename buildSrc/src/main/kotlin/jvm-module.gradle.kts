@@ -28,15 +28,15 @@ import BuildSettings.javaVersion
 import io.spine.dependency.build.CheckerFramework
 import io.spine.dependency.build.Dokka
 import io.spine.dependency.build.ErrorProne
+import io.spine.dependency.build.JSpecify
+import io.spine.dependency.kotlinx.Coroutines
 import io.spine.dependency.lib.Guava
-import io.spine.dependency.lib.JavaX
+import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Logging
 import io.spine.dependency.local.Reflect
 import io.spine.dependency.local.TestLib
-import io.spine.dependency.test.JUnit
 import io.spine.dependency.test.Jacoco
-import io.spine.dependency.test.Kotest
 import io.spine.gradle.checkstyle.CheckStyleConfig
 import io.spine.gradle.github.pages.updateGitHubPages
 import io.spine.gradle.javac.configureErrorProne
@@ -103,14 +103,20 @@ fun Module.configureKotlin(javaVersion: JavaLanguageVersion) {
         }
     }
 
-    kover {
-        useJacoco(version = Jacoco.version)
+    // See:
+    // https://github.com/Kotlin/kotlinx-kover?tab=readme-ov-file#to-create-report-combining-coverage-info-from-different-gradle-projects
+    // https://github.com/Kotlin/kotlinx-kover/blob/main/kover-gradle-plugin/examples/jvm/merged/build.gradle.kts
+    rootProject.dependencies {
+        kover(this@configureKotlin)
     }
 
-    koverReport {
-        defaults {
-            xml {
-                onCheck = true
+    kover {
+        useJacoco(version = Jacoco.version)
+        reports {
+            total {
+                xml {
+                    onCheck = true
+                }
             }
         }
     }
@@ -130,21 +136,15 @@ fun Module.addDependencies() = dependencies {
     api(Guava.lib)
 
     compileOnlyApi(CheckerFramework.annotations)
-    compileOnlyApi(JavaX.annotations)
+    api(JSpecify.annotations)
     ErrorProne.annotations.forEach { compileOnlyApi(it) }
+
+    implementation(enforcedPlatform(Kotlin.bom))
+    implementation(enforcedPlatform(Coroutines.bom))
 
     implementation(Logging.lib)
 
-    testImplementation(Guava.testLib)
-    testImplementation(JUnit.runner)
-    testImplementation(JUnit.pioneer)
-    JUnit.api.forEach { testImplementation(it) }
-
     testImplementation(TestLib.lib)
-    testImplementation(Kotest.frameworkEngine)
-    testImplementation(Kotest.datatest)
-    testImplementation(Kotest.runnerJUnit5Jvm)
-    testImplementation(JUnit.runner)
 }
 
 fun Module.forceConfigurations() {
@@ -154,10 +154,9 @@ fun Module.forceConfigurations() {
         all {
             resolutionStrategy {
                 force(
-                    JUnit.bom,
-                    JUnit.runner,
                     Dokka.BasePlugin.lib,
                     Reflect.lib,
+                    "${Kotlin.stdLib}:${Kotlin.runtimeVersion}"
                 )
             }
         }

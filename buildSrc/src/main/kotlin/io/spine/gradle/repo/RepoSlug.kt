@@ -24,21 +24,44 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.dependency.lib
+package io.spine.gradle.repo
+
+import org.gradle.api.GradleException
 
 /**
- * gRPC-Kotlin/JVM.
- *
- * @see <a href="https://github.com/grpc/grpc-kotlin">GitHub project</a>
+ * A name of a repository.
  */
 @Suppress("unused")
-object GrpcKotlin {
-    const val version = "1.4.1"
-    const val stub = "io.grpc:grpc-kotlin-stub:$version"
+class RepoSlug(val value: String) {
 
-    object ProtocPlugin {
-        const val id = "grpckt"
-        // https://central.sonatype.com/artifact/io.grpc/protoc-gen-grpc-kotlin
-        const val artifact = "io.grpc:protoc-gen-grpc-kotlin:$version:jdk8@jar"
+    companion object {
+
+        /**
+         * The name of the environment variable containing the repository slug, for which
+         * the Gradle build is performed.
+         */
+        private const val environmentVariable = "REPO_SLUG"
+
+        /**
+         * Reads `REPO_SLUG` environment variable and returns its value.
+         *
+         * In case it is not set, a [org.gradle.api.GradleException] is thrown.
+         */
+        fun fromVar(): RepoSlug {
+            val envValue = System.getenv(environmentVariable)
+            if (envValue.isNullOrEmpty()) {
+                throw GradleException("`REPO_SLUG` environment variable is not set.")
+            }
+            return RepoSlug(envValue)
+        }
+    }
+
+    override fun toString(): String = value
+
+    /**
+     * Returns the GitHub URL to the project repository.
+     */
+    fun gitHost(): String {
+        return "git@github.com-publish:${value}.git"
     }
 }

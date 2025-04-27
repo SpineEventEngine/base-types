@@ -24,21 +24,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.dependency.lib
+package io.spine.gradle.repo
 
 /**
- * gRPC-Kotlin/JVM.
- *
- * @see <a href="https://github.com/grpc/grpc-kotlin">GitHub project</a>
+ * Password credentials for a Maven repository.
  */
-@Suppress("unused")
-object GrpcKotlin {
-    const val version = "1.4.1"
-    const val stub = "io.grpc:grpc-kotlin-stub:$version"
-
-    object ProtocPlugin {
-        const val id = "grpckt"
-        // https://central.sonatype.com/artifact/io.grpc/protoc-gen-grpc-kotlin
-        const val artifact = "io.grpc:protoc-gen-grpc-kotlin:$version:jdk8@jar"
-    }
-}
+data class Credentials(
+    val username: String?,
+    val password: String?
+)

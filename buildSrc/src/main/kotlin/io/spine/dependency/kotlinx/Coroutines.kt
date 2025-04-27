@@ -24,21 +24,24 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.dependency.lib
+package io.spine.dependency.kotlinx
 
 /**
- * gRPC-Kotlin/JVM.
- *
- * @see <a href="https://github.com/grpc/grpc-kotlin">GitHub project</a>
+ * Kotlin Coroutines.
+ * 
+ * @see <a href="https://github.com/Kotlin/kotlinx.coroutines">GitHub project</a>
  */
-@Suppress("unused")
-object GrpcKotlin {
-    const val version = "1.4.1"
-    const val stub = "io.grpc:grpc-kotlin-stub:$version"
+@Suppress("unused", "ConstPropertyName")
+object Coroutines {
+    const val group = KotlinX.group
+    const val version = "1.10.2"
+    const val infix = "kotlinx-coroutines"
+    const val bom = "$group:$infix-bom:$version"
 
-    object ProtocPlugin {
-        const val id = "grpckt"
-        // https://central.sonatype.com/artifact/io.grpc/protoc-gen-grpc-kotlin
-        const val artifact = "io.grpc:protoc-gen-grpc-kotlin:$version:jdk8@jar"
-    }
+    const val core = "$group:$infix-core"
+    const val coreJvm = "$group:$infix-core-jvm"
+    const val jdk8 = "$group:$infix-jdk8"
+    const val debug = "$group:$infix-debug"
+    const val test = "$group:$infix-test"
+    const val testJvm = "$group:$infix-test-jvm"
 }
