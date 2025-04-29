@@ -27,17 +27,16 @@
 @file:Suppress("RemoveRedundantQualifierName")
 
 import io.spine.dependency.build.Dokka
+import io.spine.dependency.kotlinx.Coroutines
+import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.lib.KotlinPoet
-import io.spine.dependency.lib.KotlinX
 import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.CoreJava
 import io.spine.dependency.local.Logging
 import io.spine.dependency.local.ProtoData
-import io.spine.dependency.local.TestLib
 import io.spine.dependency.local.ToolBase
 import io.spine.dependency.local.Validation
-import io.spine.dependency.test.JUnit
 import io.spine.gradle.VersionWriter
 import io.spine.gradle.checkstyle.CheckStyleConfig
 import io.spine.gradle.javadoc.JavadocConfig
@@ -45,9 +44,9 @@ import io.spine.gradle.publish.IncrementGuard
 import io.spine.gradle.publish.PublishingRepos
 import io.spine.gradle.publish.PublishingRepos.gitHub
 import io.spine.gradle.publish.spinePublishing
+import io.spine.gradle.repo.standardToSpineSdk
 import io.spine.gradle.report.license.LicenseReporter
 import io.spine.gradle.report.pom.PomGenerator
-import io.spine.gradle.standardToSpineSdk
 
 buildscript {
     apply(from = "$projectDir/version.gradle.kts")
@@ -75,10 +74,12 @@ buildscript {
 plugins {
     `jvm-module`
     protobuf
+    `module-testing`
+    ksp
 }
 
 // Cannot use `id()` syntax for McJava because it's not yet published to the Plugin Portal
-// and is added to the build classpath via `buildScript` block above.
+// and is added to the build classpath via the `buildScript` block above.
 apply(plugin = "io.spine.mc-java")
 
 apply<IncrementGuard>()
@@ -101,13 +102,8 @@ configurations {
     all {
         resolutionStrategy {
             force(
-                KotlinX.Coroutines.bom,
-                KotlinX.Coroutines.core,
-                KotlinX.Coroutines.coreJvm,
-                KotlinX.Coroutines.debug,
-                KotlinX.Coroutines.jdk8,
-                KotlinX.Coroutines.test,
-                KotlinX.Coroutines.testJvm,
+                "${Kotlin.stdLib}:${Kotlin.runtimeVersion}",
+                "${Kotlin.stdLibCommon}:${Kotlin.runtimeVersion}",
                 KotlinPoet.lib,
                 Dokka.BasePlugin.lib,
                 Protobuf.compiler,
@@ -117,18 +113,17 @@ configurations {
                 ToolBase.lib,
                 ProtoData.api,
                 Validation.runtime,
-                JUnit.runner,
             )
         }
     }
 }
 
 dependencies {
+    ksp(enforcedPlatform(Kotlin.bom))
+    ksp(enforcedPlatform(Coroutines.bom))
+    implementation(enforcedPlatform(Kotlin.bom))
     implementation(Base.lib)
     implementation(Validation.runtime)
-
-    testImplementation(JUnit.runner)
-    testImplementation(TestLib.lib)
 }
 
 spinePublishing {
