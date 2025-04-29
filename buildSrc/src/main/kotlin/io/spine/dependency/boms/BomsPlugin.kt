@@ -30,53 +30,61 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 
-class BomsPlugin : Plugin<Project> {
+/**
+ * The plugin which forces versions of platforms declared in the [Boms] object.
+ *
+ * Versions are enforced via the
+ * [org.gradle.api.artifacts.dsl.DependencyHandler.enforcedPlatform] call
+ * for configurations of the project to which the plugin is applied.
+ *
+ * The configurations are selected by the "kind" of BOM.
+ *
+ * [Boms.core] are applied to:
+ *  1. Production configurations, such as `api` or `implementation`.
+ *  2. All `ksp` configurations.
+ *
+ *  [Boms.testing] are applied to all testing configurations.
+ */
+class BomsPlugin : Plugin<Project>  {
+
+    private val productionConfigs = listOf(
+        "api",
+        "implementation",
+        "compileOnly",
+        "runtimeOnly"
+    )
 
     override fun apply(project: Project) = with(project) {
 
         fun Configuration.applyBoms(boms: List<String>) {
             withDependencies {
                 boms.forEach { bom ->
-                    addLater(provider { project.dependencies.enforcedPlatform(bom) })
+                    val platform = project.dependencies.enforcedPlatform(bom)
+                    addLater( provider { platform })
                     project.logger.info(
-                        "Applied BOM: $bom to configuration: `${this@applyBoms.name}`."
+                        "Applied BOM: `$bom` to the configuration: `${this@applyBoms.name}`."
                     )
                 }
             }
         }
 
         configurations.run {
-            matching { isProductionConfig(it.name) }.all {
+            matching { isCompilationConfig(it.name) }.all {
                 applyBoms(Boms.core)
             }
-
-            matching { isTestConfig(it.name) }.all {
-                applyBoms(Boms.core + Boms.testing)
-            }
-
             matching { isKspConfig(it.name) }.all {
                 applyBoms(Boms.core)
             }
+            matching { it.name in productionConfigs }.all {
+                applyBoms(Boms.core)
+            }
+            matching { isTestConfig(it.name) }.all {
+                applyBoms(Boms.core + Boms.testing)
+            }
         }
     }
 
-    companion object {
-
-        val productionConfigs = listOf(
-            "api",
-            "implementation",
-            "compileOnly",
-            "runtimeOnly"
-        )
-
-        fun isProductionConfig(name: String): Boolean {
-            return name in productionConfigs
-        }
-
-        fun isTestConfig(name: String) =
-            name.startsWith("test", ignoreCase = true)
-
-        fun isKspConfig(name: String) =
-            name.startsWith("ksp", ignoreCase = true)
-    }
+    private fun isCompilationConfig(name: String) = name.contains("compile", ignoreCase = true)
+    private fun isKspConfig(name: String) = name.startsWith("ksp", ignoreCase = true)
+    private fun isTestConfig(name: String) = name.startsWith("test", ignoreCase = true)
 }

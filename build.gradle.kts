@@ -26,9 +26,9 @@
 
 @file:Suppress("RemoveRedundantQualifierName")
 
+import io.spine.dependency.boms.BomsPlugin
 import io.spine.dependency.build.Dokka
-import io.spine.dependency.kotlinx.Coroutines
-import io.spine.dependency.lib.Kotlin
+import io.spine.dependency.build.JSpecify
 import io.spine.dependency.lib.KotlinPoet
 import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Base
@@ -74,8 +74,8 @@ buildscript {
 plugins {
     `jvm-module`
     protobuf
-    `module-testing`
     ksp
+    `module-testing`
 }
 
 // Cannot use `id()` syntax for McJava because it's not yet published to the Plugin Portal
@@ -84,6 +84,8 @@ apply(plugin = "io.spine.mc-java")
 
 apply<IncrementGuard>()
 apply<VersionWriter>()
+
+apply<BomsPlugin>()
 
 apply(from = "$projectDir/version.gradle.kts")
 val versionToPublish: String by extra
@@ -102,28 +104,27 @@ configurations {
     all {
         resolutionStrategy {
             force(
-                "${Kotlin.stdLib}:${Kotlin.runtimeVersion}",
-                "${Kotlin.stdLibCommon}:${Kotlin.runtimeVersion}",
+                JSpecify.annotations,
                 KotlinPoet.lib,
                 Dokka.BasePlugin.lib,
                 Protobuf.compiler,
-                CoreJava.server,
                 Base.lib,
                 Logging.lib,
                 ToolBase.lib,
                 ProtoData.api,
                 Validation.runtime,
+                CoreJava.server,
             )
         }
     }
 }
 
 dependencies {
-    ksp(enforcedPlatform(Kotlin.bom))
-    ksp(enforcedPlatform(Coroutines.bom))
-    implementation(enforcedPlatform(Kotlin.bom))
     implementation(Base.lib)
     implementation(Validation.runtime)
+
+    testImplementation(JUnit.runner)
+    testImplementation(TestLib.lib)
 }
 
 spinePublishing {
@@ -145,3 +146,7 @@ JavadocConfig.applyTo(project)
 PomGenerator.applyTo(project)
 LicenseReporter.generateReportIn(project)
 LicenseReporter.mergeAllReports(project)
+
+afterEvaluate {
+    protoDataRemoteDebug(enabled = false)
+}

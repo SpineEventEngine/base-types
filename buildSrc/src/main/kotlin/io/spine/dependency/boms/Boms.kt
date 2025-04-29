@@ -27,17 +27,36 @@
 package io.spine.dependency.boms
 
 import io.spine.dependency.kotlinx.Coroutines
+import io.spine.dependency.lib.Jackson
 import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.test.JUnit
 
+/**
+ * The collection of references to BOMs applied by [BomsPlugin].
+ */
 object Boms {
 
+    /**
+     * The base production BOMs.
+     */
     val core = listOf(
         Kotlin.bom,
         Coroutines.bom
     )
 
+    /**
+     * The BOMs for testing dependencies.
+     */
     val testing = listOf(
         JUnit.bom
     )
+
+    /**
+     * Technology-based BOMs.
+     */
+    object Optional {
+        val jackson = listOf(
+            Jackson.bom
+        )
+    }
 }

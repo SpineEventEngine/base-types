@@ -28,8 +28,9 @@ import BuildSettings.javaVersion
 import io.spine.dependency.build.CheckerFramework
 import io.spine.dependency.build.Dokka
 import io.spine.dependency.build.ErrorProne
+import io.spine.dependency.build.JSpecify
 import io.spine.dependency.lib.Guava
-import io.spine.dependency.lib.JavaX
+import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Logging
 import io.spine.dependency.local.Reflect
@@ -43,8 +44,6 @@ import io.spine.gradle.javadoc.JavadocConfig
 import io.spine.gradle.kotlin.applyJvmToolchain
 import io.spine.gradle.kotlin.setFreeCompilerArgs
 import io.spine.gradle.report.license.LicenseReporter
-import io.spine.gradle.testing.configureLogging
-import io.spine.gradle.testing.registerTestTasks
 
 plugins {
     `java-library`
@@ -133,7 +132,7 @@ fun Module.addDependencies() = dependencies {
     api(Guava.lib)
 
     compileOnlyApi(CheckerFramework.annotations)
-    compileOnlyApi(JavaX.annotations)
+    api(JSpecify.annotations)
     ErrorProne.annotations.forEach { compileOnlyApi(it) }
 
     implementation(Logging.lib)
