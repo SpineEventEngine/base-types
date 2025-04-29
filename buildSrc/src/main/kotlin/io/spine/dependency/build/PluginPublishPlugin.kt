@@ -24,23 +24,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.dependency.local
+@file:Suppress("unused")
+
+package io.spine.dependency.build
 
 /**
- * Artifacts of the `tool-base` module.
+ * The Gradle plugin for publishing Gradle plugins to the Gradle Plugin Portal.
  *
- * @see <a href="https://github.com/SpineEventEngine/tool-base">spine-tool-base</a>
+ * @see <a href="https://plugins.gradle.org/plugin/com.gradle.plugin-publish">
+ *     The plugin page at the Portal</a>
+ * @see <a href="https://plugins.gradle.org/docs/publish-plugin">Publishing Rules</a>
  */
-@Suppress("ConstPropertyName", "unused")
-object ToolBase {
-    const val group = Spine.toolsGroup
-    const val version = "2.0.0-SNAPSHOT.321"
-
-    const val lib = "$group:spine-tool-base:$version"
-    const val pluginBase = "$group:spine-plugin-base:$version"
-    const val pluginTestlib = "$group:spine-plugin-testlib:$version"
-
-    const val intellijPlatformJava = "$group:intellij-platform-java:$version"
-
-    const val psiJava = "$group:spine-psi-java:$version"
+@Suppress("ConstPropertyName")
+object PluginPublishPlugin {
+    const val version = "1.3.1"
+    const val id = "com.gradle.plugin-publish"
 }

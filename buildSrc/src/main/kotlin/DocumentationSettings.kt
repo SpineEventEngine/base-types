@@ -24,23 +24,35 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.dependency.local
-
 /**
- * Artifacts of the `tool-base` module.
+ * The documentation settings specific to this project.
  *
- * @see <a href="https://github.com/SpineEventEngine/tool-base">spine-tool-base</a>
+ * @see <a href="https://kotlinlang.org/docs/dokka-gradle.html#source-link-configuration">
+ *     Dokka source link configuration</a>
  */
-@Suppress("ConstPropertyName", "unused")
-object ToolBase {
-    const val group = Spine.toolsGroup
-    const val version = "2.0.0-SNAPSHOT.321"
+@Suppress("ConstPropertyName")
+object DocumentationSettings {
 
-    const val lib = "$group:spine-tool-base:$version"
-    const val pluginBase = "$group:spine-plugin-base:$version"
-    const val pluginTestlib = "$group:spine-plugin-testlib:$version"
+    /**
+     * Settings passed to Dokka for
+     * [sourceLink][[org.jetbrains.dokka.gradle.engine.parameters.DokkaSourceLinkSpec]
+     */
+    object SourceLink {
 
-    const val intellijPlatformJava = "$group:intellij-platform-java:$version"
+        /**
+         * The URL of the remote source code
+         * [location][org.jetbrains.dokka.gradle.engine.parameters.DokkaSourceLinkSpec.remoteUrl].
+         */
+        const val url: String = "https://github.com/SpineEventEngine/base/tree/master/src"
 
-    const val psiJava = "$group:spine-psi-java:$version"
+        /**
+         * The suffix used to append the source code line number to the URL.
+         *
+         * The suffix depends on the online code repository.
+         *
+         * @see <a href="https://kotlinlang.org/docs/dokka-gradle.html#fwor0d_534">
+         *     remoteLineSuffix</a>
+         */
+        const val lineSuffix: String = "#L"
+    }
 }

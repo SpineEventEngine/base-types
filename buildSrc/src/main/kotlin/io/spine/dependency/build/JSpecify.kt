@@ -24,23 +24,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.dependency.local
+package io.spine.dependency.build
 
 /**
- * Artifacts of the `tool-base` module.
+ * An artifact of well-specified annotations to power static analysis
+ * checks and JVM language interop. Developed by consensus of the partner
+ * organizations listed at [the project site](https://jspecify.org).
  *
- * @see <a href="https://github.com/SpineEventEngine/tool-base">spine-tool-base</a>
+ * @see <a href="https://github.com/jspecify/jspecify">JSpecify at GitHub</a>
  */
-@Suppress("ConstPropertyName", "unused")
-object ToolBase {
-    const val group = Spine.toolsGroup
-    const val version = "2.0.0-SNAPSHOT.321"
-
-    const val lib = "$group:spine-tool-base:$version"
-    const val pluginBase = "$group:spine-plugin-base:$version"
-    const val pluginTestlib = "$group:spine-plugin-testlib:$version"
-
-    const val intellijPlatformJava = "$group:intellij-platform-java:$version"
-
-    const val psiJava = "$group:spine-psi-java:$version"
+@Suppress("ConstPropertyName")
+object JSpecify {
+    const val version = "1.0.0"
+    const val annotations = "org.jspecify:jspecify:$version"
 }

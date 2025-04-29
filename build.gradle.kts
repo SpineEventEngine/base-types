@@ -29,15 +29,15 @@
 import io.spine.dependency.build.Dokka
 import io.spine.dependency.lib.KotlinPoet
 import io.spine.dependency.lib.KotlinX
-import io.spine.dependency.test.JUnit
 import io.spine.dependency.lib.Protobuf
-import io.spine.dependency.local.Spine
 import io.spine.dependency.local.Base
+import io.spine.dependency.local.CoreJava
 import io.spine.dependency.local.Logging
 import io.spine.dependency.local.ProtoData
 import io.spine.dependency.local.TestLib
 import io.spine.dependency.local.ToolBase
 import io.spine.dependency.local.Validation
+import io.spine.dependency.test.JUnit
 import io.spine.gradle.VersionWriter
 import io.spine.gradle.checkstyle.CheckStyleConfig
 import io.spine.gradle.javadoc.JavadocConfig
@@ -85,7 +85,6 @@ apply<IncrementGuard>()
 apply<VersionWriter>()
 
 apply(from = "$projectDir/version.gradle.kts")
-val baseVersion: String by extra
 val versionToPublish: String by extra
 
 group = "io.spine"
@@ -112,6 +111,7 @@ configurations {
                 KotlinPoet.lib,
                 Dokka.BasePlugin.lib,
                 Protobuf.compiler,
+                CoreJava.server,
                 Base.lib,
                 Logging.lib,
                 ToolBase.lib,
