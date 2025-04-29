@@ -122,9 +122,6 @@ configurations {
 dependencies {
     implementation(Base.lib)
     implementation(Validation.runtime)
-
-    testImplementation(JUnit.runner)
-    testImplementation(TestLib.lib)
 }
 
 spinePublishing {
