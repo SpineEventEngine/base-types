@@ -71,7 +71,6 @@ project.run {
 
     val generatedDir = "$projectDir/generated"
     setTaskDependencies(generatedDir)
-    setupTests()
 
     configureGitHubPages()
 }
@@ -105,7 +104,7 @@ fun Module.configureKotlin(javaVersion: JavaLanguageVersion) {
     // https://github.com/Kotlin/kotlinx-kover?tab=readme-ov-file#to-create-report-combining-coverage-info-from-different-gradle-projects
     // https://github.com/Kotlin/kotlinx-kover/blob/main/kover-gradle-plugin/examples/jvm/merged/build.gradle.kts
     rootProject.dependencies {
-        kover(this)
+        kover(this@configureKotlin)
     }
 
     kover {
@@ -138,8 +137,6 @@ fun Module.addDependencies() = dependencies {
     ErrorProne.annotations.forEach { compileOnlyApi(it) }
 
     implementation(Logging.lib)
-
-    testImplementation(TestLib.lib)
 }
 
 fun Module.forceConfigurations() {
@@ -153,18 +150,6 @@ fun Module.forceConfigurations() {
                     Reflect.lib,
                 )
             }
-        }
-    }
-}
-
-fun Module.setupTests() {
-    tasks {
-        registerTestTasks()
-        test.configure {
-            useJUnitPlatform {
-                includeEngines("junit-jupiter")
-            }
-            configureLogging()
         }
     }
 }

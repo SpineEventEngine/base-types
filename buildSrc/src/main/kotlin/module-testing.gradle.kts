@@ -46,6 +46,7 @@ dependencies {
     forceJunitPlatform()
 
     testImplementation(Jupiter.api)
+    testImplementation(Jupiter.params)
     testImplementation(JUnit.pioneer)
 
     testImplementation(Guava.testLib)
