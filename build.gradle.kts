@@ -29,6 +29,7 @@
 import io.spine.dependency.boms.BomsPlugin
 import io.spine.dependency.build.Dokka
 import io.spine.dependency.build.JSpecify
+import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.lib.KotlinPoet
 import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Base
@@ -104,6 +105,7 @@ configurations {
     all {
         resolutionStrategy {
             force(
+                "${Kotlin.stdLib}:${Kotlin.runtimeVersion}",
                 JSpecify.annotations,
                 KotlinPoet.lib,
                 Dokka.BasePlugin.lib,
