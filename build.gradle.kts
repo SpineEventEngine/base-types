@@ -26,16 +26,15 @@
 
 @file:Suppress("RemoveRedundantQualifierName")
 
+import io.spine.dependency.boms.BomsPlugin
 import io.spine.dependency.build.Dokka
+import io.spine.dependency.build.JSpecify
 import io.spine.dependency.lib.KotlinPoet
-import io.spine.dependency.lib.KotlinX
-import io.spine.dependency.test.JUnit
 import io.spine.dependency.lib.Protobuf
-import io.spine.dependency.local.Spine
 import io.spine.dependency.local.Base
+import io.spine.dependency.local.CoreJava
 import io.spine.dependency.local.Logging
 import io.spine.dependency.local.ProtoData
-import io.spine.dependency.local.TestLib
 import io.spine.dependency.local.ToolBase
 import io.spine.dependency.local.Validation
 import io.spine.gradle.VersionWriter
@@ -45,9 +44,9 @@ import io.spine.gradle.publish.IncrementGuard
 import io.spine.gradle.publish.PublishingRepos
 import io.spine.gradle.publish.PublishingRepos.gitHub
 import io.spine.gradle.publish.spinePublishing
+import io.spine.gradle.repo.standardToSpineSdk
 import io.spine.gradle.report.license.LicenseReporter
 import io.spine.gradle.report.pom.PomGenerator
-import io.spine.gradle.standardToSpineSdk
 
 buildscript {
     apply(from = "$projectDir/version.gradle.kts")
@@ -75,17 +74,20 @@ buildscript {
 plugins {
     `jvm-module`
     protobuf
+    ksp
+    `module-testing`
 }
+apply<BomsPlugin>()
 
 // Cannot use `id()` syntax for McJava because it's not yet published to the Plugin Portal
-// and is added to the build classpath via `buildScript` block above.
+// and is added to the build classpath via the `buildScript` block above.
 apply(plugin = "io.spine.mc-java")
 
 apply<IncrementGuard>()
 apply<VersionWriter>()
 
+
 apply(from = "$projectDir/version.gradle.kts")
-val baseVersion: String by extra
 val versionToPublish: String by extra
 
 group = "io.spine"
@@ -102,13 +104,7 @@ configurations {
     all {
         resolutionStrategy {
             force(
-                KotlinX.Coroutines.bom,
-                KotlinX.Coroutines.core,
-                KotlinX.Coroutines.coreJvm,
-                KotlinX.Coroutines.debug,
-                KotlinX.Coroutines.jdk8,
-                KotlinX.Coroutines.test,
-                KotlinX.Coroutines.testJvm,
+                JSpecify.annotations,
                 KotlinPoet.lib,
                 Dokka.BasePlugin.lib,
                 Protobuf.compiler,
@@ -117,7 +113,7 @@ configurations {
                 ToolBase.lib,
                 ProtoData.api,
                 Validation.runtime,
-                JUnit.runner,
+                CoreJava.server,
             )
         }
     }
@@ -126,9 +122,6 @@ configurations {
 dependencies {
     implementation(Base.lib)
     implementation(Validation.runtime)
-
-    testImplementation(JUnit.runner)
-    testImplementation(TestLib.lib)
 }
 
 spinePublishing {
@@ -150,3 +143,7 @@ JavadocConfig.applyTo(project)
 PomGenerator.applyTo(project)
 LicenseReporter.generateReportIn(project)
 LicenseReporter.mergeAllReports(project)
+
+afterEvaluate {
+    protoDataRemoteDebug(enabled = false)
+}
