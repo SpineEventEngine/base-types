@@ -25,6 +25,7 @@
  */
 
 import BuildSettings.javaVersion
+import io.spine.dependency.boms.BomsPlugin
 import io.spine.dependency.build.CheckerFramework
 import io.spine.dependency.build.Dokka
 import io.spine.dependency.build.ErrorProne
@@ -134,8 +135,6 @@ fun Module.addDependencies() = dependencies {
     compileOnlyApi(CheckerFramework.annotations)
     api(JSpecify.annotations)
     ErrorProne.annotations.forEach { compileOnlyApi(it) }
-
-    implementation(Logging.lib)
 }
 
 fun Module.forceConfigurations() {

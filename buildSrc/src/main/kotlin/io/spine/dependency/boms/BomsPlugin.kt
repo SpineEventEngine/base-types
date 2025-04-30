@@ -26,6 +26,7 @@
 
 package io.spine.dependency.boms
 
+import io.spine.dependency.lib.Kotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
@@ -41,9 +42,19 @@ import org.gradle.api.artifacts.Configuration
  *
  * [Boms.core] are applied to:
  *  1. Production configurations, such as `api` or `implementation`.
- *  2. All `ksp` configurations.
+ *  2. Compilation configurations.
+ *  3. All `ksp` configurations.
  *
  *  [Boms.testing] are applied to all testing configurations.
+ *
+ *  In addition to forcing BOM-based dependencies,
+ *  the plugin [forces][org.gradle.api.artifacts.ResolutionStrategy.force] the versions
+ *  of [Kotlin.StdLib.artefacts] for all configurations because even through Kotlin
+ *  artefacts are forced with BOM, the `variants` in the dependencies cannot be
+ *  picked by Gradle.
+ *
+ *  Run Gradle with the [INFO][org.gradle.api.logging.Logger.isInfoEnabled] logging level
+ *  to see the dependencies forced by this plugin.
  */
 class BomsPlugin : Plugin<Project>  {
 
@@ -56,14 +67,19 @@ class BomsPlugin : Plugin<Project>  {
 
     override fun apply(project: Project) = with(project) {
 
+        fun log(message: () -> String) {
+            val logger = project.logger
+            if (logger.isInfoEnabled) {
+                logger.info(message.invoke())
+            }
+        }
+
         fun Configuration.applyBoms(boms: List<String>) {
-            withDependencies {
-                boms.forEach { bom ->
+            boms.forEach { bom ->
+                withDependencies {
                     val platform = project.dependencies.enforcedPlatform(bom)
-                    addLater( provider { platform })
-                    project.logger.info(
-                        "Applied BOM: `$bom` to the configuration: `${this@applyBoms.name}`."
-                    )
+                    addLater(provider { platform })
+                    log { "Applied BOM: `$bom` to the configuration: `${this@applyBoms.name}`." }
                 }
             }
         }
@@ -81,15 +97,52 @@ class BomsPlugin : Plugin<Project>  {
             matching { isTestConfig(it.name) }.all {
                 applyBoms(Boms.core + Boms.testing)
             }
+
+            fun Configuration.diagSuffix(): String =
+                "the configuration `$name` in the project: `${project.path}`."
+
+            matching { !supportsBom(it.name) }.all {
+                resolutionStrategy.eachDependency {
+                    if (requested.group == Kotlin.group) {
+                        val kotlinVersion = Kotlin.runtimeVersion
+                        useVersion(kotlinVersion)
+                        log { "Forced Kotlin version `$kotlinVersion` in " + this@all.diagSuffix() }
+                    }
+                }
+            }
+
+            all {
+                resolutionStrategy {
+                    // The versions for Kotlin are resoled above correctly.
+                    // But that does not guarantees that Gradle picks up a correct `variant`.
+                    Kotlin.StdLib.artefacts.forEach { artefact ->
+                        force(artefact)
+                        log { "Forced the version of `$artefact` in " + this@all.diagSuffix() }
+                    }
+                }
+            }
         }
     }
 
     private fun isCompilationConfig(name: String) =
-        name.contains("compile", ignoreCase = true)
+        name.contains("compile", ignoreCase = true) &&
+                // `comileProtoPath` or `compileTestProtoPath`.
+                !name.contains("ProtoPath", ignoreCase = true)
 
     private fun isKspConfig(name: String) =
         name.startsWith("ksp", ignoreCase = true)
 
     private fun isTestConfig(name: String) =
         name.startsWith("test", ignoreCase = true)
+
+    /**
+     * Tells if the configuration with the given [name] supports forcing
+     * versions via the BOM mechanism.
+     *
+     * Not all configurations supports forcing via BOM. E.g., the configurations created
+     * by Protobuf Gradle Plugin such as `compileProtoPath` or `extractIncludeProto` do
+     * not pick up versions of dependencies set via `enforcedPlatform(myBom)`.
+     */
+    private fun supportsBom(name: String) =
+        (isCompilationConfig(name) || isKspConfig(name) || isTestConfig(name))
 }
