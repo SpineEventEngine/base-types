@@ -29,6 +29,8 @@
 import io.spine.dependency.boms.BomsPlugin
 import io.spine.dependency.build.Dokka
 import io.spine.dependency.build.JSpecify
+import io.spine.dependency.lib.Grpc
+import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.lib.KotlinPoet
 import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Base
@@ -56,6 +58,8 @@ buildscript {
     }
 
     dependencies {
+        // Put the plugin before in the classpath to avoid complaints about the version.
+        classpath(io.spine.dependency.build.Ksp.gradlePlugin)
         classpath(io.spine.dependency.local.McJava.pluginLib)
     }
 
@@ -63,6 +67,7 @@ buildscript {
         all {
             resolutionStrategy {
                 force(
+                    io.spine.dependency.lib.Kotlin.bom,
                     io.spine.dependency.build.Dokka.BasePlugin.lib,
                     io.spine.dependency.local.Base.lib,
                 )
@@ -103,7 +108,9 @@ configurations {
 
     all {
         resolutionStrategy {
+            Grpc.forceArtifacts(project, this@all, this@resolutionStrategy)
             force(
+                Kotlin.bom,
                 JSpecify.annotations,
                 KotlinPoet.lib,
                 Dokka.BasePlugin.lib,
@@ -111,6 +118,7 @@ configurations {
                 Base.lib,
                 Logging.lib,
                 ToolBase.lib,
+                ToolBase.psiJava,
                 ProtoData.api,
                 Validation.runtime,
                 CoreJava.server,
