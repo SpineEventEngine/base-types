@@ -24,25 +24,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.dependency.local
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenLocal()
+        mavenCentral()
+    }
+}
 
-/**
- * Dependencies on `core-java` modules.
- *
- * See [`SpineEventEngine/core-java`](https://github.com/SpineEventEngine/core-java/).
- */
-@Suppress("ConstPropertyName", "unused")
-object CoreJava {
-    const val group = Spine.group
-    const val version = "2.0.0-SNAPSHOT.314"
-
-    const val coreArtifact = "spine-core"
-    const val clientArtifact = "spine-client"
-    const val serverArtifact = "spine-server"
-
-    const val core = "$group:$coreArtifact:$version"
-    const val client = "$group:$clientArtifact:$version"
-    const val server = "$group:$serverArtifact:$version"
-
-    const val testUtilServer = "${Spine.toolsGroup}:spine-testutil-server:$version"
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention").version("1.0.0")
 }

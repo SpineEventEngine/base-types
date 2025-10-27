@@ -30,16 +30,17 @@ import io.spine.dependency.boms.BomsPlugin
 import io.spine.dependency.build.Dokka
 import io.spine.dependency.build.JSpecify
 import io.spine.dependency.lib.Grpc
+import io.spine.dependency.lib.Jackson
 import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.lib.KotlinPoet
 import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Base
+import io.spine.dependency.local.Compiler
 import io.spine.dependency.local.CoreJava
 import io.spine.dependency.local.Logging
 import io.spine.dependency.local.ProtoData
 import io.spine.dependency.local.ToolBase
 import io.spine.dependency.local.Validation
-import io.spine.gradle.VersionWriter
 import io.spine.gradle.checkstyle.CheckStyleConfig
 import io.spine.gradle.javadoc.JavadocConfig
 import io.spine.gradle.publish.IncrementGuard
@@ -53,14 +54,11 @@ import io.spine.gradle.report.pom.PomGenerator
 buildscript {
     apply(from = "$projectDir/version.gradle.kts")
     standardSpineSdkRepositories()
-    repositories {
-        io.spine.gradle.publish.PublishingRepos.gitHub("mc-java")
-    }
 
     dependencies {
         // Put the plugin before in the classpath to avoid complaints about the version.
         classpath(io.spine.dependency.build.Ksp.gradlePlugin)
-        classpath(io.spine.dependency.local.McJava.pluginLib)
+        classpath(io.spine.dependency.local.CoreJvmCompiler.pluginLib)
     }
 
     configurations {
@@ -84,13 +82,11 @@ plugins {
 }
 apply<BomsPlugin>()
 
-// Cannot use `id()` syntax for McJava because it's not yet published to the Plugin Portal
+// Cannot use `id()` syntax for CoreJvm Compiler because it's not yet published to the Plugin Portal
 // and is added to the build classpath via the `buildScript` block above.
-apply(plugin = "io.spine.mc-java")
+apply(plugin = "io.spine.core-jvm")
 
 apply<IncrementGuard>()
-apply<VersionWriter>()
-
 
 apply(from = "$projectDir/version.gradle.kts")
 val versionToPublish: String by extra
@@ -109,19 +105,28 @@ configurations {
     all {
         resolutionStrategy {
             Grpc.forceArtifacts(project, this@all, this@resolutionStrategy)
+            Jackson.forceArtifacts(project, this@all, this@resolutionStrategy)
+            Jackson.DataType.forceArtifacts(project, this@all, this@resolutionStrategy)
             force(
-                Kotlin.bom,
-                JSpecify.annotations,
-                KotlinPoet.lib,
-                Dokka.BasePlugin.lib,
-                Protobuf.compiler,
+                Base.annotations,
                 Base.lib,
-                Logging.lib,
-                ToolBase.lib,
-                ToolBase.psiJava,
-                ProtoData.api,
-                Validation.runtime,
+                Compiler.api,
                 CoreJava.server,
+                Dokka.BasePlugin.lib,
+                Jackson.annotations,
+                JSpecify.annotations,
+                Kotlin.bom,
+                KotlinPoet.lib,
+                Logging.lib,
+                ProtoData.api,
+                Protobuf.compiler,
+                ToolBase.gradlePluginApi,
+                ToolBase.jvmTools,
+                ToolBase.lib,
+                ToolBase.pluginBase,
+                ToolBase.protobufSetupPlugins,
+                ToolBase.psiJava,
+                Validation.runtime,
             )
         }
     }
@@ -151,7 +156,3 @@ JavadocConfig.applyTo(project)
 PomGenerator.applyTo(project)
 LicenseReporter.generateReportIn(project)
 LicenseReporter.mergeAllReports(project)
-
-afterEvaluate {
-    protoDataRemoteDebug(enabled = false)
-}
