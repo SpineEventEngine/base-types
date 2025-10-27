@@ -2,7 +2,6 @@
 [![codecov][codecov-badge]][codecov] &nbsp;
 [![license][license-badge]][license]
 
-
 # Spine Base Types
 
 This repository contains popular value object types like `Url` or `EmailAddress` and related
