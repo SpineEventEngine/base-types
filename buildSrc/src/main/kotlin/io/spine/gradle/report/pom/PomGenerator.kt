@@ -57,7 +57,8 @@ import org.gradle.api.plugins.BasePlugin
  *
  * By default, those values are taken from the `project` object, which may or may not include
  * them. If the project does not have these values, and they are not specified in the `ext`
- * block, the resulting `pom.xml` file is going to contain empty blocks, e.g. `<groupId></groupId>`.
+ * block, the resulting `pom.xml` file is going to contain empty blocks,
+ * e.g., `<groupId></groupId>`.
  */
 @Suppress("unused")
 object PomGenerator {
