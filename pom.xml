@@ -10,7 +10,7 @@ all modules and does not describe the project structure per-subproject.
  -->
 <groupId>io.spine</groupId>
 <artifactId>base-types</artifactId>
-<version>2.0.0-SNAPSHOT.210</version>
+<version>2.0.0-SNAPSHOT.212</version>
 
 <inceptionYear>2015</inceptionYear>
 
@@ -26,31 +26,31 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>com.google.guava</groupId>
     <artifactId>guava</artifactId>
-    <version>33.4.8-jre</version>
+    <version>33.5.0-jre</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
     <groupId>com.google.protobuf</groupId>
     <artifactId>protobuf-java</artifactId>
-    <version>4.31.1</version>
+    <version>4.33.0</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
     <groupId>com.google.protobuf</groupId>
     <artifactId>protobuf-java-util</artifactId>
-    <version>4.31.1</version>
+    <version>4.33.0</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
     <groupId>com.google.protobuf</groupId>
     <artifactId>protobuf-kotlin</artifactId>
-    <version>4.31.1</version>
+    <version>4.33.0</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
     <groupId>io.spine</groupId>
     <artifactId>spine-base</artifactId>
-    <version>2.0.0-SNAPSHOT.364</version>
+    <version>2.0.0-SNAPSHOT.365</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
@@ -86,13 +86,13 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-testlib</artifactId>
-    <version>33.4.8-jre</version>
+    <version>33.5.0-jre</version>
     <scope>test</scope>
   </dependency>
   <dependency>
     <groupId>io.kotest</groupId>
     <artifactId>kotest-assertions-core</artifactId>
-    <version>6.0.3</version>
+    <version>6.0.4</version>
     <scope>test</scope>
   </dependency>
   <dependency>
@@ -104,7 +104,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>org.junit</groupId>
     <artifactId>junit-bom</artifactId>
-    <version>5.13.2</version>
+    <version>6.0.0</version>
     <scope>test</scope>
   </dependency>
   <dependency>
@@ -116,19 +116,19 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>org.junit.jupiter</groupId>
     <artifactId>junit-jupiter-api</artifactId>
-    <version>5.13.2</version>
+    <version>6.0.0</version>
     <scope>test</scope>
   </dependency>
   <dependency>
     <groupId>org.junit.jupiter</groupId>
     <artifactId>junit-jupiter-engine</artifactId>
-    <version>5.13.2</version>
+    <version>6.0.0</version>
     <scope>test</scope>
   </dependency>
   <dependency>
     <groupId>org.junit.jupiter</groupId>
     <artifactId>junit-jupiter-params</artifactId>
-    <version>5.13.2</version>
+    <version>6.0.0</version>
     <scope>test</scope>
   </dependency>
   <dependency>
@@ -172,7 +172,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>com.google.protobuf</groupId>
     <artifactId>protoc</artifactId>
-    <version>4.31.1</version>
+    <version>4.33.0</version>
   </dependency>
   <dependency>
     <groupId>com.puppycrawl.tools</groupId>
