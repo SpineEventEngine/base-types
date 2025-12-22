@@ -36,7 +36,7 @@ import io.spine.dependency.lib.KotlinPoet
 import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.Compiler
-import io.spine.dependency.local.CoreJava
+import io.spine.dependency.local.CoreJvm
 import io.spine.dependency.local.Logging
 import io.spine.dependency.local.ProtoData
 import io.spine.dependency.local.ToolBase
@@ -58,6 +58,7 @@ buildscript {
     dependencies {
         // Put the plugin before in the classpath to avoid complaints about the version.
         classpath(io.spine.dependency.build.Ksp.gradlePlugin)
+        classpath(io.spine.dependency.local.Compiler.pluginLib)
         classpath(io.spine.dependency.local.CoreJvmCompiler.pluginLib)
     }
 
@@ -108,10 +109,12 @@ configurations {
             Jackson.forceArtifacts(project, this@all, this@resolutionStrategy)
             Jackson.DataType.forceArtifacts(project, this@all, this@resolutionStrategy)
             force(
+                Grpc.bom,
                 Base.annotations,
                 Base.lib,
+                Base.environment,
                 Compiler.api,
-                CoreJava.server,
+                CoreJvm.server,
                 Dokka.BasePlugin.lib,
                 Jackson.annotations,
                 JSpecify.annotations,
@@ -127,6 +130,8 @@ configurations {
                 ToolBase.protobufSetupPlugins,
                 ToolBase.psiJava,
                 Validation.runtime,
+                Validation.javaBundle,
+                Validation.oldRuntime
             )
         }
     }
@@ -142,11 +147,6 @@ spinePublishing {
         gitHub("base-types"),
         PublishingRepos.cloudArtifactRegistry
     )
-
-    dokkaJar {
-        kotlin = true
-        java = true
-    }
 }
 
 project.configureTaskDependencies()

@@ -10,7 +10,7 @@ all modules and does not describe the project structure per-subproject.
  -->
 <groupId>io.spine</groupId>
 <artifactId>base-types</artifactId>
-<version>2.0.0-SNAPSHOT.212</version>
+<version>2.0.0-SNAPSHOT.220</version>
 
 <inceptionYear>2015</inceptionYear>
 
@@ -32,31 +32,31 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>com.google.protobuf</groupId>
     <artifactId>protobuf-java</artifactId>
-    <version>4.33.0</version>
+    <version>4.33.2</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
     <groupId>com.google.protobuf</groupId>
     <artifactId>protobuf-java-util</artifactId>
-    <version>4.33.0</version>
+    <version>4.33.2</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
     <groupId>com.google.protobuf</groupId>
     <artifactId>protobuf-kotlin</artifactId>
-    <version>4.33.0</version>
+    <version>4.33.2</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
     <groupId>io.spine</groupId>
     <artifactId>spine-base</artifactId>
-    <version>2.0.0-SNAPSHOT.365</version>
+    <version>2.0.0-SNAPSHOT.384</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
-    <groupId>io.spine.validation</groupId>
-    <artifactId>spine-validation-java-runtime</artifactId>
-    <version>2.0.0-SNAPSHOT.352</version>
+    <groupId>io.spine</groupId>
+    <artifactId>spine-validation-jvm-runtime</artifactId>
+    <version>2.0.0-SNAPSHOT.383</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
@@ -172,7 +172,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>com.google.protobuf</groupId>
     <artifactId>protoc</artifactId>
-    <version>4.33.0</version>
+    <version>4.33.2</version>
   </dependency>
   <dependency>
     <groupId>com.puppycrawl.tools</groupId>
@@ -192,22 +192,22 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>compiler-cli-all</artifactId>
-    <version>2.0.0-SNAPSHOT.028</version>
+    <version>2.0.0-SNAPSHOT.036</version>
   </dependency>
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>compiler-protoc-plugin</artifactId>
-    <version>2.0.0-SNAPSHOT.028</version>
+    <version>2.0.0-SNAPSHOT.036</version>
   </dependency>
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>core-jvm-gradle-plugins</artifactId>
-    <version>2.0.0-SNAPSHOT.024</version>
+    <version>2.0.0-SNAPSHOT.042</version>
   </dependency>
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>core-jvm-routing</artifactId>
-    <version>2.0.0-SNAPSHOT.024</version>
+    <version>2.0.0-SNAPSHOT.042</version>
   </dependency>
   <dependency>
     <groupId>io.spine.tools</groupId>
@@ -215,9 +215,9 @@ all modules and does not describe the project structure per-subproject.
     <version>2.0.0-SNAPSHOT.7</version>
   </dependency>
   <dependency>
-    <groupId>io.spine.validation</groupId>
-    <artifactId>spine-validation-java-bundle</artifactId>
-    <version>2.0.0-SNAPSHOT.352</version>
+    <groupId>io.spine.tools</groupId>
+    <artifactId>validation-java-bundle</artifactId>
+    <version>2.0.0-SNAPSHOT.383</version>
   </dependency>
   <dependency>
     <groupId>net.sourceforge.pmd</groupId>
@@ -258,32 +258,32 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>org.jetbrains.dokka</groupId>
     <artifactId>all-modules-page-plugin</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
   </dependency>
   <dependency>
     <groupId>org.jetbrains.dokka</groupId>
-    <artifactId>analysis-kotlin-descriptors</artifactId>
-    <version>2.0.0</version>
+    <artifactId>analysis-kotlin-symbols</artifactId>
+    <version>2.1.0</version>
   </dependency>
   <dependency>
     <groupId>org.jetbrains.dokka</groupId>
     <artifactId>dokka-base</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
   </dependency>
   <dependency>
     <groupId>org.jetbrains.dokka</groupId>
     <artifactId>dokka-core</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
   </dependency>
   <dependency>
     <groupId>org.jetbrains.dokka</groupId>
-    <artifactId>kotlin-as-java-plugin</artifactId>
-    <version>2.0.0</version>
+    <artifactId>javadoc-plugin</artifactId>
+    <version>2.1.0</version>
   </dependency>
   <dependency>
     <groupId>org.jetbrains.dokka</groupId>
     <artifactId>templating-plugin</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
   </dependency>
   <dependency>
     <groupId>org.jetbrains.kotlin</groupId>
