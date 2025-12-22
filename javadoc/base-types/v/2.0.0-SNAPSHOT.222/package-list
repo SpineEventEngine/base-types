@@ -1,0 +1,36 @@
+$dokka.format:javadoc-v1
+$dokka.linkExtension:html
+$dokka.location:io.spine.net/EmailAddress.Builder///PointingToDeclaration/io/spine/net/EmailAddress.Builder.html
+$dokka.location:io.spine.net/EmailAddressKt.Dsl///PointingToDeclaration/io/spine/net/EmailAddressKt.Dsl.html
+$dokka.location:io.spine.net/InternetDomain.Builder///PointingToDeclaration/io/spine/net/InternetDomain.Builder.html
+$dokka.location:io.spine.net/InternetDomainKt.Dsl///PointingToDeclaration/io/spine/net/InternetDomainKt.Dsl.html
+$dokka.location:io.spine.net/Uri.Authorization.Builder///PointingToDeclaration/io/spine/net/Uri.Authorization.Builder.html
+$dokka.location:io.spine.net/Uri.Authorization///PointingToDeclaration/io/spine/net/Uri.Authorization.html
+$dokka.location:io.spine.net/Uri.AuthorizationOrBuilder///PointingToDeclaration/io/spine/net/Uri.AuthorizationOrBuilder.html
+$dokka.location:io.spine.net/Uri.Builder///PointingToDeclaration/io/spine/net/Uri.Builder.html
+$dokka.location:io.spine.net/Uri.Protocol.Builder///PointingToDeclaration/io/spine/net/Uri.Protocol.Builder.html
+$dokka.location:io.spine.net/Uri.Protocol.ProtocolCase///PointingToDeclaration/io/spine/net/Uri.Protocol.ProtocolCase.html
+$dokka.location:io.spine.net/Uri.Protocol///PointingToDeclaration/io/spine/net/Uri.Protocol.html
+$dokka.location:io.spine.net/Uri.ProtocolOrBuilder///PointingToDeclaration/io/spine/net/Uri.ProtocolOrBuilder.html
+$dokka.location:io.spine.net/Uri.QueryParameter.Builder///PointingToDeclaration/io/spine/net/Uri.QueryParameter.Builder.html
+$dokka.location:io.spine.net/Uri.QueryParameter///PointingToDeclaration/io/spine/net/Uri.QueryParameter.html
+$dokka.location:io.spine.net/Uri.QueryParameterOrBuilder///PointingToDeclaration/io/spine/net/Uri.QueryParameterOrBuilder.html
+$dokka.location:io.spine.net/Uri.Schema///PointingToDeclaration/io/spine/net/Uri.Schema.html
+$dokka.location:io.spine.net/UriKt.AuthorizationKt.Dsl///PointingToDeclaration/io/spine/net/UriKt.AuthorizationKt.Dsl.html
+$dokka.location:io.spine.net/UriKt.AuthorizationKt///PointingToDeclaration/io/spine/net/UriKt.AuthorizationKt.html
+$dokka.location:io.spine.net/UriKt.Dsl.QueryProxy///PointingToDeclaration/io/spine/net/UriKt.Dsl.QueryProxy.html
+$dokka.location:io.spine.net/UriKt.Dsl///PointingToDeclaration/io/spine/net/UriKt.Dsl.html
+$dokka.location:io.spine.net/UriKt.ProtocolKt.Dsl///PointingToDeclaration/io/spine/net/UriKt.ProtocolKt.Dsl.html
+$dokka.location:io.spine.net/UriKt.ProtocolKt///PointingToDeclaration/io/spine/net/UriKt.ProtocolKt.html
+$dokka.location:io.spine.net/UriKt.QueryParameterKt.Dsl///PointingToDeclaration/io/spine/net/UriKt.QueryParameterKt.Dsl.html
+$dokka.location:io.spine.net/UriKt.QueryParameterKt///PointingToDeclaration/io/spine/net/UriKt.QueryParameterKt.html
+$dokka.location:io.spine.net/Url.Builder///PointingToDeclaration/io/spine/net/Url.Builder.html
+$dokka.location:io.spine.net/UrlKt.Dsl///PointingToDeclaration/io/spine/net/UrlKt.Dsl.html
+$dokka.location:io.spine.people/PersonName.Builder///PointingToDeclaration/io/spine/people/PersonName.Builder.html
+$dokka.location:io.spine.people/PersonNameKt.Dsl///PointingToDeclaration/io/spine/people/PersonNameKt.Dsl.html
+$dokka.location:io.spine.ui/Color.Builder///PointingToDeclaration/io/spine/ui/Color.Builder.html
+$dokka.location:io.spine.ui/ColorKt.Dsl///PointingToDeclaration/io/spine/ui/ColorKt.Dsl.html
+io.spine.net
+io.spine.net.string
+io.spine.people
+io.spine.ui

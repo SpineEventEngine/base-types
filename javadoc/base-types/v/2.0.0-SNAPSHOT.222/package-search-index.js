@@ -1,0 +1,1 @@
+var packageSearchIndex = [{"l":"io.spine.net.string","url":"io/spine/net/string/package-summary.html"}, {"l":"io.spine.net","url":"io/spine/net/package-summary.html"}, {"l":"io.spine.ui","url":"io/spine/ui/package-summary.html"}, {"l":"io.spine.people","url":"io/spine/people/package-summary.html"}, {"l":"All packages","url":"index.html"}]
