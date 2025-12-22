@@ -108,8 +108,10 @@ configurations {
             Grpc.forceArtifacts(project, this@all, this@resolutionStrategy)
             Jackson.forceArtifacts(project, this@all, this@resolutionStrategy)
             Jackson.DataType.forceArtifacts(project, this@all, this@resolutionStrategy)
+            Jackson.DataFormat.forceArtifacts(project, this@all, this@resolutionStrategy)
             force(
                 Grpc.bom,
+                Jackson.bom,
                 Base.annotations,
                 Base.lib,
                 Base.environment,
