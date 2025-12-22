@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>io.spine.ui</title>
+    <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
+        <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<link href="../../images/logo-icon.svg">
+<link href="../../styles/custom-styles.css" rel="Stylesheet">
+</head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+            <a class="library-name--link" href="../../index.html" tabindex="1">
+                    base-types
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+2.0.0-SNAPSHOT.222        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true"
+                        data-filter=":/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":/main"
+                                       data-filter=":/main"/>
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config='{"defaultSize": 280, "minSize": 200, "maxSize": 400}'>
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    base-types
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="package" id="content" pageIds="base-types::io.spine.ui////PointingToDeclaration//-251573632">
+  <div class="breadcrumbs"><a href="../../index.html">base-types</a><span class="delimiter">/</span><span class="current">io.spine.ui</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button><button class="section-tab" data-togglable="PROPERTY,EXTENSION_PROPERTY">Properties</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="tableheader">Types</h2>
+        <div class="table"><a data-name="-551630954%2FClasslikes%2F-251573632" anchor-label="Color" id="-551630954%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-color/index.html"><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-551630954%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="com.google.protobuf/Generated///PointingToDeclaration/"><span class="token annotation builtin">Generated</span></span></div></div><span class="token keyword">class </span><a href="-color/index.html">Color</a> : <span data-unresolved-link="com.google.protobuf/GeneratedMessage///PointingToDeclaration/">GeneratedMessage</span>, <a href="-color-or-builder/index.html">ColorOrBuilder</a>, <span data-unresolved-link="io.spine.validation/ValidatableMessage///PointingToDeclaration/">ValidatableMessage</span></div><div class="brief "><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">Represents a color in the RGBA color space. This representation is designed
+for simplicity of conversion to/from color representations in various
+languages over compactness; for example, the fields of this representation
+can be trivially provided to the constructor of &quot;java.awt.Color&quot; in Java; it
+can also be trivially provided to UIColor's &quot;+colorWithRed:green:blue:alpha&quot;
+method in iOS; and, with just a little work, it can be easily formatted into
+a CSS &quot;rgba()&quot; string in JavaScript, as well. Here are some examples:
+
+Example (Java):
+
+import com.google.type.Color;
+
+// ...
+public static java.awt.Color fromProto(Color protocolor) {
+float alpha = protocolor.hasAlpha()
+? protocolor.getAlpha().getValue()
+: 1.0;
+
+return new java.awt.Color(
+protocolor.getRed(),
+protocolor.getGreen(),
+protocolor.getBlue(),
+alpha);
+}
+
+public static Color toProto(java.awt.Color color) {
+float red = (float) color.getRed();
+float green = (float) color.getGreen();
+float blue = (float) color.getBlue();
+float denominator = 255.0;
+Color.Builder resultBuilder =
+Color
+.newBuilder()
+.setRed(red / denominator)
+.setGreen(green / denominator)
+.setBlue(blue / denominator);
+int alpha = color.getAlpha();
+if (alpha != 255) {
+result.setAlpha(
+FloatValue
+.newBuilder()
+.setValue(((float) alpha) / denominator)
+.build());
+}
+return resultBuilder.build();
+}
+// ...
+
+Example (iOS / Obj-C):
+
+// ...
+static UIColor* fromProto(Color* protocolor) {
+float red = [protocolor red];
+float green = [protocolor green];
+float blue = [protocolor blue];
+FloatValue* alpha_wrapper = [protocolor alpha];
+float alpha = 1.0;
+if (alpha_wrapper != nil) {
+alpha = [alpha_wrapper value];
+}
+return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
+}
+
+static Color* toProto(UIColor* color) {
+CGFloat red, green, blue, alpha;
+if (![color getRed:&amp;red green:&amp;green blue:&amp;blue alpha:&amp;alpha]) {
+return nil;
+}
+Color* result = [Color alloc] init];
+[result setRed:red];
+[result setGreen:green];
+[result setBlue:blue];
+if (alpha &lt;= 0.9999) {
+[result setAlpha:floatWrapperWithValue(alpha)];
+}
+[result autorelease];
+return result;
+}
+// ...
+
+Example (JavaScript):
+
+// ...
+
+var protoToCssColor = function(rgb_color) {
+var redFrac = rgb_color.red || 0.0;
+var greenFrac = rgb_color.green || 0.0;
+var blueFrac = rgb_color.blue || 0.0;
+var red = Math.floor(redFrac * 255);
+var green = Math.floor(greenFrac * 255);
+var blue = Math.floor(blueFrac * 255);
+
+if (!('alpha' in rgb_color)) {
+return rgbToCssColor_(red, green, blue);
+}
+
+var alphaFrac = rgb_color.alpha.value || 0.0;
+var rgbParams = [red, green, blue].join(',');
+return ['rgba(', rgbParams, ',', alphaFrac, ')'].join('');
+};
+
+var rgbToCssColor_ = function(red, green, blue) {
+var rgbNumber = new Number((red &lt;&lt; 16) | (green &lt;&lt; 8) | blue);
+var hexString = rgbNumber.toString(16);
+var missingZeros = 6 - hexString.length;
+var resultBuilder = ['#'];
+for (var i = 0; i &lt; missingZeros; i++) {
+resultBuilder.push('0');
+}
+resultBuilder.push(hexString);
+return resultBuilder.join('');
+};
+
+// ...
+
+------
+The definition of the Color type is copied from Google APIs library type to avoid
+the dependency on the sizable library. For original code, please see:
+
+https://github.com/googleapis/googleapis/blob/master/google/type/color.proto
+</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div> Protobuf type <code class="lang-kotlin">spine.ui.Color</code></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="83989741%2FClasslikes%2F-251573632" anchor-label="ColorKt" id="83989741%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-color-kt/index.html"><span>Color</span><wbr></wbr><span><span>Kt</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="83989741%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-color-kt/index.html">ColorKt</a></div><div class="brief "><p class="paragraph">Protobuf type <code class="lang-kotlin">spine.ui.Color</code></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1295897260%2FClasslikes%2F-251573632" anchor-label="ColorOrBuilder" id="-1295897260%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-color-or-builder/index.html"><span>Color</span><wbr></wbr><span>Or</span><wbr></wbr><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1295897260%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="com.google.protobuf/Generated///PointingToDeclaration/"><span class="token annotation builtin">Generated</span></span></div></div><span class="token keyword">interface </span><a href="-color-or-builder/index.html">ColorOrBuilder</a> : <span data-unresolved-link="com.google.protobuf/MessageOrBuilder///PointingToDeclaration/">MessageOrBuilder</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-246402268%2FClasslikes%2F-251573632" anchor-label="ColorProto" id="-246402268%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-color-proto/index.html"><span>Color</span><wbr></wbr><span><span>Proto</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-246402268%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="com.google.protobuf/Generated///PointingToDeclaration/"><span class="token annotation builtin">Generated</span></span></div></div><span class="token keyword">class </span><a href="-color-proto/index.html">ColorProto</a> : <span data-unresolved-link="com.google.protobuf/GeneratedFile///PointingToDeclaration/">GeneratedFile</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-543194767%2FClasslikes%2F-251573632" anchor-label="Language" id="-543194767%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-language/index.html"><span><span>Language</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-543194767%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="com.google.protobuf/Generated///PointingToDeclaration/"><span class="token annotation builtin">Generated</span></span></div></div><span class="token keyword">enum </span><a href="-language/index.html">Language</a> : <span data-unresolved-link="com.google.protobuf/ProtocolMessageEnum///PointingToDeclaration/">ProtocolMessageEnum</span></div><div class="brief "><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">A human language as defined by ISO 639-1.
+
+See https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div> Protobuf enum <code class="lang-kotlin">spine.ui.Language</code></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1729129001%2FClasslikes%2F-251573632" anchor-label="LanguageProto" id="1729129001%2FClasslikes%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-language-proto/index.html"><span>Language</span><wbr></wbr><span><span>Proto</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1729129001%2FClasslikes%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="com.google.protobuf/Generated///PointingToDeclaration/"><span class="token annotation builtin">Generated</span></span></div></div><span class="token keyword">class </span><a href="-language-proto/index.html">LanguageProto</a> : <span data-unresolved-link="com.google.protobuf/GeneratedFile///PointingToDeclaration/">GeneratedFile</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="EXTENSION_PROPERTY">
+        <h2 class="tableheader">Inherited properties</h2>
+        <div class="table"><a data-name="2136862680%2FProperties%2F-251573632" anchor-label="alphaOrNull" id="2136862680%2FProperties%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="alpha-or-null.html"><span>alpha</span><wbr></wbr><span>Or</span><wbr></wbr><span><span>Null</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2136862680%2FProperties%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-color-or-builder/index.html">ColorOrBuilder</a><span class="token punctuation">.</span><a href="alpha-or-null.html">alphaOrNull</a><span class="token operator">: </span><span data-unresolved-link="com.google.protobuf/FloatValue///PointingToDeclaration/">FloatValue</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="690436078%2FFunctions%2F-251573632" anchor-label="color" id="690436078%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="color.html"><span><span>color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="690436078%2FFunctions%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-name/index.html"><span class="token annotation builtin">JvmName</span></a><span class="token punctuation">(</span><span>name<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;-initializecolor&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="color.html"><span class="token function">color</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-color-kt/-dsl/index.html">ColorKt.Dsl</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-color/index.html">Color</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="EXTENSION_FUNCTION">
+        <h2 class="tableheader">Inherited functions</h2>
+        <div class="table"><a data-name="1800794264%2FFunctions%2F-251573632" anchor-label="copy" id="1800794264%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="copy.html"><span><span>copy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1800794264%2FFunctions%2F-251573632"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="-color/index.html">Color</a><span class="token punctuation">.</span><a href="copy.html"><span class="token function">copy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-color-kt/-dsl/index.html">ColorKt.Dsl</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-color/index.html">Color</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>Copyright 2025, TeamDev</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
