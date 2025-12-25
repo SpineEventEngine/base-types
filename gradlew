@@ -3,7 +3,6 @@
 # Temporarily disable the runtime check of Protobuf version compatibility.
 export TEMPORARILY_DISABLE_PROTOBUF_VERSION_CHECK=true
 
-
 #
 # Copyright © 2015 the original authors.
 #
