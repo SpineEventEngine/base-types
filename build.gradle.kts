@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ import io.spine.dependency.local.Base
 import io.spine.dependency.local.Compiler
 import io.spine.dependency.local.CoreJvm
 import io.spine.dependency.local.Logging
-import io.spine.dependency.local.ProtoData
+import io.spine.dependency.local.Time
 import io.spine.dependency.local.ToolBase
 import io.spine.dependency.local.Validation
 import io.spine.gradle.checkstyle.CheckStyleConfig
@@ -90,7 +90,7 @@ apply(plugin = "io.spine.core-jvm")
 apply<IncrementGuard>()
 
 apply(from = "$projectDir/version.gradle.kts")
-val versionToPublish: String by extra
+val versionToPublish = extra["versionToPublish"] as String
 
 group = "io.spine"
 version = versionToPublish
@@ -123,7 +123,6 @@ configurations {
                 Kotlin.bom,
                 KotlinPoet.lib,
                 Logging.lib,
-                ProtoData.api,
                 Protobuf.compiler,
                 ToolBase.gradlePluginApi,
                 ToolBase.jvmTools,
@@ -133,7 +132,9 @@ configurations {
                 ToolBase.psiJava,
                 Validation.runtime,
                 Validation.javaBundle,
-                Validation.oldRuntime
+                Time.lib,
+                Time.javaExtensions,
+                "io.spine:spine-format:2.0.0-SNAPSHOT.423",
             )
         }
     }
