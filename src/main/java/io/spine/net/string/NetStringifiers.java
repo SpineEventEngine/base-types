@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -49,17 +49,17 @@ public final class NetStringifiers {
     private NetStringifiers() {
     }
 
-    /** Obtains default stringifier for {@code Url}. */
+    /** Obtains the default stringifier for {@code Url}. */
     public static Stringifier<Url> forUrl() {
         return UrlStringifier.getInstance();
     }
 
-    /** Obtains default stringifier for {@code EmailAddress}. */
+    /** Obtains the default stringifier for {@code EmailAddress}. */
     public static Stringifier<EmailAddress> forEmailAddress() {
         return EmailAddressStringifier.getInstance();
     }
 
-    /** Obtains default stringifier for {@code InternetDomain}. */
+    /** Obtains the default stringifier for {@code InternetDomain}. */
     public static Stringifier<InternetDomain> forInternetDomain() {
         return InternetDomainStringifier.getInstance();
     }
