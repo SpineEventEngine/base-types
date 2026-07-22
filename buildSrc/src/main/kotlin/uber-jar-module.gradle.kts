@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import io.spine.gradle.publish.IncrementGuard
 import io.spine.gradle.publish.SpinePublishing
+import io.spine.gradle.publish.setup
 import io.spine.gradle.publish.spinePublishing
 import io.spine.gradle.report.license.LicenseReporter
 
@@ -44,7 +45,10 @@ apply<IncrementGuard>()
 LicenseReporter.generateReportIn(project)
 
 spinePublishing {
+    // This prefix does not apply to the modules of this project because they all belong
+    // to the `io.spine.tools` group, and therefore `toolArtifactPrefix` applies instead.
     artifactPrefix = ""
+    toolArtifactPrefix = "NONE"
     destinations = rootProject.the<SpinePublishing>().destinations
     customPublishing = true
 }
@@ -66,11 +70,8 @@ publishing {
     }
 }
 
-/**
- * Declare dependency explicitly to address the Gradle error.
- */
-@Suppress("unused")
-val publishFatJarPublicationToMavenLocal: Task by tasks.getting {
+// Declare dependency explicitly to address the Gradle error.
+tasks.getByName("publishFatJarPublicationToMavenLocal") {
     dependsOn(tasks.shadowJar)
 }
 
@@ -84,8 +85,9 @@ tasks.publish {
 }
 
 tasks.shadowJar {
+    setup()
     excludeFiles()
-    setZip64(true)  /* The archive has way too many items. So using the Zip64 mode. */
+    isZip64 = true  /* The archive has way too many items. So using the Zip64 mode. */
     archiveClassifier.set("")  /** To prevent Gradle setting something like `osx-x86_64`. */
 }
 
