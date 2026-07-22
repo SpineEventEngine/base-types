@@ -1,18 +1,28 @@
-<!-- Template — copy to a sibling repo's .agents/project.md and fill in the
-     sections below. In the config repo itself this file is a template only. -->
-
-# Project: <name>
+# Project: base-types
 
 ## Overview
 
-*One paragraph: what this repo is, what problem it solves, and its role in the
-Spine SDK organisation.*
+`base-types` is a JVM library of popular value-object types for the Spine SDK. It
+defines Protobuf-based types — email addresses, internet domains, URLs, person names,
+and UI values such as colors and languages — together with the Java code that parses,
+validates, and stringifies them. It gives Spine-based projects (and the SDK's own
+modules) a shared, reusable vocabulary of domain value objects built on top of
+`spine-base`.
 
 ## Architecture
 
-*Role in the org: library / tool / Gradle plugin / application.
-Key patterns, public API boundaries, and constraints specific to this repo.*
+Role in the organisation: a **library** (module `base-types`, published under the
+`io.spine` group).
 
-<!-- JVM projects: uncomment the line below after seeding this file.
-Read [`.agents/guidelines/jvm-project.md`](.agents/guidelines/jvm-project.md) for build stack, coding style, tests, and versioning.
--->
+- **Protobuf-first value types.** The types are declared as Protobuf messages under
+  `src/main/proto/spine/{net,people,ui}` and turned into rich domain types by the Spine
+  Compiler; the Java code under `src/main/java/io/spine/net` adds parsers, validators,
+  and `Stringifier`s for them.
+- **Part of the SDK dependency graph.** It depends on `spine-base` and `spine-validation`
+  (and, transitively, `spine-time` and `spine-format`), so it is not self-contained: it
+  builds against those sibling modules at the versions the shared `config` pins, and is
+  normally built in dependency order with the rest of the SDK.
+- **Published artifact.** Consumers get the value types plus their conversion utilities.
+
+Read [`.agents/guidelines/jvm-project.md`](.agents/guidelines/jvm-project.md) for the
+build stack, coding style, tests, and versioning that govern this repository.
