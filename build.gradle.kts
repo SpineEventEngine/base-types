@@ -33,6 +33,7 @@ import io.spine.dependency.build.Dokka
 import io.spine.dependency.build.JSpecify
 import io.spine.dependency.lib.Grpc
 import io.spine.dependency.lib.Jackson
+import io.spine.dependency.lib.JacksonV2
 import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.lib.KotlinPoet
 import io.spine.dependency.lib.Protobuf
@@ -113,11 +114,30 @@ configurations {
             Jackson.forceArtifacts(project, this@all, this@resolutionStrategy)
             Jackson.DataType.forceArtifacts(project, this@all, this@resolutionStrategy)
             Jackson.DataFormat.forceArtifacts(project, this@all, this@resolutionStrategy)
+            // The Jackson 2.x line (`com.fasterxml.*`) still arrives through
+            // floor artifacts and the IntelliJ Platform; the helpers above
+            // cover only the 3.x (`tools.jackson.*`) family.
+            JacksonV2.Core.forceArtifacts(project, this@all, this@resolutionStrategy)
+            JacksonV2.DataType.forceArtifacts(project, this@all, this@resolutionStrategy)
+            JacksonV2.DataFormat.forceArtifacts(project, this@all, this@resolutionStrategy)
+            JacksonV2.Module.forceArtifacts(project, this@all, this@resolutionStrategy)
+            JacksonV2.Junior.forceArtifacts(project, this@all, this@resolutionStrategy)
             force(
                 Coroutines.bom,
                 AtomicFu.lib,
                 Grpc.bom,
                 Jackson.bom,
+                // The 2.x BOM and the `spine-format` floor still reach the
+                // plugin-managed `:spineCompiler` classpath.
+                JacksonV2.bom,
+                Base.format,
+                // `auto-service-ksp` pulls the 1.x line onto the KSP
+                // processor classpath; the baseline is 2.x. The `-jvm`
+                // variant is the one that actually conflicts and has no
+                // accessor of its own.
+                KotlinPoet.lib,
+                KotlinPoet.ksp,
+                "com.squareup:kotlinpoet-jvm:2.3.0",
                 Base.annotations,
                 Base.lib,
                 Base.environment,
