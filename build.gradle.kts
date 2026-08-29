@@ -26,6 +26,8 @@
 
 @file:Suppress("RemoveRedundantQualifierName")
 
+import io.spine.dependency.kotlinx.AtomicFu
+import io.spine.dependency.kotlinx.Coroutines
 import io.spine.dependency.boms.BomsPlugin
 import io.spine.dependency.build.Dokka
 import io.spine.dependency.build.JSpecify
@@ -59,7 +61,7 @@ buildscript {
         // Put the plugin before in the classpath to avoid complaints about the version.
         classpath(io.spine.dependency.build.Ksp.gradlePlugin)
         classpath(io.spine.dependency.local.Compiler.pluginLib)
-        classpath(io.spine.dependency.local.CoreJvmCompiler.pluginLib)
+        classpath(io.spine.dependency.local.CoreJvmCompiler.gradlePlugin)
     }
 
     configurations {
@@ -67,6 +69,8 @@ buildscript {
             resolutionStrategy {
                 force(
                     io.spine.dependency.lib.Kotlin.bom,
+                    io.spine.dependency.kotlinx.Coroutines.bom,
+                    io.spine.dependency.kotlinx.AtomicFu.lib,
                     io.spine.dependency.build.Dokka.BasePlugin.lib,
                     io.spine.dependency.local.Base.lib,
                 )
@@ -110,6 +114,8 @@ configurations {
             Jackson.DataType.forceArtifacts(project, this@all, this@resolutionStrategy)
             Jackson.DataFormat.forceArtifacts(project, this@all, this@resolutionStrategy)
             force(
+                Coroutines.bom,
+                AtomicFu.lib,
                 Grpc.bom,
                 Jackson.bom,
                 Base.annotations,
