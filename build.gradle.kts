@@ -26,11 +26,11 @@
 
 @file:Suppress("RemoveRedundantQualifierName")
 
-import io.spine.dependency.kotlinx.AtomicFu
-import io.spine.dependency.kotlinx.Coroutines
 import io.spine.dependency.boms.BomsPlugin
 import io.spine.dependency.build.Dokka
 import io.spine.dependency.build.JSpecify
+import io.spine.dependency.kotlinx.AtomicFu
+import io.spine.dependency.kotlinx.Coroutines
 import io.spine.dependency.lib.Grpc
 import io.spine.dependency.lib.Jackson
 import io.spine.dependency.lib.JacksonV2
@@ -137,7 +137,7 @@ configurations {
                 // accessor of its own.
                 KotlinPoet.lib,
                 KotlinPoet.ksp,
-                "com.squareup:kotlinpoet-jvm:2.3.0",
+                KotlinPoet.lib.replace(":kotlinpoet:", ":kotlinpoet-jvm:"),
                 Base.annotations,
                 Base.lib,
                 Base.environment,
@@ -147,7 +147,6 @@ configurations {
                 Jackson.annotations,
                 JSpecify.annotations,
                 Kotlin.bom,
-                KotlinPoet.lib,
                 Logging.lib,
                 Protobuf.compiler,
                 ToolBase.gradlePluginApi,
@@ -160,7 +159,6 @@ configurations {
                 Validation.javaBundle,
                 Time.lib,
                 Time.javaExtensions,
-                "io.spine:spine-format:2.0.0-SNAPSHOT.423",
             )
         }
     }
