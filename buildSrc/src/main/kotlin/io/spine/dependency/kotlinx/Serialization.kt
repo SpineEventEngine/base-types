@@ -39,7 +39,7 @@ object Serialization {
      *
      * @see <a href="https://github.com/Kotlin/kotlinx.serialization/releases">Releases</a>
      */
-    const val version = "1.8.1"
+    const val version = "1.11.0"
 
     private const val infix = "kotlinx-serialization"
     const val bom = "$group:$infix-bom:$version"
@@ -61,7 +61,7 @@ object Serialization {
     object GradlePlugin {
 
         /**
-         * The ID to be used with the `kotlin(shortId)` DSL under the`plugins { }` block.
+         * The ID to be used with the `kotlin(shortId)` DSL under the `plugins { }` block.
          */
         const val shortId = "plugin.serialization"
 
