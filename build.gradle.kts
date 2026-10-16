@@ -151,7 +151,6 @@ configurations {
                 Protobuf.compiler,
                 ToolBase.gradlePluginApi,
                 ToolBase.jvmTools,
-                ToolBase.lib,
                 ToolBase.pluginBase,
                 ToolBase.protobufSetupPlugins,
                 ToolBase.psiJava,
